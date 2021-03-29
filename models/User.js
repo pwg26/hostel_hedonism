@@ -16,6 +16,16 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.pre("save", function () {
+  if (!this.isModified("password")) return next();
+  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(10), null);
+  next();
+});
+
+userSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compareSync(candidatePassword, this.password);
+};
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
