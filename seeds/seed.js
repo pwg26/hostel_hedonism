@@ -9,14 +9,14 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
 
 console.log("Database connected");
 
-const testUser = {
+const testGuest = {
   role: "manager",
   firstName: "Charles",
   lastName: "Zoeller",
   country: "USA",
 };
 
-db.User.create(testUser);
+db.Guest.create(testGuest);
 
 const testRoom = { number: 1, name: "test suite", rate: 40, capacity: 4 };
 const testReservation = {
@@ -27,7 +27,7 @@ const testReservation = {
 db.Room.create(testRoom).then(({ _id }) => {
   testReservation.room = _id;
   db.Reservation.create(testReservation).then(({ _id }) => {
-    db.User.findOneAndUpdate(
+    db.Guest.findOneAndUpdate(
       { firstName: "Charles" },
       { $push: { reservations: _id } },
       { new: true }
@@ -50,7 +50,7 @@ const testActivity = {
 };
 
 db.Activity.create(testActivity).then(({ _id }) => {
-  db.User.findOneAndUpdate(
+  db.Guest.findOneAndUpdate(
     { firstName: "Charles" },
     { $push: { activities: _id } },
     { new: true }

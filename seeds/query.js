@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
 
 console.log("Database connected");
 
-db.User.findOne({})
+db.Guest.findOne({})
   .populate({ path: "reservations", populate: { path: "room" } })
 
   .populate("activities")

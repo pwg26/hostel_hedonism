@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const guestSchema = new Schema({
   role: {
     type: String,
     required: true,
@@ -42,6 +42,6 @@ const userSchema = new Schema({
   ],
 });
 
-const User = mongoose.model("User", userSchema);
+const Guest = mongoose.model("Guest", guestSchema);
 
-module.exports = User;
+module.exports = Guest;
