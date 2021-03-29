@@ -2,6 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Nav";
+import DashBooard from "./pages/Dashboard";
+import Guests from "./pages/Guests";
+import Rooms from "./pages/Rooms";
+import Store from "./pages/Store";
 
 function App() {
   return (
@@ -9,9 +13,9 @@ function App() {
       <div>
         <Navbar />
         <Wrapper>
-          <Route exact path="/" component={Search} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/search" component={Search} />
+          <Route exact path="/" component={DashBoard} />
+          <Route exact path="/dashboard" component={DashBoard} />
+          <Route exact path="/guests" component={Guests} />
         </Wrapper>
         <Footer />
       </div>
