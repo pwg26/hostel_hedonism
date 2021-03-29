@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const db = require("./models");
+const db = require("../models");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
   useUnifiedTopology: true,
@@ -8,6 +8,10 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
 });
 
 console.log("Database connected");
+
+const user = { username: "charles", password: "testpwd" };
+
+db.User.create(user);
 
 const testGuest = {
   role: "manager",
@@ -54,5 +58,7 @@ db.Activity.create(testActivity).then(({ _id }) => {
     { firstName: "Charles" },
     { $push: { activities: _id } },
     { new: true }
-  ).then((res) => console.log("Activity\n", res));
+  )
+    .then((res) => console.log("Activity\n", res))
+    .then(() => process.exit(0));
 });

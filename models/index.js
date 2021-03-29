@@ -3,4 +3,5 @@ module.exports = {
   Reservation: require("./Reservation"),
   Activity: require("./Activity"),
   Guest: require("./Guest"),
+  User: require("./User"),
 };
