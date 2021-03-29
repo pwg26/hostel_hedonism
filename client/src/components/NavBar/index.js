@@ -1,29 +1,34 @@
-import React, { Component } from 'react';
+import * as React from 'react'
+import Button from '@material-ui/core/Button'
+// import Menu from '@material-ui/core/Menu'
+// import MenuItem from '@material-ui/core/MenuItem'
+// import {
+//   usePopupState,
+//   bindTrigger,
+//   bindMenu,
+// } from 'material-ui-popup-state/hooks'
 
-export default class NavBar extends Component {
-    ///let setupTest = this.props.setupTest 
-
-    render() {
-        return (
-            <div>
-                <PopupState variant="popover" popupId="demo-popup-menu">
-                    {(popupState) => (
-                <React.Fragment>
-                <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
-                 Click here to Open Menu
-                </Button>
-                <Menu {...bindMenu(popupState)}>
-                <MenuItem onClick={popupState.close}>Dashboard</MenuItem>
-                <MenuItem onClick={popupState.close}>Guest Manager</MenuItem>
-                <MenuItem onClick={popupState.close}>Room Manager</MenuItem>
-                <MenuItem onClick={popupState.close}>Activity Manager</MenuItem>
-                <MenuItem onClick={popupState.close}>Store</MenuItem>
-                </Menu>
-                </React.Fragment>
-            )}
-                </PopupState>
-            </div>
-        )
-    }
+const MenuPopupState = () => {
+//   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
+  return (
+    <div>
+      {/* <Button variant="contained" {...bindTrigger(popupState)}>
+       Navigation
+      </Button>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem onClick={popupState.close}>Home Page</MenuItem>
+        <MenuItem onClick={popupState.close}>Reservations</MenuItem>
+        <MenuItem onClick={popupState.close}>Store</MenuItem>
+      </Menu> */}
+      {/* <Button>Default</Button> */}
+<Button color="primary">Primary</Button>
+<Button color="secondary">Secondary</Button>
+<Button color="#e33371">Disabled</Button>
+<Button href="#text-buttons" color="primary">
+  Link
+</Button>
+    </div>
+  )
 }
-export default NavBar;
+
+export default MenuPopupState
