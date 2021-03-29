@@ -4,8 +4,10 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "axios": "^0.18.0",
     "bootstrap": "^4.6.0",
+    "material-ui-popup-state": "^1.8.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^16.13.1",
