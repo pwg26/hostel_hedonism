@@ -1,5 +1,6 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
+
 // import Menu from '@material-ui/core/Menu'
 // import MenuItem from '@material-ui/core/MenuItem'
 // import {
@@ -12,24 +13,13 @@ const MenuPopupState = () => {
   //   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
   return (
     <div>
-      {/* <Button variant="contained" {...bindTrigger(popupState)}>
-       Navigation
-      </Button>
-      <Menu {...bindMenu(popupState)}>
-        <MenuItem onClick={popupState.close}>Home Page</MenuItem>
-        <MenuItem onClick={popupState.close}>Reservations</MenuItem>
-        <MenuItem onClick={popupState.close}>Store</MenuItem>
-      </Menu> */}
-      {/* <Button>Default</Button> */}
-
-      <Button color="#e33371">Dashboard</Button>
-      <Button color="#e33371">Guest Manager</Button>
-      <Button color="#e33371">Room Manager</Button>
-      <Button color="#e33371">Activity Manager</Button>
-      <Button color="#e33371">Store</Button>
-      {/* <Button href="#text-buttons" color="primary">
-  Link
-</Button> */}
+      <div id="container">
+      <Button a href="/Dashboard" color="#e33371">Dashboard</Button>
+      <Button a href="/Guest" color="#e33371">Guest Manager</Button>
+      <Button a href="/Rooms" color="#e33371">Room Manager</Button>
+      <Button a href="/" color="#e33371">Activity Manager</Button>
+      <Button a href="/Store" color="#e33371">Store</Button>
+      </div>
     </div>
   );
 };

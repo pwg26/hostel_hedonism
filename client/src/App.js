@@ -5,7 +5,7 @@ import Navbar from "./components/NavBar";
 import GuestTable from "./components/GuestTable";
 // import DashBooard from "./pages/Dashboard";
 import Guests from "./pages/Guest.js";
-// import Rooms from "./pages/Rooms";
+import Rooms from "./pages/Rooms";
 // import Store from "./pages/Store";
 
 function App() {
@@ -22,6 +22,9 @@ function App() {
         </Route>
         <Route exact path="/guests">
           <Guests />
+        </Route>
+        <Route exact path="/rooms">
+          <Rooms />
         </Route>
         {/* </Wrapper> */}
         <Footer />
