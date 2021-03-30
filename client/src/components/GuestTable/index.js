@@ -56,7 +56,7 @@ const columns = [
     id: "date_out",
     label: "Date Out",
     minWidth: 170,
-    align: "right",
+    npalign: "right",
     format: (value) => value.toFixed(2),
   },
   {
