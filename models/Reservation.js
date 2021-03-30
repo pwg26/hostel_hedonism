@@ -11,6 +11,9 @@ const reservationSchema = new Schema({
     type: Date,
     required: true,
   },
+  duration: {
+    type: Number,
+  },
 });
 
 const Reservation = mongoose.model("Reservation", reservationSchema);

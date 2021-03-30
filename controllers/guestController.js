@@ -10,11 +10,11 @@ module.exports = {
   getRooms: function (req, res) {
     db.Room.find({}).then((data) => res.json(data));
   },
-  findGuest: function (req, res) {
-    db.Guest.findOne(req.body)
+  findGuests: function (req, res) {
+    db.Guest.find({})
       .populate({ path: "reservations", populate: { path: "room" } })
       .populate("activities")
-      .then((guest) => res.json(guest));
+      .then((guests) => res.json(guests));
   },
   getReservations: function (req, res) {
     db.Reservation.find({})
@@ -22,6 +22,11 @@ module.exports = {
       .then((data) => res.json(data));
   },
   createGuest: function (req, res) {
-    db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    //steps:
+    //create reservation with sent dates and room id
+    //create guest with returned reservation id
+    console.log(req.body);
+    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    res.json("test");
   },
 };
