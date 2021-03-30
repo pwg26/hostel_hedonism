@@ -13,7 +13,6 @@ function App() {
     <Router>
       <div>
         <Navbar />
-        <GuestTable />
 
         {/* <Wrapper> */}
         {/* <Route exact path="/" pages={DashBoard} />
