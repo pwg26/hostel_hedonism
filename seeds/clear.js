@@ -7,7 +7,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
   useCreateIndex: true,
 });
 
-db.User.deleteMany({});
+db.User.deleteMany({})
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
 
 db.Room.deleteMany({}).then(() =>
   db.Reservation.deleteMany({}).then(() =>
