@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import GuestTable from "../components/GuestTable";
 
-import GuestButtons from "../components/GuestButtons"
-
-
-
-  
+import GuestButtons from "../components/GuestButtons";
 
 import API from "../utils/API";
 
@@ -62,41 +58,46 @@ function Guests() {
   ];
 
   function loadGuests() {
-    const room = { number: 1, name: "sierra", rate: 60, capacity: 12 };
-    const reservation = { room: 1, checkIn: "5/12/21", checkOut: "5/14/21" };
-    const guest = { first: "charles", last: "zoeller", country: "USA" };
-
     API.getGuests().then((res) => {
-      let guest1 = res.data[0];
-      console.log(typeof guest1.reservations[0].checkIn);
-      console.log(Date(guest1.reservations[0].checkIn));
-      const dayIn = new Date(guest1.reservations[0].checkIn);
-      const dayOut = new Date(guest1.reservations[0].checkOut);
-      rows.push(
-        createData(
-          guest1._id,
-          guest1.lastName,
-          guest1.firstName,
-          guest1.country,
-          guest1.reservations[0].room.name,
-          guest1.checkedIn ? "Yes" : "No",
-          dayIn.toDateString(),
-          dayOut.toDateString(),
-          100,
-          guest1.paid ? "Yes" : "No"
-        )
-      );
+      //let guest1 = res.data[0];
+      res.data.forEach((guest) => {
+        const dayIn = new Date(guest.reservations[0].checkIn);
+        const dayOut = new Date(guest.reservations[0].checkOut);
+        rows.push(
+          createData(
+            guest._id,
+            guest.lastName,
+            guest.firstName,
+            guest.country,
+            guest.reservations[0].room.name,
+            guest.checkedIn ? "Yes" : "No",
+            dayIn.toDateString(),
+            dayOut.toDateString(),
+            100,
+            guest.paid ? "Yes" : "No"
+          )
+        );
+      });
+
       console.log(rows);
       setGuests(rows);
     });
-    API.saveGuest({
-      room: room,
-      reservation: reservation,
-      guest: guest,
-    }).then((res) => console.log(res));
+    // const room = { number: 1, name: "sierra", rate: 60, capacity: 12 };
+    // const reservation = { room: 1, checkIn: "5/12/21", checkOut: "5/14/21" };
+    // const guest = { first: "charles", last: "zoeller", country: "USA" };
+    // API.saveGuest({
+    //   room: room,
+    //   reservation: reservation,
+    //   guest: guest,
+    // }).then((res) => console.log(res));
   }
-  return <GuestTable rows={guests} />;
-
+  return (
+    <>
+      {" "}
+      <GuestTable rows={guests} />
+      <GuestButtons />{" "}
+    </>
+  );
 }
 
 export default Guests;
