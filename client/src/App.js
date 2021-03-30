@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import DashBoard from "./pages/Dashboard";
 import Guests from "./pages/Guest.js";
-// import Rooms from "./pages/Rooms";
+import Rooms from "./pages/Rooms";
 // import Store from "./pages/Store";
 
 function App() {
@@ -16,15 +16,15 @@ function App() {
         {/* <Wrapper> */}
         {/* <Route exact path="/" pages={DashBoard} />
           <Route exact path="/dashboard" pages={DashBoard} /> */}
-        <Switch>
-          <Route exact path={["/", "/guests"]}>
-            <Guests />
-          </Route>
-          <Route exact path="/dashboard">
-            <DashBoard />
-          </Route>
-        </Switch>
-
+        <Route exact path="/">
+          <Guests />
+        </Route>
+        <Route exact path="/guests">
+          <Guests />
+        </Route>
+        <Route exact path="/rooms">
+          <Rooms />
+        </Route>
         {/* </Wrapper> */}
         <Footer />
       </div>
