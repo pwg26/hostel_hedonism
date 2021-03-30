@@ -4,7 +4,6 @@
   "private": true,
   "main": "server.js",
   "dependencies": {
-
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.3",
