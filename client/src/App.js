@@ -17,8 +17,12 @@ function App() {
         {/* <Wrapper> */}
         {/* <Route exact path="/" pages={DashBoard} />
           <Route exact path="/dashboard" pages={DashBoard} /> */}
-        <Route exact path="/" pages={Guests} />
-        <Route exact path="/guests" pages={Guests} />
+        <Route exact path="/">
+          <Guests />
+        </Route>
+        <Route exact path="/guests">
+          <Guests />
+        </Route>
         {/* </Wrapper> */}
         <Footer />
       </div>
