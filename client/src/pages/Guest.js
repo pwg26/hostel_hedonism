@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import GuestTable from "../components/GuestTable";
+import GuestButtons from "../components/GuestButtons"
 
 function Guests() {
-  return <GuestTable />;
+  return <>
+  <GuestButtons />
+  <GuestTable />
+  </>
+
+  
 }
 
 export default Guests;
