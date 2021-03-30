@@ -82,50 +82,6 @@ const columns = [
   },
 ];
 
-function createData(
-  id,
-  last_name,
-  first_name,
-  country,
-  room,
-  checked_in,
-  date_in,
-  date_out,
-
-  tab,
-  paid
-) {
-  const duration = date_out - date_in;
-  return {
-    id,
-    last_name,
-    first_name,
-    country,
-    room,
-    checked_in,
-    date_in,
-    date_out,
-    duration,
-    tab,
-    paid,
-  };
-}
-
-const rows = [
-  createData(
-    "1",
-    "Tots",
-    "Mgotes",
-    "Narnia",
-    "Pastor",
-    "Yes",
-    1,
-    2,
-    2000,
-    "Yes"
-  ),
-];
-
 const useStyles = makeStyles({
   root: {
     width: "100%",
@@ -135,7 +91,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function GuestTable() {
+export default function GuestTable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -167,11 +123,11 @@ export default function GuestTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {props.rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -191,7 +147,7 @@ export default function GuestTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={props.rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
