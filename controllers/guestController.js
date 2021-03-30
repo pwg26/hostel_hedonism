@@ -21,4 +21,7 @@ module.exports = {
       .populate({ path: "room" })
       .then((data) => res.json(data));
   },
+  createGuest: function (req, res) {
+    db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+  },
 };
