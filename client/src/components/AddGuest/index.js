@@ -54,7 +54,7 @@ function AddGuest() {
       <Input onChange={handleInputChange} name="country" />
       <Input onChange={handleInputChange} name="datein" />
       {/* <Input
-            onChange={handleInputChange}
+            onChange={ehandleInputChange}
                 name="datein"
                 /> */}
 
