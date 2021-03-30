@@ -21,12 +21,14 @@ const MenuPopupState = () => {
         <MenuItem onClick={popupState.close}>Store</MenuItem>
       </Menu> */}
       {/* <Button>Default</Button> */}
-<Button color="primary">Primary</Button>
-<Button color="secondary">Secondary</Button>
-<Button color="#e33371">Disabled</Button>
-<Button href="#text-buttons" color="primary">
+<Button color="#e33371">Dashboard</Button>
+<Button color="#e33371">Guest Manager</Button>
+<Button color="#e33371">Room Manager</Button>
+<Button color="#e33371">Activity Manager</Button>
+<Button color="#e33371">Store</Button>
+{/* <Button href="#text-buttons" color="primary">
   Link
-</Button>
+</Button> */}
     </div>
   )
 }
