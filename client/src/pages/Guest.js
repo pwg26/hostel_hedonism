@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import GuestTable from "../components/GuestTable";
+
+import GuestButtons from "../components/GuestButtons"
+
+
+
+  
+
 import API from "../utils/API";
 
 function Guests() {
@@ -89,6 +96,7 @@ function Guests() {
     }).then((res) => console.log(res));
   }
   return <GuestTable rows={guests} />;
+
 }
 
 export default Guests;
