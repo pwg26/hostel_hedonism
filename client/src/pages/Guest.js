@@ -101,6 +101,19 @@ function Guests() {
     //   reservation: reservation,
     //   guest: guest,
     // }).then((res) => console.log(res));
+    console.log("Login");
+    API.login({
+      username: "test",
+      password: "test",
+    }).then((res) => console.log("Fail", res));
+    API.login({
+      username: "charles",
+      password: "test",
+    }).then((res) => console.log("Fail", res));
+    API.login({
+      username: "charles",
+      password: "testpwd",
+    }).then((res) => console.log(res));
   }
   return (
     <>

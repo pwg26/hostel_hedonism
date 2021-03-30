@@ -14,19 +14,19 @@ const MenuPopupState = () => {
   return (
     <div>
       <div id="container">
-        <Button a href="/Dashboard" color="#e33371">
+        <Button a href="/dashboard" color="#e33371">
           Dashboard
         </Button>
-        <Button a href="/Guest" color="#e33371">
+        <Button a href="/guests" color="#e33371">
           Guest Manager
         </Button>
-        <Button a href="/Rooms" color="#e33371">
+        <Button a href="/rooms" color="#e33371">
           Room Manager
         </Button>
         <Button a href="/" color="#e33371">
           Activity Manager
         </Button>
-        <Button a href="/Store" color="#e33371">
+        <Button a href="/store" color="#e33371">
           Store
         </Button>
       </div>

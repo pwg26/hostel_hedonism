@@ -7,4 +7,7 @@ export default {
   saveGuest: function (guestData) {
     return axios.post("/api/guests", guestData);
   },
+  login: function (creds) {
+    return axios.post("/api/login", creds);
+  },
 };
