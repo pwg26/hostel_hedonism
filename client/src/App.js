@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
-import BasicTable from "./components/GuestTable";
+import GuestTable from "./components/GuestTable";
 // import DashBooard from "./pages/Dashboard";
 // import Guests from "./pages/Guests";
 // import Rooms from "./pages/Rooms";
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <div>
         <Navbar />
-        <BasicTable />
+        <GuestTable />
 
         {/* <Wrapper>
           <Route exact path="/" pages={DashBoard} />
