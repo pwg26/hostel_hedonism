@@ -42,20 +42,7 @@ function Guests() {
     };
   }
 
-  const rows = [
-    createData(
-      "1",
-      "Tots",
-      "Mgotes",
-      "Narnia",
-      "Pastor",
-      "Yes",
-      1,
-      2,
-      2000,
-      "Yes"
-    ),
-  ];
+  const rows = [];
 
   function loadGuests() {
     API.getGuests().then((res) => {
