@@ -4,6 +4,7 @@
   "private": true,
   "main": "server.js",
   "dependencies": {
+    "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.16.3",
