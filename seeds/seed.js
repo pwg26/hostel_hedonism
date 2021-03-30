@@ -24,7 +24,7 @@ db.Guest.create(testGuest);
 
 const testRoom = { number: 1, name: "test suite", rate: 40, capacity: 4 };
 const testReservation = {
-  checkIn: Date.now(),
+  checkIn: new Date(Date.now()).setDate(27),
   checkOut: Date.now(),
 };
 
