@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import GuestModal from "../components/GuestModal";
 import GuestTable from "../components/GuestTable";
 
 import GuestButtons from "../components/GuestButtons";
@@ -7,11 +8,20 @@ import API from "../utils/API";
 
 function Guests() {
   const [guests, setGuests] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     console.log("Loaded", rows);
     loadGuests();
   }, []);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   function createData(
     id,
@@ -96,7 +106,8 @@ function Guests() {
     <>
       {" "}
       <GuestTable rows={guests} />
-      <GuestButtons />{" "}
+      <GuestModal open={open} close={handleClose} />
+      <GuestButtons open={handleOpen} />{" "}
     </>
   );
 }

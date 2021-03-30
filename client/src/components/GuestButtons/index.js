@@ -1,10 +1,10 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SearchIcon from '@material-ui/icons/Search';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import UpdateIcon from '@material-ui/icons/Update';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import DeleteIcon from "@material-ui/icons/Delete";
+import SearchIcon from "@material-ui/icons/Search";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import UpdateIcon from "@material-ui/icons/Update";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function IconLabelButtons() {
+export default function IconLabelButtons(props) {
   const classes = useStyles();
 
   return (
@@ -31,12 +31,12 @@ export default function IconLabelButtons() {
         color="default"
         className={classes.button}
         startIcon={<AddBoxIcon />}
+        onClick={props.open}
       >
-        Add Guest 
+        Add Guest
       </Button>
       <Button
         variant="contained"
-       
         color="yellow"
         className={classes.button}
         startIcon={<UpdateIcon />}
@@ -51,7 +51,6 @@ export default function IconLabelButtons() {
       >
         Delete
       </Button>
-    
     </div>
   );
 }
