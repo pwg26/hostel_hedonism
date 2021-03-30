@@ -82,6 +82,7 @@ function Guests() {
       console.log(rows);
       setGuests(rows);
     });
+    // mock call to submit route with test data
     // const room = { number: 1, name: "sierra", rate: 60, capacity: 12 };
     // const reservation = { room: 1, checkIn: "5/12/21", checkOut: "5/14/21" };
     // const guest = { first: "charles", last: "zoeller", country: "USA" };
