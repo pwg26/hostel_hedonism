@@ -1,5 +1,5 @@
-import * as React from 'react'
-import Button from '@material-ui/core/Button'
+import * as React from "react";
+import Button from "@material-ui/core/Button";
 // import Menu from '@material-ui/core/Menu'
 // import MenuItem from '@material-ui/core/MenuItem'
 // import {
@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button'
 // } from 'material-ui-popup-state/hooks'
 
 const MenuPopupState = () => {
-//   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
+  //   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
   return (
     <div>
       {/* <Button variant="contained" {...bindTrigger(popupState)}>
@@ -21,6 +21,7 @@ const MenuPopupState = () => {
         <MenuItem onClick={popupState.close}>Store</MenuItem>
       </Menu> */}
       {/* <Button>Default</Button> */}
+
 <Button color="#e33371">Dashboard</Button>
 <Button color="#e33371">Guest Manager</Button>
 <Button color="#e33371">Room Manager</Button>
@@ -29,8 +30,9 @@ const MenuPopupState = () => {
 {/* <Button href="#text-buttons" color="primary">
   Link
 </Button> */}
-    </div>
-  )
-}
 
-export default MenuPopupState
+    </div>
+  );
+};
+
+export default MenuPopupState;

@@ -7,4 +7,21 @@ module.exports = {
       res.json(user.comparePassword(password))
     );
   },
+  getRooms: function (req, res) {
+    db.Room.find({}).then((data) => res.json(data));
+  },
+  findGuest: function (req, res) {
+    db.Guest.findOne(req.body)
+      .populate({ path: "reservations", populate: { path: "room" } })
+      .populate("activities")
+      .then((guest) => res.json(guest));
+  },
+  getReservations: function (req, res) {
+    db.Reservation.find({})
+      .populate({ path: "room" })
+      .then((data) => res.json(data));
+  },
+  createGuest: function (req, res) {
+    db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+  },
 };
