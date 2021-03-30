@@ -16,4 +16,9 @@ module.exports = {
       .populate("activities")
       .then((guest) => res.json(guest));
   },
+  getReservations: function (req, res) {
+    db.Reservation.find({})
+      .populate({ path: "room" })
+      .then((data) => res.json(data));
+  },
 };
