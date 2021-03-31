@@ -8,6 +8,7 @@ import Rooms from "./pages/Rooms";
 import { PrivateRoute, ProvideAuth, useAuth } from "./utils/Auth";
 import Login from "./pages/Login";
 // import Store from "./pages/Store";
+import Activity from "./pages/Activity"
 
 import Store from "./pages/Store";
 
@@ -32,6 +33,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path="/store">
             <Store />
+          </PrivateRoute>
+          <PrivateRoute exact path="/activity">
+            <Activity />
           </PrivateRoute>
 
           <Route exact path="/login">
