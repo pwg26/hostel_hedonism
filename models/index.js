@@ -4,4 +4,5 @@ module.exports = {
   Activity: require("./Activity"),
   Guest: require("./Guest"),
   User: require("./User"),
+  Store: require("./Store"),
 };
