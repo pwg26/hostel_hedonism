@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import GuestTable from "./components/GuestTable";
-// import DashBooard from "./pages/Dashboard";
+
 import Guests from "./pages/Guest.js";
 import Rooms from "./pages/Rooms";
-// import Store from "./pages/Store";
+import Store from "./pages/Store";
 
 function App() {
   return (
@@ -25,6 +25,9 @@ function App() {
         </Route>
         <Route exact path="/rooms">
           <Rooms />
+        </Route>
+        <Route exact path="/store">
+          <Store />
         </Route>
         {/* </Wrapper> */}
         <Footer />

@@ -3,6 +3,8 @@ import API from "../../utils/API";
 
 // This file exports the Input, TextArea, and FormBtn components
 
+let i = 0;
+
 function Input(props) {
   return (
     <div className="form-group">
@@ -28,7 +30,6 @@ export default function AddGuest(props) {
     firstName: "",
     lastName: "",
     country: "",
-    dateIn: "",
   });
 
   const validForm = () =>
@@ -44,11 +45,12 @@ export default function AddGuest(props) {
 
   const handleFormSubmit = () => {
     // if (!validForm()) return;
+    form.id = i++;
 
     API.saveGuest(form)
       .then((res) => {
         console.log(res);
-        props.addGuestRecord(res.data);
+        props.addGuestRecord(form);
       }) // ENSURE saveGust() returns newly added guest
       .catch((err) => console.log(err));
   };
@@ -61,8 +63,6 @@ export default function AddGuest(props) {
       <Input onChange={handleInputChange} name="lastName" />
       country
       <Input onChange={handleInputChange} name="country" />
-      datein
-      <Input onChange={handleInputChange} name="dateIn" type="datetime" />
       {/* <Input
             onChange={ehandleInputChange}
                 name="datein"

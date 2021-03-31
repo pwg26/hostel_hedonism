@@ -7,6 +7,9 @@ export default {
   saveGuest: function (guestData) {
     return axios.post("/api/guests", guestData);
   },
+  saveItem: function (itemData) {
+    return axios.post("/api/items", itemData);
+  },
 };
 
 // const room = { number: 1, name: "sierra", rate: 60, capacity: 12 };
