@@ -1,4 +1,5 @@
 import React from "react";
+import API from "../../utils/API";
 
 // This file exports the Input, TextArea, and FormBtn components
 
@@ -22,37 +23,42 @@ function FormBtn(props) {
   );
 }
 
-function handleInputChange(event) {
-  const { name, value } = event.target;
-  setFormObject({ ...formObject, [name]: value });
-}
+export default function AddGuest(props) {
+  const [form, setForm] = React.useState({
+    firstName: "",
+    lastName: "",
+    country: "",
+    dateIn: "",
+  });
 
-function handleFormSubmit(event) {
-  event.preventDefault();
-  if (
-    formObject.first &&
-    formObject.last &&
-    formObject.country &&
-    formObject.datein
-  ) {
-    API.saveGuest({
-      first: formObject.first,
-      last: formObject.last,
-      country: formObject.country,
-      datein: formObject.datein,
-    })
-      .then((res) => loadGuests())
+  const validForm = () =>
+    form.firstName.length &&
+    form.lastName.length &&
+    form.country.length &&
+    form.dateIn.length;
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleFormSubmit = () => {
+    // if (!validForm()) return;
+
+    API.saveGuest(form)
+      .then((res) => {
+        console.log(res);
+        props.addGuestRecord(res.data);
+      }) // ENSURE saveGust() returns newly added guest
       .catch((err) => console.log(err));
-  }
-}
+  };
 
-function AddGuest() {
   return (
-    <>
-      <Input onChange={handleInputChange} name="fist" />
-      <Input onChange={handleInputChange} name="last" />
+    <div>
+      <Input onChange={handleInputChange} name="fistName" />
+      <Input onChange={handleInputChange} name="lastName" />
       <Input onChange={handleInputChange} name="country" />
-      <Input onChange={handleInputChange} name="datein" />
+      <Input onChange={handleInputChange} name="dateIn" type="datetime" />
       {/* <Input
             onChange={ehandleInputChange}
                 name="datein"
@@ -64,6 +70,6 @@ function AddGuest() {
       >
         Submit Book
       </FormBtn>
-    </>
+    </div>
   );
 }
