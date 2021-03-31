@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -14,6 +15,21 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import GuestModal from "../components/GuestModal";
+=======
+
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import UpdateIcon from '@material-ui/icons/Update';
+
+import { makeStyles } from '@material-ui/core/styles';
+import StoreTable from "../components/StoreTable"
+import StoreButtons from "../components/StoreButtons"
+
+
+>>>>>>> 208105605cd7f3a354e2d779906a757809695ee1
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -21,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -106,5 +123,23 @@ export default function CustomizedTables() {
         </Table>
       </TableContainer>
     </>
+=======
+
+
+
+export default function IconLabelButtons() {
+  const classes = useStyles();
+
+  return (
+    <>
+ 
+    <StoreButtons /> 
+    <StoreTable />
+
+   
+</>
+
+
+>>>>>>> 208105605cd7f3a354e2d779906a757809695ee1
   );
 }
