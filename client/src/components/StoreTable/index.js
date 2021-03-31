@@ -33,7 +33,7 @@ const columns = [
   {
     id: "purchase",
     label: "Purchase",
-    minWidth: 90,
+    minWidth: 80,
     align: "right",
   },
 ];
