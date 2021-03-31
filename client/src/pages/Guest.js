@@ -32,7 +32,7 @@ function Guests() {
               country: guest.country,
               dateIn: dayIn.toDateString(),
               dateOut: dayOut.toDateString(),
-              duration: (new Date(dayIn) - new Date(dayOut)) / 8.64e7,
+              duration: Math.floor((dayOut - dayIn) / 8.64e7),
               paid: guest.paid ? "Yes" : "No",
               checkedIn: guest.checkedIn ? "Yes" : "No",
               tab: Math.random() * 1000,
