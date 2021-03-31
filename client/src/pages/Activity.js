@@ -1,10 +1,10 @@
 import Calendar from "../components/Calendar"
 import React from 'react'
 
-function Calendar() {
+function activity() {
   return (
    <Calendar />
   )
 }
 
-export default Calendar
+export default activity

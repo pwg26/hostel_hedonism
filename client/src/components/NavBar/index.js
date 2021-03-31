@@ -25,7 +25,7 @@ const MenuPopupState = (props) => {
         <Button component={Link} to="/rooms" color="#e33371">
           Room Manager
         </Button>
-        <Button component={Link} to="/" color="#e33371">
+        <Button component={Link} to="/activity" color="#e33371">
           Activity Manager
         </Button>
         <Button component={Link} to="/store" color="#e33371">
