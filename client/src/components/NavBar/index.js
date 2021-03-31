@@ -1,6 +1,9 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
+import "./index.css"
+import { createMuiTheme } from '@material-ui/core/styles';
+
 
 // import Menu from '@material-ui/core/Menu'
 // import MenuItem from '@material-ui/core/MenuItem'
@@ -16,26 +19,27 @@ const MenuPopupState = (props) => {
   return (
     <div>
       <div id="container">
-        <Button component={Link} to="/dashboard" color="#e33371">
+        <Button component={Link} to="/dashboard" variant="contained" color="primary" id="button">
           Dashboard
         </Button>
-        <Button component={Link} to="/guests" color="#e33371">
+        <Button component={Link} to="/guests" variant="contained" color="primary" id="button">
           Guest Manager
         </Button>
-        <Button component={Link} to="/rooms" color="#e33371">
+        <Button component={Link} to="/rooms" variant="contained" color="primary" id="button">
           Room Manager
         </Button>
-        <Button component={Link} to="/activity" color="#e33371">
+        <Button component={Link} to="/activity" variant="contained" color="primary" id="button">
           Activity Manager
         </Button>
-        <Button component={Link} to="/store" color="#e33371">
+        <Button component={Link} to="/store" variant="contained" color="primary" id="button">
           Store
         </Button>
         <Button
           component={Link}
           to="/login"
           onClick={() => auth.signout(console.log("logged out"))}
-          color="#e33371"
+          variant="contained"
+          color="primary" id="button"
         >
           Logout
         </Button>
