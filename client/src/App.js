@@ -6,7 +6,9 @@ import GuestTable from "./components/GuestTable";
 // import DashBooard from "./pages/Dashboard";
 import Guests from "./pages/Guest.js";
 import Rooms from "./pages/Rooms";
+
 import Store from "./pages/Store";
+
 
 
 function App() {
@@ -24,12 +26,14 @@ function App() {
         <Route exact path="/guests">
           <Guests />
         </Route>
+
         <Route exact path="/Rooms">
           <Rooms />
         </Route>
         <Route exact path="/Store">
           <Store />
         </Route>
+
         {/* </Wrapper> */}
       
 
