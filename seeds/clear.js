@@ -7,16 +7,15 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/project3", {
   useCreateIndex: true,
 });
 
-db.User.deleteMany({})
-.then(() => db.Room.deleteMany({}).then(() =>
-  db.Reservation.deleteMany({}).then(() =>
-    db.Activity.deleteMany({}).then(() =>
-      db.Guest.deleteMany({}).then(() => {
-        console.log("Clear");
-        process.exit(0);
-      })
+db.User.deleteMany({}).then(() =>
+  db.Room.deleteMany({}).then(() =>
+    db.Reservation.deleteMany({}).then(() =>
+      db.Activity.deleteMany({}).then(() =>
+        db.Guest.deleteMany({}).then(() => {
+          console.log("Clear");
+          process.exit(0);
+        })
+      )
     )
   )
-))
-
-
+);
