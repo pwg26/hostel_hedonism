@@ -1,75 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Input from "@material-ui/core/Input";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
 
 // This file exports the Input, TextArea, and FormBtn components
 
-function Input(props) {
+function FormInput(props) {
   return (
-    <div className="form-group">
-      <input className="form-control" {...props} />
+    <div>
+      <Input {...props} />
     </div>
   );
 }
 
 function FormBtn(props) {
   return (
-    <button
-      {...props}
-      style={{ float: "right", marginBottom: 10 }}
-      className="btn btn-success"
-    >
+    <Button {...props} variant="contained" color="primary">
       {props.children}
-    </button>
+    </Button>
   );
 }
 
 export default function AddGuest(props) {
-  const [form, setForm] = React.useState({
-    firstName: "",
-    lastName: "",
-    country: "",
-    dateIn: "",
-  });
+  const [guests, setGuests] = useState([]);
+  const [formObject, setFormObject] = useState({});
 
-  const validForm = () =>
-    form.firstName.length &&
-    form.lastName.length &&
-    form.country.length &&
-    form.dateIn.length;
+  useEffect(() => {
+    loadGuests();
+  }, []);
 
-  const handleInputChange = (event) => {
+  const loadGuests = () => {
+    API.getGuests().then((res) => {
+      console.log(res);
+      setGuests(
+        res.data.map((guest) => {
+          const dayIn = new Date(guest.reservations[0].checkIn);
+          const dayOut = new Date(guest.reservations[0].checkOut);
+          guest.duration = (new Date(dayIn) - new Date(dayOut)) / 8.64e7;
+          return guest;
+        })
+      );
+    });
+  };
+
+  function handleInputChange(event) {
     const { name, value } = event.target;
-    setForm({ ...form, [name]: value });
-  };
+    setFormObject({ ...formObject, [name]: value });
+  }
 
-  const handleFormSubmit = () => {
-    // if (!validForm()) return;
-
-    API.saveGuest(form)
-      .then((res) => {
-        console.log(res);
-        props.addGuestRecord(res.data);
-      }) // ENSURE saveGust() returns newly added guest
+  function handleFormSubmit(event) {
+    event.preventDefault();
+    API.saveGuest({
+      firstName: formObject.firstName,
+      lastName: formObject.lastName,
+      country: formObject.country,
+      // dateIn: formObject.dateIn,
+    })
+      .then((res) => loadGuests())
       .catch((err) => console.log(err));
-  };
+  }
 
   return (
     <div>
-      <Input onChange={handleInputChange} name="fistName" />
-      <Input onChange={handleInputChange} name="lastName" />
-      <Input onChange={handleInputChange} name="country" />
-      <Input onChange={handleInputChange} name="dateIn" type="datetime" />
-      {/* <Input
+      <form>
+        first
+        <FormInput onChange={handleInputChange} name="firstName" />
+        last
+        <FormInput onChange={handleInputChange} name="lastName" />
+        country
+        <FormInput onChange={handleInputChange} name="country" />
+        {/* <FormInput onChange={handleInputChange} name="dateIn" type="datetime" /> */}
+        {/* <Input
             onChange={ehandleInputChange}
                 name="datein"
                 /> */}
-
-      <FormBtn
-        // disabled={!(formObject.author && formObject.title)}
-        onClick={handleFormSubmit}
-      >
-        Submit Book
-      </FormBtn>
+        <FormBtn
+          // disabled={!(formObject.author && formObject.title)}
+          onClick={handleFormSubmit}
+        >
+          Submit Book
+        </FormBtn>
+      </form>
     </div>
   );
 }

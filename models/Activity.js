@@ -4,23 +4,23 @@ const Schema = mongoose.Schema;
 const activitySchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   date: {
     type: Date,
-    required: true,
+    required: false,
   },
   cost: {
     type: Number,
-    required: true,
+    required: false,
   },
   duration: {
     type: Number,
-    required: true,
+    required: false,
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 

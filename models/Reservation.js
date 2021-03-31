@@ -5,11 +5,11 @@ const reservationSchema = new Schema({
   room: { type: Schema.Types.ObjectId, ref: "Room", required: true },
   checkIn: {
     type: Date,
-    required: true,
+    required: false,
   },
   checkOut: {
     type: Date,
-    required: true,
+    required: false,
   },
   duration: {
     type: Number,

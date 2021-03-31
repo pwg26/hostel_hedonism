@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const guestSchema = new Schema({
   role: {
     type: String,
-    required: true,
+    required: false,
   },
   firstName: {
     type: String,
@@ -20,12 +20,12 @@ const guestSchema = new Schema({
   },
   checkedIn: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false,
   },
   paid: {
     type: Boolean,
-    required: true,
+    required: false,
     default: false,
   },
   reservations: [

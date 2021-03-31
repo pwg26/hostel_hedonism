@@ -26,7 +26,7 @@ module.exports = {
     //create reservation with sent dates and room id
     //create guest with returned reservation id
     console.log(req.body);
-    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    // db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
     res.json("test");
   },
 };

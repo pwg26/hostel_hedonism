@@ -9,19 +9,6 @@ function Guests() {
   const [guests, setGuests] = useState([]);
 
   useEffect(() => {
-    const loadGuests = () => {
-      API.getGuests().then((res) => {
-        console.log(res);
-        setGuests(
-          res.data.map((guest) => {
-            const dayIn = new Date(guest.reservations[0].checkIn);
-            const dayOut = new Date(guest.reservations[0].checkOut);
-            guest.duration = (new Date(dayIn) - new Date(dayOut)) / 8.64e7;
-            return guest;
-          })
-        );
-      });
-    };
     loadGuests();
   }, []);
 
@@ -46,6 +33,19 @@ function Guests() {
   //     country,
   //     room,
   //     checked_in,
+  const loadGuests = () => {
+    API.getGuests().then((res) => {
+      console.log(res);
+      setGuests(
+        res.data.map((guest) => {
+          const dayIn = new Date(guest.reservations[0].checkIn);
+          const dayOut = new Date(guest.reservations[0].checkOut);
+          guest.duration = (new Date(dayIn) - new Date(dayOut)) / 8.64e7;
+          return guest;
+        })
+      );
+    });
+  };
   //     date_in,
   //     date_out,
   //     duration,
