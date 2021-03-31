@@ -9,10 +9,12 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.16.3",
     "express-session": "^1.17.1",
+    "fullcalendar": "^5.6.0",
     "if-env": "^1.0.4",
     "mongoose": "^5.12.2",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react-calendar": "^3.3.1"
   },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
