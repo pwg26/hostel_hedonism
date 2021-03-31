@@ -22,11 +22,11 @@ const MenuPopupState = () => {
       </Menu> */}
       {/* <Button>Default</Button> */}
 
-      <Button color="#e33371">Dashboard</Button>
-      <Button color="#e33371">Guest Manager</Button>
-      <Button color="#e33371">Room Manager</Button>
-      <Button color="#e33371">Activity Manager</Button>
-      <Button color="#e33371">Store</Button>
+      <Button a href="/Dashboard" color="#E33371">Dashboard</Button>
+      <Button a href="/Guest" color="#E33371">Guest Manager</Button>
+      <Button a href="/Room" color="#E33371">Room Manager</Button>
+      <Button a href="/" color="#E33371">Activity Manager</Button>
+      <Button a href="/Store" color="#E33371">Store</Button>
       {/* <Button href="#text-buttons" color="primary">
   Link
 </Button> */}
