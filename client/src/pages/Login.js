@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import "./CSS/Login.css"
 
 function LoginPage(props) {
   let history = useHistory();
@@ -23,7 +24,8 @@ function LoginPage(props) {
   };
 
   return (
-    <div>
+    <>
+    <div id="container" >
       <TextField
         required
         id="outlined-username"
@@ -43,10 +45,14 @@ function LoginPage(props) {
         name="password"
         onChange={handleInputChange}
       />
-      <Button my="auto" variant="contained" color="primary" onClick={login}>
+
+      <br></br>
+
+      <Button id="login" my="auto" variant="contained" color="primary" onClick={login}>
         Log in
       </Button>
     </div>
+    </>
   );
 }
 
