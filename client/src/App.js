@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/NavBar";
 import DashBoard from "./pages/Dashboard";
@@ -8,6 +8,8 @@ import Rooms from "./pages/Rooms";
 import { PrivateRoute, ProvideAuth, useAuth } from "./utils/Auth";
 import Login from "./pages/Login";
 // import Store from "./pages/Store";
+
+import Store from "./pages/Store";
 
 function App() {
   return (
@@ -28,6 +30,10 @@ function App() {
           <PrivateRoute exact path="/rooms">
             <Rooms />
           </PrivateRoute>
+          <PrivateRoute exact path="/store">
+            <Store />
+          </PrivateRoute>
+
           <Route exact path="/login">
             <Login auth={useAuth} />
           </Route>

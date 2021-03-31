@@ -56,18 +56,17 @@ export default function AddGuest(props) {
     <div>
       <Input onChange={handleInputChange} name="firstName" />
       <Input onChange={handleInputChange} name="lastName" />
-      <Input onChange={handleInputChange} name="country" />
 
+      <Input onChange={handleInputChange} name="country" />
       {/* <Input
             onChange={ehandleInputChange}
                 name="datein"
                 /> */}
-
       <FormBtn
         // disabled={!(formObject.author && formObject.title)}
         onClick={handleFormSubmit}
       >
-        Submit Book
+        Submit
       </FormBtn>
     </div>
   );

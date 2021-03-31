@@ -24,6 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
+
 export default function SimpleCard() {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
@@ -69,6 +70,7 @@ export default function SimpleCard() {
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
+
           </CardActions>
           <br></br>
           <CardContent style={{ width: "300px", display: "inline-block" }}>
@@ -96,3 +98,4 @@ export default function SimpleCard() {
       
   );
 }
+
