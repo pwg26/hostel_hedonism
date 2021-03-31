@@ -6,6 +6,8 @@ router
   .route("/guests")
   .get(guestController.findGuests)
   .post(guestController.createGuest);
+router.route("/rooms").get(guestController.getRooms);
+//.post(guestController.createGuest);
 
 router.route("/login").post(guestController.login);
 module.exports = router;

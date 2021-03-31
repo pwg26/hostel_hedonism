@@ -33,7 +33,7 @@ db.Room.create(testRoom).then(({ _id }) => {
   db.Reservation.create(testReservation).then(({ _id }) => {
     db.Guest.findOneAndUpdate(
       { firstName: "Charles" },
-      { $push: { reservations: _id } },
+      { reservation: _id },
       { new: true }
     ).then((res) => console.log("Reservation\n", res));
 

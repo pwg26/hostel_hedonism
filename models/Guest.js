@@ -28,12 +28,11 @@ const guestSchema = new Schema({
     required: true,
     default: false,
   },
-  reservations: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Reservation",
-    },
-  ],
+  reservation: {
+    type: Schema.Types.ObjectId,
+    ref: "Reservation",
+  },
+
   activities: [
     {
       type: Schema.Types.ObjectId,
