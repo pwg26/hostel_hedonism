@@ -26,13 +26,17 @@ function FormBtn(props) {
 
 export default function AddGuest(props) {
   const [form, setForm] = React.useState({
-    firstName: "",
-    lastName: "",
-    country: "",
+    name: "",
+    description: "",
+    cost: "",
+    quantity: "",
   });
 
   const validForm = () =>
-    form.firstName.length && form.lastName.length && form.country.length;
+    form.description.length &&
+    form.cost.length &&
+    form.quantity.length &&
+    form.name.length;
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -42,22 +46,22 @@ export default function AddGuest(props) {
   const handleFormSubmit = () => {
     // if (!validForm()) return;
     form.id = i++;
-    form.role = "manager";
-    API.saveGuest(form)
+    API.saveItem(form)
       .then((res) => {
         console.log("Save", res);
         //props.addGuestRecord(res.data);
-        props.addGuestRecord(form);
+        props.addItemRecord(form);
       }) // ENSURE saveGust() returns newly added guest
       .catch((err) => console.log(err));
   };
 
   return (
     <div>
-      <Input onChange={handleInputChange} name="firstName" />
-      <Input onChange={handleInputChange} name="lastName" />
+      <Input onChange={handleInputChange} name="name" />
+      <Input onChange={handleInputChange} name="description" />
+      <Input onChange={handleInputChange} name="cost" />
 
-      <Input onChange={handleInputChange} name="country" />
+      <Input onChange={handleInputChange} name="quantity" />
       {/* <Input
             onChange={ehandleInputChange}
                 name="datein"

@@ -26,11 +26,11 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(id, name, price, purchase) {
-  return { id, name, price, purchase };
-}
+// function createData(id, name, price, purchase) {
+//   return { id, name, price, purchase };
+// }
 
-const rows = [createData(1, "Coors Light", "$12.99", "Yes")];
+const rows = ["name", "description", "price", "quantity"];
 
 const useStyles = makeStyles({
   table: {
@@ -38,18 +38,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomizedTables() {
-  const classes = useStyles();
+export default function StoreTable(props) {
+  // const classes = useStyles();
+  // const [page, setPage] = React.useState(0);
+  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const rows = [props];
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell> ID </StyledTableCell>
-            <StyledTableCell align="right">Name</StyledTableCell>
+            <StyledTableCell> Name </StyledTableCell>
+            <StyledTableCell align="right">Description</StyledTableCell>
             <StyledTableCell align="right">Cost&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">Purchased&nbsp;</StyledTableCell>
+            <StyledTableCell align="right">Quantity&nbsp;</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -58,8 +61,8 @@ export default function CustomizedTables() {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.id}</StyledTableCell>
               <StyledTableCell align="right">{row.name}</StyledTableCell>
+              <StyledTableCell align="right">{row.descriotion}</StyledTableCell>
               <StyledTableCell align="right">{row.price}</StyledTableCell>
             </StyledTableRow>
           ))}

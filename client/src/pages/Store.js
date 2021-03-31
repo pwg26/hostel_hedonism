@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -8,20 +8,35 @@ import UpdateIcon from "@material-ui/icons/Update";
 import { makeStyles } from "@material-ui/core/styles";
 import StoreTable from "../components/StoreTable";
 import StoreButtons from "../components/StoreButtons";
+import API from "../utils/API";
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
-  },
-}));
+import AddItem from "../components/AddItem";
 
-export default function IconLabelButtons() {
-  const classes = useStyles();
+export default function Store() {
+  const [items, setItems] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const loadGuests = () => {
+      API.getGuests().then((res) => {
+        console.log(res);
+        setItems(
+          res.data.map((guest) => {
+            return guest;
+          })
+        );
+      });
+    };
+    loadGuests();
+  }, []);
+
+  const addItemRecord = (newItem) => setItems([...items, newItem]);
 
   return (
     <>
-      <StoreButtons />
-      <StoreTable />
+      {" "}
+      <StoreButtons rows={items} />
+      <StoreTable /> <AddItem addItemRecord={addItemRecord} />
     </>
   );
 }
