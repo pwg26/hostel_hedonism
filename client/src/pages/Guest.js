@@ -25,6 +25,14 @@ function Guests() {
           res.data.map((guest) => {
             const dayIn = new Date(guest.reservation.checkIn);
             const dayOut = new Date(guest.reservation.checkOut);
+            const duration = Math.floor((dayOut - dayIn) / 8.64e7);
+            //console.log(duration);
+            const activities = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            const rent = duration * guest.reservation.room.rate;
+            //console.log(guest.reservation.room, guest.reservation.room.rate);
             return {
               firstName: guest.firstName,
               lastName: guest.lastName,
@@ -32,10 +40,12 @@ function Guests() {
               country: guest.country,
               dateIn: dayIn.toDateString(),
               dateOut: dayOut.toDateString(),
-              duration: Math.floor((dayOut - dayIn) / 8.64e7),
+              duration: duration,
               paid: guest.paid ? "Yes" : "No",
               checkedIn: guest.checkedIn ? "Yes" : "No",
-              tab: Math.random() * 1000,
+              activities: activities,
+              rent: rent,
+              tab: `$ ${activities + rent}`,
               room: guest.reservation.room.name,
             };
           })
