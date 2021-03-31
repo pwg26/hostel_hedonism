@@ -5,30 +5,37 @@ import Navbar from "./components/NavBar";
 import DashBoard from "./pages/Dashboard";
 import Guests from "./pages/Guest.js";
 import Rooms from "./pages/Rooms";
+import { PrivateRoute, ProvideAuth, useAuth } from "./utils/Auth";
+import Login from "./pages/Login";
 // import Store from "./pages/Store";
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Navbar />
+    <ProvideAuth>
+      <Router>
+        <div>
+          <Navbar auth={useAuth} />
 
-        {/* <Wrapper> */}
-        {/* <Route exact path="/" pages={DashBoard} />
+          {/* <Wrapper> */}
+          {/* <Route exact path="/" pages={DashBoard} />
           <Route exact path="/dashboard" pages={DashBoard} /> */}
-        <Route exact path="/">
-          <Guests />
-        </Route>
-        <Route exact path="/guests">
-          <Guests />
-        </Route>
-        <Route exact path="/rooms">
-          <Rooms />
-        </Route>
-        {/* </Wrapper> */}
-        <Footer />
-      </div>
-    </Router>
+          <PrivateRoute exact path="/">
+            <Guests />
+          </PrivateRoute>
+          <PrivateRoute exact path="/guests">
+            <Guests />
+          </PrivateRoute>
+          <PrivateRoute exact path="/rooms">
+            <Rooms />
+          </PrivateRoute>
+          <Route exact path="/login">
+            <Login auth={useAuth} />
+          </Route>
+          {/* </Wrapper> */}
+          <Footer />
+        </div>
+      </Router>
+    </ProvideAuth>
   );
 }
 

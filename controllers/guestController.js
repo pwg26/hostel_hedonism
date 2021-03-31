@@ -3,9 +3,10 @@ const db = require("../models");
 module.exports = {
   login: function (req, res) {
     const { username, password } = req.body;
+    //console.log(req.body);
     db.User.findOne({ username: username })
       .then((user) => res.json(user.comparePassword(password)))
-      .catch((err) => res.json("User not found"));
+      .catch((err) => res.json(false));
   },
   getRooms: function (req, res) {
     db.Room.find({}).then((data) => res.json(data));
