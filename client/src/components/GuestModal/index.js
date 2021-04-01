@@ -7,6 +7,14 @@ import API from "../../utils/API";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import LuxonUtils from "@date-io/luxon"; // choose your lib
+import {
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
@@ -51,9 +59,12 @@ export default function GuestModal(props) {
   });
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
+
+  const [checkInDate, handleCheckinChange] = useState(new Date());
+  const [checkOutDate, handleCheckoutChange] = useState(new Date());
+
   const handleChange = (event) => {
     setRoom(event.target.value);
-    setFormObject({ ...formObject, room: event.target.value });
   };
 
   useEffect(() => {
@@ -138,19 +149,27 @@ export default function GuestModal(props) {
               </MenuItem>
             );
           })}
-          {/* <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem> */}
         </Select>
       </FormControl>
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
+        <DatePicker value={checkInDate} onChange={handleCheckinChange} />
+        <DatePicker value={checkOutDate} onChange={handleCheckoutChange} />
+      </MuiPickersUtilsProvider>
 
       <Button onClick={() => setFirst(true)}>BACK</Button>
       <Button
         onClick={() => {
           setFirst(true);
+          console.log(formObject);
+          console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
+          API.saveGuest({
+            guest: formObject,
+            reservation: {
+              room: room,
+              checkIn: checkInDate,
+              checkOut: checkOutDate,
+            },
+          });
           setFormObject({});
           props.close();
         }}

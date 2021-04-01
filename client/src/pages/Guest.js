@@ -3,6 +3,8 @@ import GuestModal from "../components/GuestModal";
 import GuestTable from "../components/GuestTable";
 import GuestButtons from "../components/GuestButtons";
 import AddGuest from "../components/AddGuest";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import LuxonUtils from "@date-io/luxon";
 import Heading from "../components/ Heading";
 
 import API from "../utils/API";
@@ -54,7 +56,7 @@ function Guests() {
       });
     };
     loadGuests();
-  }, []);
+  }, [, open]);
 
   // function createData(
   //   id,
@@ -109,14 +111,14 @@ function Guests() {
   // }).then((res) => console.log(res));
 
   return (
-    <>
+    <MuiPickersUtilsProvider utils={LuxonUtils}>
       {" "}
       <Heading heading="Guest Manager" />
       <GuestTable rows={guests} />
       <GuestButtons open={handleOpen} />
       <GuestModal open={open} close={handleClose} />
       <AddGuest addGuestRecord={addGuestRecord} />
-    </>
+    </MuiPickersUtilsProvider>
   );
 }
 
