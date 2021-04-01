@@ -30,7 +30,7 @@ function Guests() {
         console.log(res);
         setGuests(
           res.data.map((guest) => {
-            const dayIn = new Date(guest.reservation.checkIn);
+            const dayIn = new Date(guest.reservation.checkedIn);
             const dayOut = new Date(guest.reservation.checkOut);
             const duration = Math.floor((dayOut - dayIn) / 8.64e7);
             //console.log(duration);

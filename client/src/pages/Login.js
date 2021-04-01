@@ -26,7 +26,8 @@ function LoginPage(props) {
   return (
     <>
     <div id="container" >
-      <TextField
+        <TextField
+        style={{ boxShadow: "1px 1px 2px black, 0 0 50px blue, 0 0 5px darkblue", backgroundColor: 'white'}}
         required
         id="outlined-username"
         autoComplete="off"
@@ -35,7 +36,8 @@ function LoginPage(props) {
         name="username"
         onChange={handleInputChange}
       />
-      <TextField
+        <TextField
+        style={{ boxShadow: "1px 1px 2px black, 0 0 50px blue, 0 0 5px darkblue", backgroundColor: 'white'}}
         required
         id="outlined-password-input"
         label="Password"

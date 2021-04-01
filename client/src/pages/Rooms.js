@@ -9,7 +9,14 @@ import Grid from "@material-ui/core/Grid";
 import RoomCard from "../components/Card";
 import API from "../utils/API";
 
+const useStyles = makeStyles((theme) => ({
+    background: {
+      color: '#F3F7F0'
+    },
+  }));
+
 export default function Rooms() {
+    const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [open, setOpen] = useState(false);
 
