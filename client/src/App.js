@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 // import Store from "./pages/Store";
 
 import Store from "./pages/Store";
+import { Grid } from "@material-ui/core";
 
 function App() {
   return (
@@ -44,5 +45,6 @@ function App() {
     </ProvideAuth>
   );
 }
+
 
 export default App;

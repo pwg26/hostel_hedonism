@@ -6,10 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: 2,
   },
   bullet: {
     display: 'inline-block',
@@ -24,15 +23,13 @@ const useStyles = makeStyles({
   },
 });
 
-
-export default function SimpleCard() {
+export default function OutlinedCard() {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
-    return (
-      
-    <Card className={classes.root}>
-      <CardContent style={{ width: "300px", display: "inline-block" }}>
+  return (
+    <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
+      <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Room
         </Typography>
@@ -40,19 +37,19 @@ export default function SimpleCard() {
           Moon Room
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Open
-        </Typography>
-              <Typography variant="body2" component="p">
-            {/* id of person staying in this room */}
           [id]
+        </Typography>
+        <Typography variant="body2" component="p">
+         (length of stay)
           <br />
+          {/* {'"a benevolent smile"'} */}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
           </CardActions>
-          <br></br>
-          <CardContent style={{ width: "200px", display: "inline-block" }}>
+          <br />
+          <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Room
         </Typography>
@@ -60,20 +57,19 @@ export default function SimpleCard() {
           Sun Room
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Taken
+          [id]
         </Typography>
         <Typography variant="body2" component="p">
-          well meaning and kindly.
+         (length of stay)
           <br />
-          {'"a benevolent smile"'}
+          {/* {'"a benevolent smile"'} */}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
-
           </CardActions>
-          <br></br>
-          <CardContent style={{ width: "300px", display: "inline-block" }}>
+          <br />
+          <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Room
         </Typography>
@@ -81,21 +77,21 @@ export default function SimpleCard() {
           Honey Moon Suite
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Open
-        </Typography>
-              <Typography variant="body2" component="p">
-            {/* id of person staying in this room */}
           [id]
+        </Typography>
+        <Typography variant="body2" component="p">
+         (length of stay)
           <br />
+          {/* {'"a benevolent smile"'} */}
         </Typography>
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
-          </CardActions>
-          <br></br>
-          
+      </CardActions>
+      <br />
       </Card>
-      
   );
 }
+
+
 
