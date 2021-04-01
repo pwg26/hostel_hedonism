@@ -3,6 +3,7 @@ import GuestModal from "../components/GuestModal";
 import GuestTable from "../components/GuestTable";
 import GuestButtons from "../components/GuestButtons";
 import AddGuest from "../components/AddGuest";
+import Heading from "../components/ Heading";
 
 import API from "../utils/API";
 
@@ -110,6 +111,7 @@ function Guests() {
   return (
     <>
       {" "}
+      <Heading heading="Guest Manager" />
       <GuestTable rows={guests} />
       <GuestButtons open={handleOpen} />
       <GuestModal open={open} close={handleClose} />
