@@ -18,7 +18,7 @@ const roomSchema = new Schema({
     type: Number,
     required: true,
   },
-  occupants: {
+  guests: {
     type: Number,
     required: true,
     default: 0,
