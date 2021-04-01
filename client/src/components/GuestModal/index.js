@@ -97,6 +97,11 @@ export default function GuestModal(props) {
     setFormObject({ ...formObject, [name]: value });
   }
 
+  function deleteGuest() {
+    API.deleteGuest(props.selected.id);
+    props.close();
+  }
+
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Test</h2>
@@ -138,6 +143,11 @@ export default function GuestModal(props) {
       >
         NEXT
       </Button>
+      {props.selected ? (
+        <Button onClick={deleteGuest}>Delete Guest</Button>
+      ) : (
+        <></>
+      )}
     </div>
   );
   const secondBody = (
@@ -169,6 +179,11 @@ export default function GuestModal(props) {
       </MuiPickersUtilsProvider>
 
       <Button onClick={() => setFirst(true)}>BACK</Button>
+      {props.selected ? (
+        <Button onClick={deleteGuest}>Delete Guest</Button>
+      ) : (
+        <></>
+      )}
       <Button
         onClick={() => {
           setFirst(true);

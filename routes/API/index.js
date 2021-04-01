@@ -5,11 +5,12 @@ const guestController = require("../../controllers/guestController");
 router
   .route("/guests")
   .get(guestController.findGuests)
+  .put(guestController.updateGuest)
   .post(guestController.createGuest);
 router.route("/rooms").get(guestController.getRooms);
 //.post(guestController.createGuest);
 
-router.route("/guests/update").post(guestController.updateGuest);
+router.route("/guests/:id").delete(guestController.deleteGuest);
 
 router
   .route("/store")

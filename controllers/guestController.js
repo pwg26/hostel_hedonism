@@ -1,4 +1,5 @@
 const db = require("../models");
+const mongoose = require("mongoose");
 
 module.exports = {
   login: function (req, res) {
@@ -23,6 +24,14 @@ module.exports = {
     db.Reservation.find({})
       .populate({ path: "room" })
       .then((data) => res.json(data));
+  },
+  deleteGuest: function (req, res) {
+    console.log(req.params.id);
+    db.Guest.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    })
+      .then(({ reservation }) => db.Reservation.deleteOne({ _id: reservation }))
+      .then((result) => res.json(req.params.id));
   },
   createGuest: function (req, res) {
     //steps:
