@@ -8,9 +8,7 @@ module.exports = {
       .then((user) => res.json(user.comparePassword(password)))
       .catch((err) => res.json(false));
   },
-  getRooms: function (req, res) {
-    db.Room.find({}).then((data) => res.json(data));
-  },
+
   findGuests: function (req, res) {
     db.Guest.find({})
       .populate({ path: "reservation", populate: { path: "room" } })
@@ -40,6 +38,17 @@ module.exports = {
     db.Store.find({}).then((data) => res.json(data));
   },
   createItem: function (req, res) {
+    //steps:
+    //create reservation with sent dates and room id
+    //create guest with returned reservation id
+    console.log(req.body);
+    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    res.json("test");
+  },
+  getRooms: function (req, res) {
+    db.Room.find({}).then((data) => res.json(data));
+  },
+  createRooms: function (req, res) {
     //steps:
     //create reservation with sent dates and room id
     //create guest with returned reservation id
