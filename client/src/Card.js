@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 export default function Rooms() {
     return (
         <Grid container spacing={1}>
-            <Grid container item xs={12} spacing={3} ><Rooms /></Grid></Grid>
+            <Grid container item xs={12} spacing={6} ><Rooms /></Grid></Grid>
             
             
     )

@@ -29,11 +29,20 @@ export default function OutlinedCard() {
   const bull = <span className={classes.bullet}>•</span>;
 
     return (
-      <>
+        <>
+    <div style= {{ paddingLeft: '3px', paddingBottom: '5px', paddingTop: '5px' }} className={classes.root}>
+      <Button variant="contained">Add Room</Button>
+      <Button variant="contained" color="primary">
+        Modify Room
+      </Button>
+      <Button variant="contained" color="secondary">
+        Delete Room
+      </Button>
+    </div>
     <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Room
+          Room 1
         </Typography>
         <Typography variant="h5" component="h2">
           Moon Room
@@ -54,7 +63,7 @@ export default function OutlinedCard() {
             <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Room
+          Room 2
         </Typography>
         <Typography variant="h5" component="h2">
           Moon Room
@@ -75,7 +84,7 @@ export default function OutlinedCard() {
             <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
-          Room
+          Room 3
         </Typography>
         <Typography variant="h5" component="h2">
           Moon Room
