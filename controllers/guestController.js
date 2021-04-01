@@ -32,4 +32,15 @@ module.exports = {
     //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
     res.json("test");
   },
+  findItems: function (req, res) {
+    db.Store.find({}).then((data) => res.json(data));
+  },
+  createItem: function (req, res) {
+    //steps:
+    //create reservation with sent dates and room id
+    //create guest with returned reservation id
+    console.log(req.body);
+    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    res.json("test");
+  },
 };
