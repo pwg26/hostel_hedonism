@@ -9,6 +9,13 @@ import API from "../utils/API";
 function Guests() {
   const [guests, setGuests] = useState([]);
   const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const loadGuests = () => {
@@ -16,10 +23,31 @@ function Guests() {
         console.log(res);
         setGuests(
           res.data.map((guest) => {
-            const dayIn = new Date(guest.reservations[0].checkIn);
-            const dayOut = new Date(guest.reservations[0].checkOut);
-            guest.duration = (new Date(dayIn) - new Date(dayOut)) / 8.64e7;
-            return guest;
+            const dayIn = new Date(guest.reservation.checkIn);
+            const dayOut = new Date(guest.reservation.checkOut);
+            const duration = Math.floor((dayOut - dayIn) / 8.64e7);
+            //console.log(duration);
+            const activities = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            const rent = duration * guest.reservation.room.rate;
+            //console.log(guest.reservation.room, guest.reservation.room.rate);
+            return {
+              firstName: guest.firstName,
+              lastName: guest.lastName,
+              id: guest._id,
+              country: guest.country,
+              dateIn: dayIn.toDateString(),
+              dateOut: dayOut.toDateString(),
+              duration: duration,
+              paid: guest.paid ? "Yes" : "No",
+              checkedIn: guest.checkedIn ? "Yes" : "No",
+              activities: activities,
+              rent: rent,
+              tab: `$ ${activities + rent}`,
+              room: guest.reservation.room.name,
+            };
           })
         );
       });
@@ -83,7 +111,9 @@ function Guests() {
     <>
       {" "}
       <GuestTable rows={guests} />
-      <GuestButtons /> <AddGuest addGuestRecord={addGuestRecord} />
+      <GuestButtons open={handleOpen} />
+      <GuestModal open={open} close={handleClose} />
+      <AddGuest addGuestRecord={addGuestRecord} />
     </>
   );
 }

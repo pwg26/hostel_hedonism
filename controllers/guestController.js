@@ -13,9 +13,11 @@ module.exports = {
   },
   findGuests: function (req, res) {
     db.Guest.find({})
-      .populate({ path: "reservations", populate: { path: "room" } })
+      .populate({ path: "reservation", populate: { path: "room" } })
       .populate("activities")
-      .then((guests) => res.json(guests));
+      .then((guests) => {
+        res.json(guests);
+      });
   },
   getReservations: function (req, res) {
     db.Reservation.find({})

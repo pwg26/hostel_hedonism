@@ -36,21 +36,19 @@ const columns = [
     label: "Country",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
+    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "room",
     label: "Room",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
   {
     id: "checkedIn",
     label: "Checked In?",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
   {
     id: "dateIn",
@@ -78,14 +76,12 @@ const columns = [
     label: "Tab",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
   {
     id: "paid",
     label: "Paid?",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
 ];
 
@@ -111,6 +107,7 @@ export default function GuestTable(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  console.log(props.rows);
 
   return (
     <Paper className={classes.root}>
