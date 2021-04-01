@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import StoreTable from "../components/StoreTable";
 import StoreButtons from "../components/StoreButtons";
 import API from "../utils/API";
+import Heading from "../components/ Heading";
 
 import AddItem from "../components/AddItem";
 
@@ -35,6 +36,7 @@ export default function Store() {
   return (
     <>
       {" "}
+      <Heading heading="Store" />
       <StoreTable rows={items} />
       <StoreButtons /> <AddItem addItemRecord={addItemRecord} />
     </>
