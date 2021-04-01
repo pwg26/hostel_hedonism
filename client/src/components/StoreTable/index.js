@@ -26,11 +26,11 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-// function createData(id, name, price, purchase) {
-//   return { id, name, price, purchase };
+// function createData(name, description, price, quantity) {
+//   return { name, description, price, quantity };
 // }
 
-const rows = ["name", "description", "price", "quantity"];
+// const rows = [createData("oogga booga", "Coors Light", "$12.99", "55")];
 
 const useStyles = makeStyles({
   table: {
@@ -39,10 +39,11 @@ const useStyles = makeStyles({
 });
 
 export default function StoreTable(props) {
-  // const classes = useStyles();
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = [props];
+  const classes = useStyles();
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(+event.target.value);
+  //   setPage(0);
+  // };
 
   return (
     <TableContainer component={Paper}>
@@ -56,14 +57,14 @@ export default function StoreTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {props.rows.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.name}</StyledTableCell>
-              <StyledTableCell align="right">{row.descriotion}</StyledTableCell>
-              <StyledTableCell align="right">{row.price}</StyledTableCell>
+              <StyledTableCell align="right">{row.description}</StyledTableCell>
+              <StyledTableCell align="right">{row.cost}</StyledTableCell>
+              <StyledTableCell align="right">{row.quantity}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

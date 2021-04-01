@@ -30,7 +30,7 @@ module.exports = {
     //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
     res.json("test");
   },
-  getItems: function (req, res) {
+  findItems: function (req, res) {
     db.Store.find({}).then((data) => res.json(data));
   },
   createItem: function (req, res) {

@@ -17,17 +17,17 @@ export default function Store() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const loadGuests = () => {
-      API.getGuests().then((res) => {
+    const loadItems = () => {
+      API.findItems().then((res) => {
         console.log(res);
         setItems(
-          res.data.map((guest) => {
-            return guest;
+          res.data.map((item) => {
+            return item;
           })
         );
       });
     };
-    loadGuests();
+    loadItems();
   }, []);
 
   const addItemRecord = (newItem) => setItems([...items, newItem]);
@@ -35,8 +35,8 @@ export default function Store() {
   return (
     <>
       {" "}
-      <StoreButtons rows={items} />
-      <StoreTable /> <AddItem addItemRecord={addItemRecord} />
+      <StoreTable rows={items} />
+      <StoreButtons /> <AddItem addItemRecord={addItemRecord} />
     </>
   );
 }

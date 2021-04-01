@@ -24,7 +24,7 @@ function FormBtn(props) {
   );
 }
 
-export default function AddGuest(props) {
+export default function AddItem(props) {
   const [form, setForm] = React.useState({
     name: "",
     description: "",
