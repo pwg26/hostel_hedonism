@@ -11,6 +11,14 @@ module.exports = {
   getRooms: function (req, res) {
     db.Room.find({}).then((data) => res.json(data));
   },
+  createRoom: function (req, res) {
+    //steps:
+    //create reservation with sent dates and room id
+    //create guest with returned reservation id
+    console.log(req.body);
+    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    res.json("test");
+  },
   findGuests: function (req, res) {
     db.Guest.find({})
       .populate({ path: "reservations", populate: { path: "room" } })
