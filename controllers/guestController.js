@@ -1,4 +1,5 @@
 const db = require("../models");
+const mongoose = require("mongoose");
 
 module.exports = {
   login: function (req, res) {
@@ -22,6 +23,14 @@ module.exports = {
       .populate({ path: "room" })
       .then((data) => res.json(data));
   },
+  deleteGuest: function (req, res) {
+    console.log(req.params.id);
+    db.Guest.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    })
+      .then(({ reservation }) => db.Reservation.deleteOne({ _id: reservation }))
+      .then((result) => res.json(req.params.id));
+  },
   createGuest: function (req, res) {
     //steps:
     console.log(req.body);
@@ -33,6 +42,16 @@ module.exports = {
         role: "manager",
       }).then((guest) => res.json(guest));
     });
+  },
+  updateGuest: function (req, res) {
+    db.Guest.findOneAndUpdate({ _id: req.body.id }, req.body.guest).then(
+      (guest) => {
+        db.Reservation.findOneAndUpdate(
+          { _id: guest.reservation },
+          req.body.reservation
+        ).then((data) => res.json(data));
+      }
+    );
   },
   findItems: function (req, res) {
     db.Store.find({}).then((data) => res.json(data));

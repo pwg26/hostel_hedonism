@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 const columns = [
   {
@@ -130,9 +131,26 @@ export default function GuestTable(props) {
             {props.rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => {
+                let id = row.id;
                 row.id = i + 1;
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  <TableRow
+                    hover
+                    onClick={() =>
+                      props.open("update", {
+                        firstName: row.firstName,
+                        lastName: row.lastName,
+                        country: row.country,
+                        roomId: row.roomId,
+                        dateIn: row.dateIn,
+                        dateOut: row.dateOut,
+                        id: id,
+                      })
+                    }
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.id}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

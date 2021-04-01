@@ -77,7 +77,7 @@ export default function RoomCard(props) {
                 <br />
               </Typography>
               <Typography variant="body2" component="p">
-                $ of occupants: {cardComp.occupants}
+              # of occupants: {cardComp.occupants}
                 <br />
               </Typography>
             </CardContent>
