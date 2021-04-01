@@ -12,7 +12,11 @@ import API from "../utils/API";
 function Guests() {
   const [guests, setGuests] = useState([]);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
+  const [type, setType] = useState("");
+  const [selected, setSelected] = useState({});
+  const handleOpen = (type, selected = {}) => {
+    setType(type);
+    setSelected(selected);
     setOpen(true);
   };
 
@@ -50,6 +54,7 @@ function Guests() {
               rent: rent,
               tab: `$ ${activities + rent}`,
               room: guest.reservation.room.name,
+              roomId: guest.reservation.room._id,
             };
           })
         );
@@ -114,9 +119,14 @@ function Guests() {
     <MuiPickersUtilsProvider utils={LuxonUtils}>
       {" "}
       <Heading heading="Guest Manager" />
-      <GuestTable rows={guests} />
+      <GuestTable rows={guests} open={handleOpen} />
       <GuestButtons open={handleOpen} />
-      <GuestModal open={open} close={handleClose} />
+      <GuestModal
+        open={open}
+        type={type}
+        selected={selected}
+        close={handleClose}
+      />
       <AddGuest addGuestRecord={addGuestRecord} />
     </MuiPickersUtilsProvider>
   );
