@@ -9,6 +9,8 @@ router
 router.route("/rooms").get(guestController.getRooms);
 //.post(guestController.createGuest);
 
+router.route("/guests/update").post(guestController.updateGuest);
+
 router
   .route("/store")
   .get(guestController.findItems)

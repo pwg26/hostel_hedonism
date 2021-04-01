@@ -36,6 +36,16 @@ module.exports = {
       }).then((guest) => res.json(guest));
     });
   },
+  updateGuest: function (req, res) {
+    db.Guest.findOneAndUpdate({ _id: req.body.id }, req.body.guest).then(
+      (guest) => {
+        db.Reservation.findOneAndUpdate(
+          { _id: guest.reservation },
+          req.body.reservation
+        ).then((data) => res.json(data));
+      }
+    );
+  },
   findItems: function (req, res) {
     db.Store.find({}).then((data) => res.json(data));
   },

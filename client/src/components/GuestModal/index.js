@@ -8,12 +8,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import LuxonUtils from "@date-io/luxon"; // choose your lib
-import {
-  DatePicker,
-  TimePicker,
-  DateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -82,6 +77,21 @@ export default function GuestModal(props) {
     };
     loadRooms();
   }, []);
+
+  useEffect(() => {
+    if (props.type === "update") {
+      console.log("UPDATE");
+      console.log(props.selected);
+      setFormObject({
+        firstName: props.selected.firstName,
+        lastName: props.selected.lastName,
+        country: props.selected.country,
+      });
+      setRoom(props.selected.roomId);
+      handleCheckinChange(new Date(props.selected.dateIn));
+      handleCheckoutChange(new Date(props.selected.dateOut));
+    }
+  }, [props.selected]);
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
@@ -89,6 +99,7 @@ export default function GuestModal(props) {
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">Test</h2>
       <h2 id="simple-modal-title">Enter guest information</h2>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
@@ -131,6 +142,7 @@ export default function GuestModal(props) {
   );
   const secondBody = (
     <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">test</h2>
       <h2 id="simple-modal-title">Enter reservation information</h2>
 
       <FormControl variant="outlined" className={classes.formControl}>
@@ -162,14 +174,24 @@ export default function GuestModal(props) {
           setFirst(true);
           console.log(formObject);
           console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          API.saveGuest({
-            guest: formObject,
-            reservation: {
-              room: room,
-              checkIn: checkInDate,
-              checkOut: checkOutDate,
-            },
-          });
+          props.type === "add"
+            ? API.saveGuest({
+                guest: formObject,
+                reservation: {
+                  room: room,
+                  checkIn: checkInDate,
+                  checkOut: checkOutDate,
+                },
+              })
+            : API.updateGuest({
+                id: props.selected.id,
+                guest: formObject,
+                reservation: {
+                  room: room,
+                  checkIn: checkInDate,
+                  checkOut: checkOutDate,
+                },
+              });
           setFormObject({});
           props.close();
         }}
