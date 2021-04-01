@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +28,8 @@ export default function OutlinedCard() {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
-  return (
+    return (
+      <>
     <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
@@ -48,13 +50,14 @@ export default function OutlinedCard() {
       <CardActions>
         <Button size="small">Learn More</Button>
           </CardActions>
-          <br />
-          <CardContent>
+            </Card>
+            <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
+      <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Room
         </Typography>
         <Typography variant="h5" component="h2">
-          Sun Room
+          Moon Room
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           [id]
@@ -68,13 +71,14 @@ export default function OutlinedCard() {
       <CardActions>
         <Button size="small">Learn More</Button>
           </CardActions>
-          <br />
-          <CardContent>
+            </Card>
+            <Card style= { { width: "300px", display: "inline-block", paddingLeft: "30px" }} className={classes.root} variant="outlined">
+      <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Room
         </Typography>
         <Typography variant="h5" component="h2">
-          Honey Moon Suite
+          Moon Room
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           [id]
@@ -87,9 +91,9 @@ export default function OutlinedCard() {
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>
-      </CardActions>
-      <br />
+          </CardActions>
       </Card>
+      </>
   );
 }
 
