@@ -9,5 +9,11 @@ router
 router.route("/rooms").get(guestController.getRooms);
 //.post(guestController.createGuest);
 
+router
+  .route("/store")
+  .get(guestController.findItems)
+  .post(guestController.createItem);
+
 router.route("/login").post(guestController.login);
+
 module.exports = router;

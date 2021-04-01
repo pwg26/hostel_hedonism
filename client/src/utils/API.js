@@ -13,4 +13,10 @@ export default {
   login: function (creds) {
     return axios.post("/api/login", creds);
   },
+  findItems: function () {
+    return axios.get("/api/store");
+  },
+  saveItem: function (creds) {
+    return axios.post("/api/store", creds);
+  },
 };
