@@ -129,7 +129,8 @@ export default function GuestTable(props) {
           <TableBody>
             {props.rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, i) => {
+                row.id = i + 1;
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
