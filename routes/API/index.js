@@ -9,7 +9,7 @@ router
   .post(guestController.createGuest);
 router
   .route("/rooms")
-  .get(guestController.getRooms)
+  .get(guestController.findRooms)
   .post(guestController.createRooms);
 
 router.route("/guests/:id").delete(guestController.deleteGuest);
