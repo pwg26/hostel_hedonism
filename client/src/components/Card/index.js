@@ -27,6 +27,15 @@ const useStyles = makeStyles({
 export default function RoomCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+
+  function numberList(x) {
+    const glist = x;
+    const listGuests = glist.map((guest) => {
+      return <li key={guest._id}>{guest}</li>;
+    });
+    return { listGuests };
+  }
+
   return (
     <>
       {/* <Card style={{ width: "200px", marginLeft: '400px' }} className={classes.root} variant="outlined">
@@ -76,7 +85,7 @@ export default function RoomCard(props) {
                 <br />
               </Typography>
               <Typography variant="body2" component="p">
-                # of occupants: {cardComp.guests}
+                <ul>{numberList(cardComp.guests)}</ul>
                 <br />
               </Typography>
             </CardContent>
