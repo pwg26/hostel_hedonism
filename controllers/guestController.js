@@ -57,11 +57,8 @@ module.exports = {
     db.Store.find({}).then((data) => res.json(data));
   },
   createItem: function (req, res) {
-    //steps:
-    //create reservation with sent dates and room id
-    //create guest with returned reservation id
     console.log(req.body);
-    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
+    db.Guest.create(...req.body.item).then((dbItem) => res.json(dbItem));
     res.json("test");
   },
   getRooms: function (req, res) {
@@ -72,7 +69,7 @@ module.exports = {
     //create reservation with sent dates and room id
     //create guest with returned reservation id
     console.log(req.body);
-    //db.Guest.create(req.body).then((dbGuest) => res.json(dbGuest));
-    res.json("test");
+    db.Guest.create(...req.body.room).then((dbRoom) => res.json(dbRoom));
+    // res.json("test");
   },
 };

@@ -10,14 +10,18 @@ export default {
   updateGuest: function (guestData) {
     return axios.put("/api/guests", guestData);
   },
-  getRooms: function () {
-    return axios.get("/api/rooms");
-  },
+
   deleteGuest: function (id) {
     return axios.delete("/api/guests/" + id);
   },
-  saveRooms: function (roomData) {
+  getRooms: function () {
+    return axios.get("/api/rooms");
+  },
+  saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
+  },
+  deleteRoom: function (id) {
+    return axios.delete("/api/rooms/" + id);
   },
   login: function (creds) {
     return axios.post("/api/login", creds);

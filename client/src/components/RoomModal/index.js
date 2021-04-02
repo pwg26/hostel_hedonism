@@ -51,119 +51,109 @@ export default function RoomModal(props) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
-  const [first, setFirst] = useState(true);
   const [formObject, setFormObject] = useState({
     number: "",
     name: "",
     rate: "",
-    capacity: "",
   });
   const [guests, setRooms] = useState([]);
-  const [room, setRoom] = useState("");
-
-  const [checkInDate, handleCheckinChange] = useState(new Date());
-  const [checkOutDate, handleCheckoutChange] = useState(new Date());
+  const [guest, setGuest] = useState("");
 
   const handleChange = (event) => {
-    setRoom(event.target.value);
+    setGuest(event.target.value);
   };
 
   useEffect(() => {
-    const loadRooms = () => {
-      API.getRooms().then((res) => {
+    const loadGuests = () => {
+      API.getGuests().then((res) => {
         console.log(res);
-        setRooms(
-          res.data.map((room) => {
+        setGuests(
+          res.data.map((guest) => {
             //console.log(room);
             //room.test = "blank";
-            return room;
+            return guest;
           })
         );
       });
     };
-    loadRooms();
+    loadGuests();
   }, []);
+
+  useEffect(() => {
+    if (props.type === "update") {
+      console.log("UPDATE");
+      console.log(props.selected);
+      setFormObject({
+        number: props.selected.number,
+        name: props.selected.name,
+        rate: props.selected.rate,
+      });
+      setGuest(props.selected.guesyId);
+    }
+  });
+
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
   }
+
+  // function deleteRoom() {
+  //   API.deleteRoom(props.selected.id);
+  //   props.close();
+  // }
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Enter guest information</h2>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
-          id="outlined-firstname"
+          id="outlined-number"
           autoComplete="off"
-          label="First Name"
-          name="firstName"
-          value={formObject.firstName}
+          label="Number"
+          name="number"
+          value={formObject.number}
           variant="outlined"
           onChange={handleInputChange}
         />
         <TextField
-          id="outlined-lastname"
-          label="Last Name"
-          name="lastName"
-          value={formObject.lastName}
+          id="outlined-name"
+          label="Name"
+          name="name"
+          value={formObject.name}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
         />
         <TextField
-          id="outlined-country"
-          label="Country"
-          name="country"
-          value={formObject.country}
+          id="outlined-rate"
+          label="rate"
+          name="rate"
+          value={formObject.rate}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
         />
-      </form>
-      <Button
-        onClick={() => {
-          console.log(formObject);
-          setFirst(false);
-        }}
-      >
-        NEXT
-      </Button>
-    </div>
-  );
-  const secondBody = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Enter reservation information</h2>
-
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="room-select-outlined-label">Room</InputLabel>
+        <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
-          labelId="room-select-outlined-label"
-          id="room-select-outlined"
-          value={room}
+          labelId="guest-select-outlined-label"
+          id="guest-select-outlined"
+          value={guest}
           onChange={handleChange}
-          label="Room"
+          label="Guest"
         >
-          {rooms.map((room) => {
+          {guests.map((guest) => {
             return (
-              <MenuItem key={room._id} value={room._id}>
-                {room.name}
+              <MenuItem key={guest._id} value={guest._id}>
+                {guest._id}
               </MenuItem>
             );
           })}
         </Select>
-      </FormControl>
-      <MuiPickersUtilsProvider utils={LuxonUtils}>
-        <DatePicker value={checkInDate} onChange={handleCheckinChange} />
-        <DatePicker value={checkOutDate} onChange={handleCheckoutChange} />
-      </MuiPickersUtilsProvider>
-
-      <Button onClick={() => setFirst(true)}>BACK</Button>
+      </form>
       <Button
         onClick={() => {
-          setFirst(true);
           console.log(formObject);
-          console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          API.saveGuest({
+          API.saveRoom({
             guest: formObject,
             reservation: {
               room: room,
@@ -175,11 +165,10 @@ export default function RoomModal(props) {
           props.close();
         }}
       >
-        CLOSE
+        Submit
       </Button>
     </div>
   );
-
   return (
     <div>
       <Modal
@@ -188,7 +177,7 @@ export default function RoomModal(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {first ? firstBody : secondBody}
+        {firstBody}
       </Modal>
     </div>
   );
