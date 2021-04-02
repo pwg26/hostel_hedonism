@@ -14,6 +14,7 @@ function Guests() {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("");
   const [selected, setSelected] = useState({});
+  const [filtered, setFiltered] = useState([]);
   const handleOpen = (type, selected = {}) => {
     setType(type);
     setSelected(selected);

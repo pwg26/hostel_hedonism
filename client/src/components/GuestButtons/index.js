@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function IconLabelButtons(props) {
   const classes = useStyles();
+  const [searchbar, setSearchbar] = useState(false);
 
   return (
     <div>
@@ -23,9 +24,11 @@ export default function IconLabelButtons(props) {
         color="primary"
         className={classes.button}
         endIcon={<SearchIcon>Search By Last Name</SearchIcon>}
+        onClick={() => setSearchbar(!searchbar)}
       >
         Search By Last Name
       </Button>
+      {searchbar ? <Button>Appear</Button> : <></>}
       <Button
         variant="contained"
         color="default"
