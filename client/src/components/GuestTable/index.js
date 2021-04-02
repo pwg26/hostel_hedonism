@@ -70,7 +70,7 @@ const columns = [
     label: "Duration",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
+    //format: (value) => value.toFixed(2),
   },
   {
     id: "tab",
@@ -132,7 +132,7 @@ export default function GuestTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => {
                 let id = row.id;
-                console.log(row);
+
                 row.id = i + 1;
                 return (
                   <TableRow

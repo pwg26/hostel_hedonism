@@ -45,7 +45,7 @@ export default function Rooms() {
               name: room.name,
               rate: room.rate,
               capacity: room.capacity,
-              // guests: room.guests.lastName,
+              //guests: room.guests.lastName,
             };
           })
         );
@@ -60,7 +60,7 @@ export default function Rooms() {
       <>
           
       <Capacity />
-      <RoomCard cardComps={rooms} />
+      <RoomCard rooms={rooms} open={handleOpen} />
       <Buttons open={handleOpen} />
       <RoomModal
         open={open}

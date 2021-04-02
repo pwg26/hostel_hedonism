@@ -52,15 +52,87 @@ export default function GuestModal(props) {
     lastName: "",
     country: "",
   });
+  const [markers, setMarkers] = useState({
+    firstName: false,
+    lastName: false,
+    country: false,
+    room: false,
+    checkIn: false,
+    checkOut: false,
+  });
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
 
   const [checkInDate, handleCheckinChange] = useState(new Date());
-  const [checkOutDate, handleCheckoutChange] = useState(new Date());
+  const [checkOutDate, handleCheckoutChange] = useState(
+    new Date(Date.now() + 8.64e7)
+  );
 
   const handleChange = (event) => {
     setRoom(event.target.value);
   };
+
+  function clearForm() {
+    setFormObject({
+      firstName: "",
+      lastName: "",
+      country: "",
+    });
+    handleCheckinChange(new Date());
+    handleCheckoutChange(new Date(Date.now() + 8.64e7));
+    setRoom("");
+    setFirst(true);
+    setMarkers({
+      firstName: false,
+      lastName: false,
+      country: false,
+      room: false,
+      checkIn: false,
+      checkOut: false,
+    });
+  }
+
+  function changePage() {
+    let newMarks = {};
+    newMarks.firstName = formObject.firstName === "" ? true : false;
+
+    newMarks.lastName = formObject.lastName === "" ? true : false;
+    newMarks.country = formObject.country === "" ? true : false;
+
+    setMarkers({ ...markers, ...newMarks });
+    console.log(markers, formObject);
+    if (newMarks.firstName || newMarks.lastName || newMarks.country) {
+      console.log("Missing a field");
+    } else {
+      console.log(formObject);
+      setFirst(false);
+    }
+  }
+
+  function submitForm() {
+    setFirst(true);
+    console.log(formObject);
+    console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
+    props.type === "Add"
+      ? API.saveGuest({
+          guest: formObject,
+          reservation: {
+            room: room,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
+          },
+        }).then(() => props.close())
+      : API.updateGuest({
+          id: props.selected.id,
+          guest: formObject,
+          reservation: {
+            room: room,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
+          },
+        }).then(() => props.close());
+    clearForm();
+  }
 
   useEffect(() => {
     const loadRooms = () => {
@@ -79,6 +151,7 @@ export default function GuestModal(props) {
   }, []);
 
   useEffect(() => {
+    clearForm();
     if (props.type === "Update") {
       console.log("UPDATE");
       console.log(props.selected);
@@ -91,7 +164,8 @@ export default function GuestModal(props) {
       handleCheckinChange(new Date(props.selected.dateIn));
       handleCheckoutChange(new Date(props.selected.dateOut));
     }
-  }, [props.selected]);
+  }, [props.selected, props.type]);
+
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
@@ -99,6 +173,7 @@ export default function GuestModal(props) {
 
   function deleteGuest() {
     API.deleteGuest(props.selected.id);
+    clearForm();
     props.close();
   }
 
@@ -111,39 +186,40 @@ export default function GuestModal(props) {
           id="outlined-firstname"
           autoComplete="off"
           label="First Name"
+          helperText={markers.firstName ? "Required" : " "}
           name="firstName"
           value={formObject.firstName}
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.firstName}
         />
         <TextField
           id="outlined-lastname"
+          autoComplete="off"
           label="Last Name"
+          helperText={markers.lastName ? "Required" : " "}
           name="lastName"
           value={formObject.lastName}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.lastName}
         />
         <TextField
           id="outlined-country"
+          autoComplete="off"
           label="Country"
+          helperText={markers.country ? "Required" : " "}
           name="country"
           value={formObject.country}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.country}
         />
       </form>
-      <Button
-        onClick={() => {
-          console.log(formObject);
-          setFirst(false);
-        }}
-      >
-        NEXT
-      </Button>
-      {props.selected ? (
+      <Button onClick={changePage}>NEXT</Button>
+      {props.type === "Update" ? (
         <Button onClick={deleteGuest}>Delete Guest</Button>
       ) : (
         <></>
@@ -174,45 +250,25 @@ export default function GuestModal(props) {
         </Select>
       </FormControl>
       <MuiPickersUtilsProvider utils={LuxonUtils}>
-        <DatePicker value={checkInDate} onChange={handleCheckinChange} />
-        <DatePicker value={checkOutDate} onChange={handleCheckoutChange} />
+        <DatePicker
+          disablePast
+          value={checkInDate}
+          onChange={handleCheckinChange}
+        />
+        <DatePicker
+          minDate={checkOutDate}
+          value={checkOutDate}
+          onChange={handleCheckoutChange}
+        />
       </MuiPickersUtilsProvider>
 
       <Button onClick={() => setFirst(true)}>BACK</Button>
-      {props.selected ? (
+      {props.type === "Update" ? (
         <Button onClick={deleteGuest}>Delete Guest</Button>
       ) : (
         <></>
       )}
-      <Button
-        onClick={() => {
-          setFirst(true);
-          console.log(formObject);
-          console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          props.type === "add"
-            ? API.saveGuest({
-                guest: formObject,
-                reservation: {
-                  room: room,
-                  checkIn: checkInDate,
-                  checkOut: checkOutDate,
-                },
-              })
-            : API.updateGuest({
-                id: props.selected.id,
-                guest: formObject,
-                reservation: {
-                  room: room,
-                  checkIn: checkInDate,
-                  checkOut: checkOutDate,
-                },
-              });
-          setFormObject({});
-          props.close();
-        }}
-      >
-        CLOSE
-      </Button>
+      <Button onClick={submitForm}>SUBMIT</Button>
     </div>
   );
 
