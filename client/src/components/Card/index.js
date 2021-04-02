@@ -48,7 +48,7 @@ export default function RoomCard(props) {
 
       {/* <Buttons/> */}
 
-      {props.cardComps.map((cardComp) => (
+      {props.rooms.map((cardComp) => (
         <>
           <Card
             style={{
@@ -84,10 +84,10 @@ export default function RoomCard(props) {
                 Room Capacity: {cardComp.capacity}
                 <br />
               </Typography>
-              <Typography variant="body2" component="p">
+              {/* <Typography variant="body2" component="p">
                 <ul>{numberList(cardComp.guests)}</ul>
                 <br />
-              </Typography>
+              </Typography> */}
             </CardContent>
 
             <CardActions>
