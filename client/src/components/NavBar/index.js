@@ -1,5 +1,6 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import "./index.css"
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -39,7 +40,7 @@ const MenuPopupState = (props) => {
           to="/login"
           onClick={() => auth.signout(console.log("logged out"))}
           variant="contained"
-          color="primary" id="button"
+          color="" id="button"
         >
           Logout
         </Button>
