@@ -73,4 +73,16 @@ module.exports = {
       ...req.body.room,
     }).then((room) => res.json(room));
   },
+
+  updateRoom: function (req, res) {
+    db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.room).then((data) =>
+      res.json(data)
+    );
+  },
+  deleteRoom: function (req, res) {
+    console.log(req.params.id);
+    db.Room.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    }).then((result) => res.json(req.params.id));
+  },
 };

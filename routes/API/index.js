@@ -7,12 +7,13 @@ router
   .get(guestController.findGuests)
   .put(guestController.updateGuest)
   .post(guestController.createGuest);
+router.route("/guests/:id").delete(guestController.deleteGuest);
 router
   .route("/rooms")
   .get(guestController.findRooms)
+  .put(guestController.updateRoom)
   .post(guestController.createRooms);
-
-router.route("/guests/:id").delete(guestController.deleteGuest);
+router.route("/room/:id").delete(guestController.deleteRoom);
 
 router
   .route("/store")

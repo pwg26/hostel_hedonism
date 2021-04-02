@@ -17,6 +17,9 @@ export default {
   saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
   },
+  updateRoom: function (roomData) {
+    return axios.post("/api/rooms/", roomData);
+  },
   deleteRoom: function (id) {
     return axios.delete("/api/rooms/" + id);
   },
