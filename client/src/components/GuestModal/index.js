@@ -52,7 +52,14 @@ export default function GuestModal(props) {
     lastName: "",
     country: "",
   });
-  const [markers, setMarkers] = useState();
+  const [markers, setMarkers] = useState({
+    firstName: false,
+    lastName: false,
+    country: false,
+    room: false,
+    checkIn: false,
+    checkOut: false,
+  });
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
 
@@ -75,14 +82,26 @@ export default function GuestModal(props) {
     handleCheckoutChange(new Date(Date.now() + 8.64e7));
     setRoom("");
     setFirst(true);
+    setMarkers({
+      firstName: false,
+      lastName: false,
+      country: false,
+      room: false,
+      checkIn: false,
+      checkOut: false,
+    });
   }
 
   function changePage() {
-    if (
-      formObject.firstName === "" ||
-      formObject.lastName === "" ||
-      formObject.country === ""
-    ) {
+    let newMarks = {};
+    newMarks.firstName = formObject.firstName === "" ? true : false;
+
+    newMarks.lastName = formObject.lastName === "" ? true : false;
+    newMarks.country = formObject.country === "" ? true : false;
+
+    setMarkers({ ...markers, ...newMarks });
+    console.log(markers, formObject);
+    if (newMarks.firstName || newMarks.lastName || newMarks.country) {
       console.log("Missing a field");
     } else {
       console.log(formObject);
@@ -167,28 +186,36 @@ export default function GuestModal(props) {
           id="outlined-firstname"
           autoComplete="off"
           label="First Name"
+          helperText={markers.firstName ? "Required" : " "}
           name="firstName"
           value={formObject.firstName}
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.firstName}
         />
         <TextField
           id="outlined-lastname"
+          autoComplete="off"
           label="Last Name"
+          helperText={markers.lastName ? "Required" : " "}
           name="lastName"
           value={formObject.lastName}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.lastName}
         />
         <TextField
           id="outlined-country"
+          autoComplete="off"
           label="Country"
+          helperText={markers.country ? "Required" : " "}
           name="country"
           value={formObject.country}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.country}
         />
       </form>
       <Button onClick={changePage}>NEXT</Button>
