@@ -99,10 +99,10 @@ export default function RoomModal(props) {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  // function deleteRoom() {
-  //   API.deleteRoom(props.selected.id);
-  //   props.close();
-  // }
+  function deleteRoom() {
+    API.deleteRoom(props.selected.id);
+    props.close();
+  }
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
@@ -173,6 +173,11 @@ export default function RoomModal(props) {
       >
         Submit
       </Button>
+      {props.type === "Update" ? (
+        <Button onClick={deleteRoom}>Delete Room</Button>
+      ) : (
+        <></>
+      )}
     </div>
   );
   return (
