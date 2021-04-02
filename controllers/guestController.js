@@ -68,14 +68,9 @@ module.exports = {
 
   createRooms: function (req, res) {
     console.log(req.body);
-<<<<<<< HEAD
-    db.Guest.create(...req.body.room).then((dbRoom) => res.json(dbRoom));
-    // res.json("test");
-=======
     //create reservation with sent dates and room id
     db.Room.create({
       ...req.body.room,
     }).then((room) => res.json(room));
->>>>>>> master
   },
 };

@@ -20,6 +20,9 @@ export default {
   deleteRoom: function (id) {
     return axios.delete("/api/rooms/" + id);
   },
+  getRooms: function () {
+    return axios.get("/api/rooms");
+  },
   login: function (creds) {
     return axios.post("/api/login", creds);
   },

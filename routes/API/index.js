@@ -7,7 +7,7 @@ router
   .get(guestController.findGuests)
   .put(guestController.updateGuest)
   .post(guestController.createGuest);
-router.route("/rooms").get(guestController.getRooms);
+router.route("/rooms").get(guestController.findRooms);
 //.post(guestController.createGuest);
 
 router.route("/guests/:id").delete(guestController.deleteGuest);
