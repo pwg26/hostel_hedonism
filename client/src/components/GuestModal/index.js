@@ -79,7 +79,7 @@ export default function GuestModal(props) {
   }, []);
 
   useEffect(() => {
-    if (props.type === "update") {
+    if (props.type === "Update") {
       console.log("UPDATE");
       console.log(props.selected);
       setFormObject({
@@ -104,7 +104,7 @@ export default function GuestModal(props) {
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Test</h2>
+      <h2 id="simple-modal-title">{props.type}</h2>
       <h2 id="simple-modal-title">Enter guest information</h2>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
@@ -152,7 +152,7 @@ export default function GuestModal(props) {
   );
   const secondBody = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">test</h2>
+      <h2 id="simple-modal-title">{props.type}</h2>
       <h2 id="simple-modal-title">Enter reservation information</h2>
 
       <FormControl variant="outlined" className={classes.formControl}>
