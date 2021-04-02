@@ -34,7 +34,7 @@ export default function TextButtons(props) {
       </Button>
       <Button
         variant="contained"
-        color="secondary"
+        color="grey"
         className={classes.button}
         startIcon={<DeleteIcon />}
       >

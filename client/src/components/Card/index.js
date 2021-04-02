@@ -22,9 +22,11 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-});
+})
 
 export default function RoomCard(props) {
+
+
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -35,6 +37,7 @@ export default function RoomCard(props) {
     });
     return { listGuests };
   }
+
 
   return (
     <>
@@ -55,7 +58,8 @@ export default function RoomCard(props) {
               width: "300px",
               display: "inline-block",
               paddingLeft: "30px",
-              backgroundColor: "",
+              backgroundColor: "#6FFFE9",
+              border: '3px solid',
             }}
             className={classes.root}
             variant="outlined"
@@ -97,5 +101,5 @@ export default function RoomCard(props) {
         </>
       ))}
     </>
-  );
+  )
 }
