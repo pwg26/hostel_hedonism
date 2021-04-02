@@ -52,11 +52,14 @@ export default function GuestModal(props) {
     lastName: "",
     country: "",
   });
+  const [markers, setMarkers] = useState();
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
 
   const [checkInDate, handleCheckinChange] = useState(new Date());
-  const [checkOutDate, handleCheckoutChange] = useState(new Date());
+  const [checkOutDate, handleCheckoutChange] = useState(
+    new Date(Date.now() + 8.64e7)
+  );
 
   const handleChange = (event) => {
     setRoom(event.target.value);
@@ -69,9 +72,47 @@ export default function GuestModal(props) {
       country: "",
     });
     handleCheckinChange(new Date());
-    handleCheckoutChange(new Date());
+    handleCheckoutChange(new Date(Date.now() + 8.64e7));
     setRoom("");
     setFirst(true);
+  }
+
+  function changePage() {
+    if (
+      formObject.firstName === "" ||
+      formObject.lastName === "" ||
+      formObject.country === ""
+    ) {
+      console.log("Missing a field");
+    } else {
+      console.log(formObject);
+      setFirst(false);
+    }
+  }
+
+  function submitForm() {
+    setFirst(true);
+    console.log(formObject);
+    console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
+    props.type === "Add"
+      ? API.saveGuest({
+          guest: formObject,
+          reservation: {
+            room: room,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
+          },
+        }).then(() => props.close())
+      : API.updateGuest({
+          id: props.selected.id,
+          guest: formObject,
+          reservation: {
+            room: room,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
+          },
+        }).then(() => props.close());
+    clearForm();
   }
 
   useEffect(() => {
@@ -150,14 +191,7 @@ export default function GuestModal(props) {
           onChange={handleInputChange}
         />
       </form>
-      <Button
-        onClick={() => {
-          console.log(formObject);
-          setFirst(false);
-        }}
-      >
-        NEXT
-      </Button>
+      <Button onClick={changePage}>NEXT</Button>
       {props.type === "Update" ? (
         <Button onClick={deleteGuest}>Delete Guest</Button>
       ) : (
@@ -189,8 +223,16 @@ export default function GuestModal(props) {
         </Select>
       </FormControl>
       <MuiPickersUtilsProvider utils={LuxonUtils}>
-        <DatePicker value={checkInDate} onChange={handleCheckinChange} />
-        <DatePicker value={checkOutDate} onChange={handleCheckoutChange} />
+        <DatePicker
+          disablePast
+          value={checkInDate}
+          onChange={handleCheckinChange}
+        />
+        <DatePicker
+          minDate={checkOutDate}
+          value={checkOutDate}
+          onChange={handleCheckoutChange}
+        />
       </MuiPickersUtilsProvider>
 
       <Button onClick={() => setFirst(true)}>BACK</Button>
@@ -199,34 +241,7 @@ export default function GuestModal(props) {
       ) : (
         <></>
       )}
-      <Button
-        onClick={() => {
-          setFirst(true);
-          console.log(formObject);
-          console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          props.type === "Add"
-            ? API.saveGuest({
-                guest: formObject,
-                reservation: {
-                  room: room,
-                  checkIn: checkInDate,
-                  checkOut: checkOutDate,
-                },
-              }).then(() => props.close())
-            : API.updateGuest({
-                id: props.selected.id,
-                guest: formObject,
-                reservation: {
-                  room: room,
-                  checkIn: checkInDate,
-                  checkOut: checkOutDate,
-                },
-              }).then(() => props.close());
-          clearForm();
-        }}
-      >
-        SUBMIT
-      </Button>
+      <Button onClick={submitForm}>SUBMIT</Button>
     </div>
   );
 
