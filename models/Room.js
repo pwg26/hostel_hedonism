@@ -19,9 +19,8 @@ const roomSchema = new Schema({
     required: true,
   },
   guests: {
-    type: Number,
-    required: true,
-    default: 0,
+    type: Schema.Types.ObjectId,
+    ref: "Guest",
   },
 });
 

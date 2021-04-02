@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
   bullet: {
     display: "inline-block",
-    paddingLeft: '5px',
+    paddingLeft: "5px",
     transform: "scale(0.8)",
   },
   title: {
@@ -28,17 +28,16 @@ export default function RoomCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   return (
-    
     <>
-      <Card style={{ width: "200px", marginLeft: '400px' }} className={classes.root} variant="outlined">
+      {/* <Card style={{ width: "200px", marginLeft: '400px' }} className={classes.root} variant="outlined">
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           Capacity
         </Typography>
       </CardContent>
-      </Card>
-      
-      <Buttons/>
+      </Card> */}
+
+      {/* <Buttons/> */}
 
       {props.cardComps.map((cardComp) => (
         <>
@@ -47,7 +46,7 @@ export default function RoomCard(props) {
               width: "300px",
               display: "inline-block",
               paddingLeft: "30px",
-              backgroundColor: '',
+              backgroundColor: "",
             }}
             className={classes.root}
             variant="outlined"
@@ -62,7 +61,7 @@ export default function RoomCard(props) {
                 {cardComp.name}
               </Typography>
               <Typography variant="h5" component="h2">
-              Room #: {cardComp.number} 
+                Room #: {cardComp.number}
               </Typography>
               <Typography
                 className={classes.pos}
@@ -77,7 +76,7 @@ export default function RoomCard(props) {
                 <br />
               </Typography>
               <Typography variant="body2" component="p">
-              # of occupants: {cardComp.occupants}
+                # of occupants: {cardComp.guests}
                 <br />
               </Typography>
             </CardContent>
@@ -86,7 +85,6 @@ export default function RoomCard(props) {
               <Button size="small">Learn More</Button>
             </CardActions>
           </Card>
-          
         </>
       ))}
     </>
