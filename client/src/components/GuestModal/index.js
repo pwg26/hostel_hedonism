@@ -189,7 +189,7 @@ export default function GuestModal(props) {
           setFirst(true);
           console.log(formObject);
           console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          props.type === "add"
+          props.type === "Add"
             ? API.saveGuest({
                 guest: formObject,
                 reservation: {
