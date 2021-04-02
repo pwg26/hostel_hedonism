@@ -115,7 +115,7 @@ export default function GuestTable(props) {
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="guest table">
           <TableHead>
-            <TableRow>
+            <TableRow style={{color: 'black'}} >
               {columns.map((column) => (
                 <TableCell
                   key={column.id}

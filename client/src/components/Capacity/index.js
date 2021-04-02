@@ -8,7 +8,12 @@ import Typography from "@material-ui/core/Typography";
 export default function Capacity() {
   return (
     <>
-      <Card style={{ width: "200px", marginLeft: "400px" }} variant="outlined">
+      <Card style={{
+        width: "200px",
+        border: '3px solid',
+        margin: '20px',
+      }}
+        variant="outlined">
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
             Capacity

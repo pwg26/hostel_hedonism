@@ -14,7 +14,7 @@ import RoomModal from "../components/RoomModal";
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    color: "#F3F7F0",
+    color: "pink",
   },
 }));
 
@@ -57,7 +57,8 @@ export default function Rooms() {
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
   return (
-    <>
+      <>
+          
       <Capacity />
       <RoomCard cardComps={rooms} />
       <Buttons open={handleOpen} />
