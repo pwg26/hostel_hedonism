@@ -62,6 +62,17 @@ export default function GuestModal(props) {
     setRoom(event.target.value);
   };
 
+  function clearForm() {
+    setFormObject({
+      firstName: "",
+      lastName: "",
+      country: "",
+    });
+    handleCheckinChange(new Date());
+    handleCheckoutChange(new Date());
+    setRoom("");
+  }
+
   useEffect(() => {
     const loadRooms = () => {
       API.getRooms().then((res) => {
@@ -79,6 +90,7 @@ export default function GuestModal(props) {
   }, []);
 
   useEffect(() => {
+    clearForm();
     if (props.type === "Update") {
       console.log("UPDATE");
       console.log(props.selected);
@@ -91,7 +103,8 @@ export default function GuestModal(props) {
       handleCheckinChange(new Date(props.selected.dateIn));
       handleCheckoutChange(new Date(props.selected.dateOut));
     }
-  }, [props.selected]);
+  }, [props.selected, props.type]);
+
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
@@ -99,6 +112,7 @@ export default function GuestModal(props) {
 
   function deleteGuest() {
     API.deleteGuest(props.selected.id);
+    clearForm();
     props.close();
   }
 
@@ -143,7 +157,7 @@ export default function GuestModal(props) {
       >
         NEXT
       </Button>
-      {props.selected ? (
+      {props.type === "Update" ? (
         <Button onClick={deleteGuest}>Delete Guest</Button>
       ) : (
         <></>
@@ -179,7 +193,7 @@ export default function GuestModal(props) {
       </MuiPickersUtilsProvider>
 
       <Button onClick={() => setFirst(true)}>BACK</Button>
-      {props.selected ? (
+      {props.type === "Update" ? (
         <Button onClick={deleteGuest}>Delete Guest</Button>
       ) : (
         <></>
@@ -189,7 +203,7 @@ export default function GuestModal(props) {
           setFirst(true);
           console.log(formObject);
           console.log(`CheckIn: ${checkInDate}\nCheckout: ${checkOutDate}`);
-          props.type === "add"
+          props.type === "Add"
             ? API.saveGuest({
                 guest: formObject,
                 reservation: {
@@ -197,7 +211,7 @@ export default function GuestModal(props) {
                   checkIn: checkInDate,
                   checkOut: checkOutDate,
                 },
-              })
+              }).then(() => props.close())
             : API.updateGuest({
                 id: props.selected.id,
                 guest: formObject,
@@ -206,12 +220,11 @@ export default function GuestModal(props) {
                   checkIn: checkInDate,
                   checkOut: checkOutDate,
                 },
-              });
-          setFormObject({});
-          props.close();
+              }).then(() => props.close());
+          clearForm();
         }}
       >
-        CLOSE
+        SUBMIT
       </Button>
     </div>
   );

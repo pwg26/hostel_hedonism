@@ -59,10 +59,40 @@ function Guests() {
             };
           })
         );
+        setFiltered(
+          res.data.map((guest) => {
+            const dayIn = new Date(guest.reservation.checkIn);
+            const dayOut = new Date(guest.reservation.checkOut);
+            const duration = Math.floor((dayOut - dayIn) / 8.64e7);
+            //console.log(duration);
+            const activities = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            const rent = duration * guest.reservation.room.rate;
+            //console.log(guest.reservation.room, guest.reservation.room.rate);
+            return {
+              firstName: guest.firstName,
+              lastName: guest.lastName,
+              id: guest._id,
+              country: guest.country,
+              dateIn: dayIn.toDateString(),
+              dateOut: dayOut.toDateString(),
+              duration: duration,
+              paid: guest.paid ? "Yes" : "No",
+              checkedIn: guest.checkedIn ? "Yes" : "No",
+              activities: activities,
+              rent: rent,
+              tab: `$ ${activities + rent}`,
+              room: guest.reservation.room.name,
+              roomId: guest.reservation.room._id,
+            };
+          })
+        );
       });
     };
     loadGuests();
-  }, [, open]);
+  }, [open]);
 
   // function createData(
   //   id,
@@ -120,15 +150,15 @@ function Guests() {
     <MuiPickersUtilsProvider utils={LuxonUtils}>
       {" "}
       <Heading heading="Guest Manager" />
-      <GuestTable rows={guests} open={handleOpen} />
-      <GuestButtons open={handleOpen} />
+      <GuestTable rows={filtered} open={handleOpen} />
+      <GuestButtons open={handleOpen} guests={guests} filter={setFiltered} />
       <GuestModal
         open={open}
         type={type}
         selected={selected}
         close={handleClose}
       />
-      <AddGuest addGuestRecord={addGuestRecord} />
+      {/* <AddGuest addGuestRecord={addGuestRecord} /> */}
     </MuiPickersUtilsProvider>
   );
 }
