@@ -31,7 +31,7 @@ export default function IconLabelButtons(props) {
         color="default"
         className={classes.button}
         startIcon={<AddBoxIcon />}
-        onClick={() => props.open("add")}
+        onClick={() => props.open("Add")}
       >
         Add Guest
       </Button>
@@ -40,7 +40,6 @@ export default function IconLabelButtons(props) {
         color="yellow"
         className={classes.button}
         startIcon={<UpdateIcon />}
-        onClick={() => props.open("update")}
       >
         Update
       </Button>

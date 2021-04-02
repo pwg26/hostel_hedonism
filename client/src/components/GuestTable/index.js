@@ -132,12 +132,13 @@ export default function GuestTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => {
                 let id = row.id;
+                console.log(row);
                 row.id = i + 1;
                 return (
                   <TableRow
                     hover
                     onClick={() =>
-                      props.open("update", {
+                      props.open("Update", {
                         firstName: row.firstName,
                         lastName: row.lastName,
                         country: row.country,
