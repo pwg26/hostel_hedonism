@@ -71,6 +71,7 @@ export default function GuestModal(props) {
     handleCheckinChange(new Date());
     handleCheckoutChange(new Date());
     setRoom("");
+    setFirst(true);
   }
 
   useEffect(() => {
