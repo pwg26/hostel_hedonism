@@ -14,9 +14,6 @@ export default {
   deleteGuest: function (id) {
     return axios.delete("/api/guests/" + id);
   },
-  getRooms: function () {
-    return axios.get("/api/rooms");
-  },
   saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
   },

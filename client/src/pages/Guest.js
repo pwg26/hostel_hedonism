@@ -127,7 +127,7 @@ function Guests() {
         selected={selected}
         close={handleClose}
       />
-      <AddGuest addGuestRecord={addGuestRecord} />
+      {/* <AddGuest addGuestRecord={addGuestRecord} /> */}
     </MuiPickersUtilsProvider>
   );
 }

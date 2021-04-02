@@ -55,29 +55,30 @@ export default function RoomModal(props) {
     number: "",
     name: "",
     rate: "",
+    capacity: "",
   });
-  const [guests, setRooms] = useState([]);
-  const [guest, setGuest] = useState("");
+  // const [guests, setGuests] = useState([]);
+  // const [guest, setGuest] = useState("");
 
-  const handleChange = (event) => {
-    setGuest(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setRoom(event.target.value);
+  // };
 
-  useEffect(() => {
-    const loadGuests = () => {
-      API.getGuests().then((res) => {
-        console.log(res);
-        setGuests(
-          res.data.map((guest) => {
-            //console.log(room);
-            //room.test = "blank";
-            return guest;
-          })
-        );
-      });
-    };
-    loadGuests();
-  }, []);
+  // useEffect(() => {
+  //   const loadGuests = () => {
+  //     API.getGuests().then((res) => {
+  //       console.log(res);
+  //       setGuests(
+  //         res.data.map((guest) => {
+  //           //console.log(room);
+  //           //room.test = "blank";
+  //           return guest;
+  //         })
+  //       );
+  //     });
+  //   };
+  //   loadGuests();
+  // }, []);
 
   useEffect(() => {
     if (props.type === "update") {
@@ -87,8 +88,9 @@ export default function RoomModal(props) {
         number: props.selected.number,
         name: props.selected.name,
         rate: props.selected.rate,
+        capacity: props.selected.capacity,
       });
-      setGuest(props.selected.guesyId);
+      // setGuest(props.selected.guesyId);
     }
   });
 
@@ -133,7 +135,16 @@ export default function RoomModal(props) {
           variant="outlined"
           onChange={handleInputChange}
         />
-        <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
+        <TextField
+          id="outlined-capacity"
+          label="capacity"
+          name="capacity"
+          value={formObject.capacity}
+          autoComplete="off"
+          variant="outlined"
+          onChange={handleInputChange}
+        />
+        {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
           labelId="guest-select-outlined-label"
           id="guest-select-outlined"
@@ -148,18 +159,13 @@ export default function RoomModal(props) {
               </MenuItem>
             );
           })}
-        </Select>
+        </Select> */}
       </form>
       <Button
         onClick={() => {
           console.log(formObject);
           API.saveRoom({
-            guest: formObject,
-            reservation: {
-              room: room,
-              checkIn: checkInDate,
-              checkOut: checkOutDate,
-            },
+            room: formObject,
           });
           setFormObject({});
           props.close();
