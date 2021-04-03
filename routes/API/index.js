@@ -12,6 +12,8 @@ router
   .get(guestController.findRooms)
   .post(guestController.createRooms);
 
+router.route("/guests/rooms").get(guestController.roomsByGuests);
+
 router.route("/guests/:id").delete(guestController.deleteGuest);
 
 router
