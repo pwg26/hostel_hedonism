@@ -30,5 +30,5 @@ export default function TextButtons(props) {
         Add Room
       </Button>
     </div>
-  )
+  );
 }

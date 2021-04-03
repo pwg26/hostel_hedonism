@@ -53,14 +53,13 @@ export default function Rooms() {
       });
     };
     loadRooms();
-  }, [, open]);
+  }, [open]);
 
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
   return (
-
-      <>
-      <Heading heading="Rooms" />  
+    <>
+      <Heading heading="Rooms" />
 
       <Capacity />
       <RoomCard rooms={rooms} open={handleOpen} />

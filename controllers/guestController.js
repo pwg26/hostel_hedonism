@@ -127,14 +127,24 @@ module.exports = {
   },
   createItem: function (req, res) {
     console.log(req.body);
-    db.Guest.create(...req.body.item).then((dbItem) => res.json(dbItem));
-    res.json("test");
+    //create reservation with sent dates and room id
+    db.Store.create({
+      ...req.body.room,
+    }).then((room) => res.json(room));
   },
+
   updateItem: function (req, res) {
     console.log(req.body);
-    db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.item).then((data) =>
-      res.json(data)
-    );
+    db.Store.findOneAndUpdate(
+      { _id: req.body.id },
+      req.body.item
+    ).then((data) => res.json(data));
+  },
+  deleteItem: function (req, res) {
+    console.log(req.params.id);
+    db.Store.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    }).then((result) => res.json(req.params.id));
   },
 
   // Room ========================================================================
