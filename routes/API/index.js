@@ -24,7 +24,7 @@ router
   .get(guestController.findItems)
   .put(guestController.updateItem)
   .post(guestController.createItem);
-router.route("/room/:id").delete(guestController.deleteRoom);
+//router.route("/room/:id").delete(guestController.deleteRoom);
 
 router.route("/login").post(guestController.login);
 
