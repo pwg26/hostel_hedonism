@@ -20,19 +20,19 @@ const MenuPopupState = (props) => {
   return (
     <div>
       <div id="container">
-        <Button component={Link} to="/dashboard" variant="contained" color="primary" id="button">
+        <Button component={Link} to="/dashboard" variant="contained" color="#fff" id="button">
           Dashboard
         </Button>
-        <Button component={Link} to="/guests" variant="contained" color="primary" id="button">
+        <Button component={Link} to="/guests" variant="contained" color="#fff" id="button">
           Guest Manager
         </Button>
-        <Button component={Link} to="/rooms" variant="contained" color="primary" id="button">
+        <Button component={Link} to="/rooms" variant="contained" color="#fff" id="button">
           Room Manager
         </Button>
-        <Button component={Link} to="/activity" variant="contained" color="primary" id="button">
+        <Button component={Link} to="/activity" variant="contained" color="#fff" id="button">
           Activity Manager
         </Button>
-        <Button component={Link} to="/store" variant="contained" color="primary" id="button">
+        <Button component={Link} to="/store" variant="contained" color="#fff" id="button">
           Store
         </Button>
         <Button

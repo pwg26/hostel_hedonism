@@ -48,6 +48,7 @@ export default function RoomCard(props) {
 
       {/* <Buttons/> */}
 
+
       {props.rooms.map((cardComp, i) => {
         let id = cardComp.id;
 
@@ -99,6 +100,46 @@ export default function RoomCard(props) {
                   <br />
                 </Typography>
                 {/* <Typography variant="body2" component="p">
+
+      {props.rooms.map((cardComp) => (
+        <>
+          <Card
+            style={{
+              width: "300px",
+              display: "inline-block",
+              paddingLeft: "30px",
+              backgroundColor: "#ff80ab",
+              border: '3px solid',
+            }}
+            className={classes.root}
+            variant="outlined"
+          >
+            <CardContent>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                Room:
+                {cardComp.name}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                Room #: {cardComp.number}
+              </Typography>
+              <Typography
+                className={classes.pos}
+                color="textSecondary"
+              ></Typography>
+              <Typography variant="body2" component="p">
+                Rate: {cardComp.rate}
+                <br />
+              </Typography>
+              <Typography variant="body2" component="p">
+                Room Capacity: {cardComp.capacity}
+                <br />
+              </Typography>
+              {/* <Typography variant="body2" component="p">
+
                 <ul>{numberList(cardComp.guests)}</ul>
                 <br />
               </Typography> */}
