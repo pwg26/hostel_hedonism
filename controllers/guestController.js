@@ -11,6 +11,7 @@ module.exports = {
       .catch((err) => res.json(false));
   },
 
+  // Guest controller ============================================================================
   findGuests: function (req, res) {
     db.Guest.find({})
       .populate({ path: "reservation", populate: { path: "room" } })
@@ -24,6 +25,7 @@ module.exports = {
       .populate({ path: "room" })
       .then((data) => res.json(data));
   },
+
   deleteGuest: function (req, res) {
     console.log(req.params.id);
     db.Guest.findOneAndRemove({
@@ -54,6 +56,8 @@ module.exports = {
       }
     );
   },
+
+  //  Room query controller ====================================================================
   roomsByGuests: function (req, res) {
     db.Guest.aggregate()
       .lookup({
@@ -87,6 +91,7 @@ module.exports = {
         console.log(data);
         res.json(data);
       });
+
     // .group({
     //   _id: "$reservation",
     //   count: { $sum: 1 },
@@ -114,6 +119,9 @@ module.exports = {
     // })
     // .catch((err) => console.log(err));
   },
+
+  // Item Controller ==============================================================
+
   findItems: function (req, res) {
     db.Store.find({}).then((data) => res.json(data));
   },
@@ -122,7 +130,14 @@ module.exports = {
     db.Guest.create(...req.body.item).then((dbItem) => res.json(dbItem));
     res.json("test");
   },
+  updateItem: function (req, res) {
+    console.log(req.body);
+    db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.item).then((data) =>
+      res.json(data)
+    );
+  },
 
+  // Room ========================================================================
   findRooms: function (req, res) {
     db.Room.find({}).then((data) => res.json(data));
   },
@@ -133,5 +148,17 @@ module.exports = {
     db.Room.create({
       ...req.body.room,
     }).then((room) => res.json(room));
+  },
+
+  updateRoom: function (req, res) {
+    db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.room).then((data) =>
+      res.json(data)
+    );
+  },
+  deleteRoom: function (req, res) {
+    console.log(req.params.id);
+    db.Room.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    }).then((result) => res.json(req.params.id));
   },
 };
