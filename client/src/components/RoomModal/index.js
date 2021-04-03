@@ -89,6 +89,7 @@ export default function RoomModal(props) {
   }
 
   function submitForm() {
+    console.log("TYPE:", props.type);
     props.type === "Add"
       ? API.saveRoom({
           room: formObject,
@@ -112,7 +113,7 @@ export default function RoomModal(props) {
       });
       // setGuest(props.selected.guesyId);
     }
-  });
+  }, [props.type, props.selected]);
 
   function handleInputChange(event) {
     const { name, value } = event.target;

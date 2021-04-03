@@ -48,10 +48,9 @@ export default function RoomCard(props) {
 
       {/* <Buttons/> */}
 
-
       {props.rooms.map((cardComp, i) => {
         let id = cardComp.id;
-
+        console.log(cardComp);
         cardComp.id = i + 1;
 
         return (
@@ -71,7 +70,7 @@ export default function RoomCard(props) {
                 display: "inline-block",
                 paddingLeft: "30px",
                 backgroundColor: "#FF80AB",
-                border: '7px solid',
+                border: "7px solid",
               }}
               className={classes.root}
               variant="outlined"
