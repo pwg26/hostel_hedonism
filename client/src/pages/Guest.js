@@ -64,7 +64,7 @@ function Guests() {
 
     API.getRoomInfo().then((res) => {
       console.log("Joined");
-      console.log(res);
+      console.log(res.data);
     });
   }, [open]);
 
