@@ -58,7 +58,7 @@ export default function RoomCard(props) {
               width: "300px",
               display: "inline-block",
               paddingLeft: "30px",
-              backgroundColor: "#6FFFE9",
+              backgroundColor: "#ff80ab",
               border: '3px solid',
             }}
             className={classes.root}

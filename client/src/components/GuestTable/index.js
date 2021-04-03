@@ -115,12 +115,12 @@ export default function GuestTable(props) {
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="guest table">
           <TableHead>
-            <TableRow style={{color: 'black'}} >
+            <TableRow style={{ color: 'black' }} >
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth, background: 'black', color: 'white' }}
                 >
                   {column.label}
                 </TableCell>

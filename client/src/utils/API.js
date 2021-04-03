@@ -10,7 +10,6 @@ export default {
   updateGuest: function (guestData) {
     return axios.put("/api/guests", guestData);
   },
-
   deleteGuest: function (id) {
     return axios.delete("/api/guests/" + id);
   },
