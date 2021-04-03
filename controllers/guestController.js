@@ -128,20 +128,21 @@ module.exports = {
   createItem: function (req, res) {
     console.log(req.body);
     //create reservation with sent dates and room id
-    db.Room.create({
+    db.Store.create({
       ...req.body.room,
     }).then((room) => res.json(room));
   },
 
   updateItem: function (req, res) {
     console.log(req.body);
-    db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.item).then((data) =>
-      res.json(data)
-    );
+    db.Store.findOneAndUpdate(
+      { _id: req.body.id },
+      req.body.item
+    ).then((data) => res.json(data));
   },
   deleteItem: function (req, res) {
     console.log(req.params.id);
-    db.Room.findOneAndRemove({
+    db.Store.findOneAndRemove({
       _id: mongoose.Types.ObjectId(req.params.id),
     }).then((result) => res.json(req.params.id));
   },
