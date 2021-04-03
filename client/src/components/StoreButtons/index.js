@@ -33,25 +33,6 @@ export default function IconLabelButtons() {
       >
        Add Item
       </Button>
-      <Button
-        variant="contained"
-        color="default"
-        className={classes.button}
-        startIcon={<UpdateIcon />}
-      >
-        Modify Item 
-      </Button>
-      <Button
-        variant="contained"
-       
-        color="yellow"
-        className={classes.button}
-        startIcon={<DeleteIcon />}
-      >
-        Delete Item
-      </Button>
-     
-    
     </div>
     </>
 

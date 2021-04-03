@@ -29,17 +29,6 @@ export default function TextButtons(props) {
       >
         Add Room
       </Button>
-      <Button variant="contained" className={classes.button}>
-        Modify Room
-      </Button>
-      <Button
-        variant="contained"
-        color="grey"
-        className={classes.button}
-        startIcon={<DeleteIcon />}
-      >
-        Delete Room
-      </Button>
     </div>
-  );
+  )
 }
