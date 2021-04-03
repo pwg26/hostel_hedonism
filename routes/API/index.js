@@ -24,11 +24,7 @@ router
   .get(guestController.findItems)
   .put(guestController.updateItem)
   .post(guestController.createItem);
-<<<<<<< HEAD
-//router.route("/room/:id").delete(guestController.deleteRoom);
-=======
 router.route("/store/:id").delete(guestController.deleteItem);
->>>>>>> master
 
 router.route("/login").post(guestController.login);
 
