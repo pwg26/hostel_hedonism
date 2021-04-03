@@ -11,6 +11,7 @@ import API from "../utils/API";
 import Buttons from "../components/CardButtons";
 import Capacity from "../components/Capacity";
 import RoomModal from "../components/RoomModal";
+import Heading from "../components/ Heading";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -57,8 +58,8 @@ export default function Rooms() {
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
   return (
-      <>
-          
+    <>
+      <Heading heading="Room Manager" />
       <Capacity />
       <RoomCard rooms={rooms} open={handleOpen} />
       <Buttons open={handleOpen} />

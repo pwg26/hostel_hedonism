@@ -47,15 +47,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RoomModal(props) {
+export default function ItemModal(props) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [formObject, setFormObject] = useState({
-    number: "",
     name: "",
-    rate: "",
-    capacity: "",
+    description: "",
+    cost: "",
+    quantity: "",
   });
   // const [guests, setGuests] = useState([]);
   // const [guest, setGuest] = useState("");
@@ -81,21 +81,21 @@ export default function RoomModal(props) {
   // }, []);
   function clearForm() {
     setFormObject({
-      number: "",
       name: "",
-      rate: "",
-      capacity: "",
+      description: "",
+      cost: "",
+      quantity: "",
     });
   }
 
   function submitForm() {
     props.type === "Add"
-      ? API.saveRoom({
-          room: formObject,
+      ? API.saveItem({
+          item: formObject,
         }).then(() => props.close())
-      : API.updateRoom({
+      : API.updateItem({
           id: props.selected.id,
-          room: formObject,
+          item: formObject,
         }).then(() => props.close());
     clearForm();
   }
@@ -105,10 +105,10 @@ export default function RoomModal(props) {
       console.log("UPDATE");
       console.log(props.selected);
       setFormObject({
-        number: props.selected.number,
         name: props.selected.name,
-        rate: props.selected.rate,
-        capacity: props.selected.capacity,
+        description: props.selected.description,
+        cost: props.selected.cost,
+        quantity: props.selected.quantity,
       });
       // setGuest(props.selected.guesyId);
     }
@@ -119,8 +119,8 @@ export default function RoomModal(props) {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  function deleteRoom() {
-    API.deleteRoom(props.selected.id);
+  function deleteItem() {
+    API.deleteItem(props.selected.id);
     clearForm();
     props.close();
   }
@@ -128,17 +128,8 @@ export default function RoomModal(props) {
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">{props.type}</h2>
-      <h2 id="simple-modal-title">Enter Room information</h2>
+      <h2 id="simple-modal-title">Enter Item information</h2>
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="outlined-number"
-          autoComplete="off"
-          label="Number"
-          name="number"
-          value={formObject.number}
-          variant="outlined"
-          onChange={handleInputChange}
-        />
         <TextField
           id="outlined-name"
           label="Name"
@@ -149,19 +140,28 @@ export default function RoomModal(props) {
           onChange={handleInputChange}
         />
         <TextField
-          id="outlined-rate"
-          label="rate"
-          name="rate"
-          value={formObject.rate}
+          id="outlined-desctiption"
+          label="Description"
+          name="description"
+          value={formObject.description}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
         />
         <TextField
-          id="outlined-capacity"
-          label="capacity"
+          id="outlined-cost"
+          label="Cost"
           name="capacity"
           value={formObject.capacity}
+          autoComplete="off"
+          variant="outlined"
+          onChange={handleInputChange}
+        />
+        <TextField
+          id="outlined-quantity"
+          label="Quantity"
+          name="quantity"
+          value={formObject.quantity}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
@@ -177,7 +177,7 @@ export default function RoomModal(props) {
           {guests.map((guest) => {
             return (
               <MenuItem key={guest._id} value={guest._id}>
-                {guest._id}
+                {guest._id}å
               </MenuItem>
             );
           })}
@@ -185,7 +185,7 @@ export default function RoomModal(props) {
       </form>
       <Button onClick={submitForm}>Submit</Button>
       {props.type === "Update" ? (
-        <Button onClick={deleteRoom}>Delete Room</Button>
+        <Button onClick={deleteItem}>Delete Item</Button>
       ) : (
         <></>
       )}
