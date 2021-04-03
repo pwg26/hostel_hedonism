@@ -58,8 +58,10 @@ export default function Rooms() {
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
   return (
+
       <>
       <Heading heading="Rooms" />  
+
       <Capacity />
       <RoomCard rooms={rooms} open={handleOpen} />
       <Buttons open={handleOpen} />
