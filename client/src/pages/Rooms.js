@@ -55,7 +55,7 @@ export default function Rooms() {
       });
     };
     loadRooms();
-  }, [, open]);
+  }, [open]);
 
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
