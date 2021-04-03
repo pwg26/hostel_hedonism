@@ -25,7 +25,7 @@ export default function TextButtons(props) {
         color="default"
         className={classes.button}
         startIcon={<AddBoxIcon />}
-        onClick={() => props.open("add")}
+        onClick={() => props.open("Add")}
       >
         Add Item
       </Button>

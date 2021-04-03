@@ -18,6 +18,8 @@ router
   .post(guestController.createRooms);
 router.route("/rooms/:id").delete(guestController.deleteRoom);
 
+router.route("/rooms/guests").get(guestController.roomsByGuests);
+
 // Store API routes================================
 router
   .route("/store")

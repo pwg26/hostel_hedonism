@@ -47,6 +47,7 @@ module.exports = {
     });
   },
   updateGuest: function (req, res) {
+    console.log(req.body);
     db.Guest.findOneAndUpdate({ _id: req.body.id }, req.body.guest).then(
       (guest) => {
         db.Reservation.findOneAndUpdate(
@@ -126,10 +127,11 @@ module.exports = {
     db.Store.find({}).then((data) => res.json(data));
   },
   createItem: function (req, res) {
+    console.log("CREATE ITEM");
     console.log(req.body);
     //create reservation with sent dates and room id
     db.Store.create({
-      ...req.body.room,
+      ...req.body.item,
     }).then((room) => res.json(room));
   },
 
@@ -153,6 +155,7 @@ module.exports = {
   },
 
   createRooms: function (req, res) {
+    console.log("ADD");
     console.log(req.body);
     //create reservation with sent dates and room id
     db.Room.create({
@@ -161,6 +164,8 @@ module.exports = {
   },
 
   updateRoom: function (req, res) {
+    console.log("UPDATE");
+    console.log(req.body);
     db.Room.findOneAndUpdate({ _id: req.body.id }, req.body.room).then((data) =>
       res.json(data)
     );

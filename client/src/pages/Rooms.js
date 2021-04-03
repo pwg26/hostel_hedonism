@@ -26,6 +26,7 @@ export default function Rooms() {
   const [type, setType] = useState("");
   const [selected, setSelected] = useState({});
   const handleOpen = (type, selected = {}) => {
+    //console.log(type, selected);
     setType(type);
     setSelected(selected);
     setOpen(true);
@@ -46,6 +47,7 @@ export default function Rooms() {
               name: room.name,
               rate: room.rate,
               capacity: room.capacity,
+              id: room._id,
               //guests: room.guests.lastName,
             };
           })

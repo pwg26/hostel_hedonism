@@ -17,7 +17,8 @@ export default {
     return axios.post("/api/rooms", roomData);
   },
   updateRoom: function (roomData) {
-    return axios.post("/api/rooms", roomData);
+    console.log(roomData);
+    return axios.put("/api/rooms", roomData);
   },
   deleteRoom: function (id) {
     return axios.delete("/api/rooms/" + id);
@@ -26,7 +27,7 @@ export default {
     return axios.get("/api/rooms");
   },
   getRoomInfo: function () {
-    return axios.get("/api/guests/rooms");
+    return axios.get("/api/rooms/guests");
   },
   login: function (creds) {
     return axios.post("/api/login", creds);
@@ -35,6 +36,7 @@ export default {
     return axios.get("/api/store");
   },
   saveItem: function (itemData) {
+    console.log("CREATE ITEM", itemData);
     return axios.post("/api/store", itemData);
   },
   updateItem: function (itemData) {

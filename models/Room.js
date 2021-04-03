@@ -18,12 +18,6 @@ const roomSchema = new Schema({
     type: Number,
     required: true,
   },
-  guests: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Guest",
-    },
-  ],
 });
 
 const Room = mongoose.model("Room", roomSchema);
