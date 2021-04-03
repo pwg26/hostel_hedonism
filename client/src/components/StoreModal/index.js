@@ -151,8 +151,8 @@ export default function ItemModal(props) {
         <TextField
           id="outlined-cost"
           label="Cost"
-          name="capacity"
-          value={formObject.capacity}
+          name="cost"
+          value={formObject.cost}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}

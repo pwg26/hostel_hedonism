@@ -71,7 +71,6 @@ export default function IconLabelButtons(props) {
       </Button>
       <Button
         variant="contained"
-
         color="default"
         className={classes.button}
         startIcon={<AddBoxIcon />}

@@ -37,4 +37,10 @@ export default {
   saveItem: function (itemData) {
     return axios.post("/api/store", itemData);
   },
+  updateItem: function (itemData) {
+    return axios.put("/api/store", itemData);
+  },
+  deleteItem: function (id) {
+    return axios.delete("/api/store/" + id);
+  },
 };
