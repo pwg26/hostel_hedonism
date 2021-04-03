@@ -79,9 +79,29 @@ export default function RoomModal(props) {
   //   };
   //   loadGuests();
   // }, []);
+  function clearForm() {
+    setFormObject({
+      number: "",
+      name: "",
+      rate: "",
+      capacity: "",
+    });
+  }
+
+  function submitForm() {
+    props.type === "Add"
+      ? API.saveGuest({
+          room: formObject,
+        }).then(() => props.close())
+      : API.updateGuest({
+          id: props.selected.id,
+          room: formObject,
+        }).then(() => props.close());
+    clearForm();
+  }
 
   useEffect(() => {
-    if (props.type === "update") {
+    if (props.type === "Update") {
       console.log("UPDATE");
       console.log(props.selected);
       setFormObject({
@@ -101,12 +121,14 @@ export default function RoomModal(props) {
 
   function deleteRoom() {
     API.deleteRoom(props.selected.id);
+    clearForm();
     props.close();
   }
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Enter guest information</h2>
+      <h2 id="simple-modal-title">{props.type}</h2>
+      <h2 id="simple-modal-title">Enter Room information</h2>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="outlined-number"
@@ -161,18 +183,7 @@ export default function RoomModal(props) {
           })}
         </Select> */}
       </form>
-      <Button
-        onClick={() => {
-          console.log(formObject);
-          API.saveRoom({
-            room: formObject,
-          });
-          setFormObject({});
-          props.close();
-        }}
-      >
-        Submit
-      </Button>
+      <Button onClick={submitForm}>Submit</Button>
       {props.type === "Update" ? (
         <Button onClick={deleteRoom}>Delete Room</Button>
       ) : (

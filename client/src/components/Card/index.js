@@ -56,7 +56,6 @@ export default function RoomCard(props) {
         return (
           <>
             <Card
-              hover
               onClick={() =>
                 props.open("Update", {
                   name: cardComp.name,
