@@ -89,6 +89,10 @@ function Guests() {
       });
     };
     loadGuests();
+    API.getRoomInfo().then((res) => {
+      console.log("Joined");
+      console.log(res);
+    });
   }, [open]);
 
   return (

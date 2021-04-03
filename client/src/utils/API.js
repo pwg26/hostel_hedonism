@@ -26,6 +26,9 @@ export default {
   getRooms: function () {
     return axios.get("/api/rooms");
   },
+  getRoomInfo: function () {
+    return axios.get("/api/guests/rooms");
+  },
   login: function (creds) {
     return axios.post("/api/login", creds);
   },
