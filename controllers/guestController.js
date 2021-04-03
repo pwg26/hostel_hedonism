@@ -127,10 +127,11 @@ module.exports = {
     db.Store.find({}).then((data) => res.json(data));
   },
   createItem: function (req, res) {
+    console.log("CREATE ITEM");
     console.log(req.body);
     //create reservation with sent dates and room id
     db.Store.create({
-      ...req.body.room,
+      ...req.body.item,
     }).then((room) => res.json(room));
   },
 

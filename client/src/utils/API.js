@@ -36,6 +36,7 @@ export default {
     return axios.get("/api/store");
   },
   saveItem: function (itemData) {
+    console.log("CREATE ITEM", itemData);
     return axios.post("/api/store", itemData);
   },
   updateItem: function (itemData) {
