@@ -69,6 +69,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import LocationOn from "@material-ui/icons/LocationOn";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import Notes from "@material-ui/icons/Notes";
 import Close from "@material-ui/icons/Close";
 import CalendarToday from "@material-ui/icons/CalendarToday";
@@ -312,6 +313,52 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 }
 
+const Header = withStyles(containerStyles, { name: "Header" })(
+  ({ children, appointmentData, classes, ...restProps }) => (
+    <AppointmentTooltip.Header
+      {...restProps}
+      className={classes.header}
+      appointmentData={appointmentData}
+    >
+      <IconButton
+        /* eslint-disable-next-line no-alert */
+        onClick={() => alert(appointmentData.id)}
+        className={classes.commandButton}
+      >
+        <AssignmentIcon />
+      </IconButton>
+    </AppointmentTooltip.Header>
+  )
+);
+
+const CommandButton = withStyles(containerStyles, {
+  name: "CommandButton",
+})(({ classes, ...restProps }) => (
+  <AppointmentTooltip.CommandButton
+    {...restProps}
+    className={classes.commandButton}
+  />
+));
+
+const Content = withStyles(containerStyles, { name: "Content" })(
+  ({ children, appointmentData, classes, ...restProps }) => {
+    console.log(children);
+    console.log(appointmentData);
+    console.log(classes);
+    console.log(restProps);
+    return (
+      <AppointmentTooltip.Content
+        {...restProps}
+        appointmentData={appointmentData}
+      >
+        <p>{JSON.stringify(appointmentData)}</p>
+        {/* <p>Children: {children}</p> */}
+        <p>{JSON.stringify(restProps)}</p>
+      </AppointmentTooltip.Content>
+    );
+  }
+);
+
 const AppointmentFormContainer = withStyles(containerStyles, {
   name: "AppointmentFormContainer",
 })(AppointmentFormContainerBasic);
@@ -368,19 +415,44 @@ class Demo extends React.PureComponent {
 
     this.componentDidMount = () => {
       API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
+        API.getGuests().then((guests) => {
+          console.log(guests.data);
+          let data = res.data.map((activity) => {
+            let filteredGuests = guests.data.filter((guest) => {
+              console.log(
+                new Date(guest.reservation.checkIn) <
+                  new Date(activity.startDate) &&
+                  new Date(guest.reservation.checkOut) >
+                    new Date(activity.endDate)
+              );
+              console.log(
+                new Date(guest.reservation.checkIn),
+                new Date(activity.startDate),
+                new Date(guest.reservation.checkOut),
+                new Date(activity.endDate)
+              );
+              return (
+                new Date(guest.reservation.checkIn) <
+                  new Date(activity.startDate) &&
+                new Date(guest.reservation.checkOut) >
+                  new Date(activity.endDate)
+              );
+            });
+            console.log(filteredGuests);
+            return {
+              title: activity.title,
+              cost: activity.cost,
+              startDate: activity.startDate,
+              endDate: activity.endDate,
+              location: activity.location,
+              notes: activity.notes,
+              id: activity._id,
+              guests: filteredGuests,
+            };
+          });
+          console.log(data);
+          this.setState({ ...this.state, data: data });
         });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
       });
     };
 
@@ -541,7 +613,14 @@ class Demo extends React.PureComponent {
           <AllDayPanel />
           <EditRecurrenceMenu />
           <Appointments />
-          <AppointmentTooltip showOpenButton showCloseButton showDeleteButton />
+          <AppointmentTooltip
+            headerComponent={Header}
+            commandButtonComponent={CommandButton}
+            contentComponent={Content}
+            showOpenButton
+            showCloseButton
+            showDeleteButton
+          />
           <Toolbar />
           <ViewSwitcher />
           <AppointmentForm
