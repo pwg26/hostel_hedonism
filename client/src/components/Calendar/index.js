@@ -365,6 +365,24 @@ class Demo extends React.PureComponent {
       this
     );
 
+    this.componentDidMount = () => {
+      API.getActivities().then((res) => {
+        let data = res.data.map((activity) => {
+          return {
+            title: activity.title,
+            cost: activity.cost,
+            startDate: activity.startDate,
+            endDate: activity.endDate,
+            location: activity.location,
+            notes: activity.notes,
+            id: activity._id,
+          };
+        });
+        console.log(data);
+        this.setState({ ...this.state, data: data });
+      });
+    };
+
     this.commitChanges = this.commitChanges.bind(this);
     this.onEditingAppointmentChange = this.onEditingAppointmentChange.bind(
       this

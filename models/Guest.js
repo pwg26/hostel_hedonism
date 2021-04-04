@@ -39,6 +39,13 @@ const guestSchema = new Schema({
       ref: "Activity",
     },
   ],
+
+  purchases: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Store",
+    },
+  ],
 });
 
 const Guest = mongoose.model("Guest", guestSchema);

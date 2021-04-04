@@ -24,6 +24,8 @@ function getModalStyle() {
   };
 }
 
+const Luxon = new LuxonUtils();
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
@@ -61,12 +63,15 @@ export default function GuestModal(props) {
     checkOut: false,
   });
   const [rooms, setRooms] = useState([]);
+  const [available, setAvailable] = useState([]);
   const [room, setRoom] = useState("");
 
-  const [checkInDate, handleCheckinChange] = useState(new Date());
+  const [checkInDate, handleCheckinChange] = useState(Luxon.date());
   const [checkOutDate, handleCheckoutChange] = useState(
-    new Date(Date.now() + 8.64e7)
+    Luxon.addDays(Luxon.date(), 1)
   );
+
+  const limit = Luxon.addDays(Luxon.date(), 1);
 
   const handleChange = (event) => {
     setRoom(event.target.value);
@@ -78,8 +83,9 @@ export default function GuestModal(props) {
       lastName: "",
       country: "",
     });
-    handleCheckinChange(new Date());
-    handleCheckoutChange(new Date(Date.now() + 8.64e7));
+    handleCheckinChange(Luxon.date());
+    handleCheckoutChange(Luxon.addDays(Luxon.date(), 1));
+    setAvailable(rooms);
     setRoom("");
     setFirst(true);
     setMarkers({
@@ -136,9 +142,17 @@ export default function GuestModal(props) {
 
   useEffect(() => {
     const loadRooms = () => {
-      API.getRooms().then((res) => {
-        console.log(res);
+      API.getRoomInfo().then((res) => {
+        console.log("Joined");
+        console.log(res.data);
         setRooms(
+          res.data.map((room) => {
+            //console.log(room);
+            //room.test = "blank";
+            return room;
+          })
+        );
+        setAvailable(
           res.data.map((room) => {
             //console.log(room);
             //room.test = "blank";
@@ -148,7 +162,7 @@ export default function GuestModal(props) {
       });
     };
     loadRooms();
-  }, []);
+  }, [props.open]);
 
   useEffect(() => {
     clearForm();
@@ -161,8 +175,10 @@ export default function GuestModal(props) {
         country: props.selected.country,
       });
       setRoom(props.selected.roomId);
-      handleCheckinChange(new Date(props.selected.dateIn));
-      handleCheckoutChange(new Date(props.selected.dateOut));
+      dateChanger(
+        Luxon.date(props.selected.dateIn),
+        Luxon.date(props.selected.dateOut)
+      );
     }
   }, [props.selected, props.type]);
 
@@ -175,6 +191,45 @@ export default function GuestModal(props) {
     API.deleteGuest(props.selected.id);
     clearForm();
     props.close();
+  }
+
+  function dateChanger(checkin, checkout, change) {
+    console.log(Luxon);
+    checkin = Luxon.date(checkin);
+    checkout = Luxon.date(checkout);
+    console.log(checkin, checkout);
+    console.log(checkin.day, checkout.day);
+    console.log(rooms);
+    if (checkin.day >= checkout.day && change === "in") {
+      console.log("Checkin");
+      checkout = Luxon.addDays(Luxon.date(checkin), 1);
+      console.log(checkout);
+      handleCheckoutChange(checkout);
+    }
+    if (checkin.day >= checkout.day && change === "out") {
+      console.log("Checkout");
+      checkin = Luxon.addDays(Luxon.date(checkout), -1);
+      handleCheckinChange(checkin);
+    }
+    let filter = rooms.filter((room) => {
+      let occupied = room.guests.filter((guest) => {
+        console.log(guest);
+        return (
+          (Luxon.date(guest.checkOut) > checkin &&
+            Luxon.date(guest.checkIn) < checkin) ||
+          (Luxon.date(guest.checkOut) > checkout &&
+            Luxon.date(guest.checkIn) < checkout)
+        );
+      });
+      console.log("occupants: " + occupied.length);
+      console.log("capacity: " + room.capacity);
+      console.log(occupied);
+      return room.capacity > occupied.length;
+    });
+    console.log(filter);
+    setAvailable(filter);
+    handleCheckinChange(checkin);
+    handleCheckoutChange(checkout);
   }
 
   const firstBody = (
@@ -240,7 +295,7 @@ export default function GuestModal(props) {
           onChange={handleChange}
           label="Room"
         >
-          {rooms.map((room) => {
+          {available.map((room) => {
             return (
               <MenuItem key={room._id} value={room._id}>
                 {room.name}
@@ -253,12 +308,12 @@ export default function GuestModal(props) {
         <DatePicker
           disablePast
           value={checkInDate}
-          onChange={handleCheckinChange}
+          onChange={(day) => dateChanger(day, checkOutDate, "in")}
         />
         <DatePicker
-          minDate={checkOutDate}
+          minDate={limit}
           value={checkOutDate}
-          onChange={handleCheckoutChange}
+          onChange={(day) => dateChanger(checkInDate, day, "out")}
         />
       </MuiPickersUtilsProvider>
 
