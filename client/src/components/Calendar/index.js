@@ -77,22 +77,6 @@ import API from "../../utils/API";
 
 import appointments from "./appointments";
 
-// const appointments = () => {
-//   API.getActivities().then((res) => {
-//     res.data.map((activity) => {
-//       return {
-//         title: activity.title,
-//         cost: activity.cost,
-//         startDate: activity.startDate,
-//         endDate: activity.endDate,
-//         location: activity.location,
-//         notes: activity.notes,
-//         id: activity._id,
-//       };
-//     });
-//   });
-// };
-
 const containerStyles = (theme) => ({
   container: {
     width: theme.spacing(68),
@@ -355,6 +339,24 @@ class Demo extends React.PureComponent {
       startDayHour: 9,
       endDayHour: 19,
       isNewAppointment: false,
+    };
+
+    this.componentDidMount = () => {
+      API.getActivities().then((res) => {
+        let data = res.data.map((activity) => {
+          return {
+            title: activity.title,
+            cost: activity.cost,
+            startDate: activity.startDate,
+            endDate: activity.endDate,
+            location: activity.location,
+            notes: activity.notes,
+            id: activity._id,
+          };
+        });
+        console.log(data);
+        this.setState({ ...this.state, data: data });
+      });
     };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
