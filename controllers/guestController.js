@@ -188,6 +188,6 @@ module.exports = {
     //create activity with sent dates and room id
     db.Activity.create({
       ...req.body,
-    }).then((activity) => res.json(activity));
+    }).then((added) => res.json(added));
   },
 };

@@ -46,6 +46,9 @@ export default {
   deleteItem: function (id) {
     return axios.delete("/api/store/" + id);
   },
+  getActivities: function () {
+    return axios.get("/api/activity");
+  },
   saveActivity: function (actData) {
     console.log("CREATE ACT", actData);
     return axios.post("/api/activity", actData);
