@@ -69,7 +69,7 @@ function Guests() {
   }, [open]);
 
   return (
-    <MuiPickersUtilsProvider utils={LuxonUtils}>
+    <>
       {" "}
       <Heading heading="Guest Manager" />
       <GuestTable rows={guests} open={handleOpen} />
@@ -81,7 +81,7 @@ function Guests() {
         close={handleClose}
       />
       {/* <AddGuest addGuestRecord={addGuestRecord} /> */}
-    </MuiPickersUtilsProvider>
+    </>
   );
 }
 
