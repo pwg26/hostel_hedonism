@@ -75,21 +75,23 @@ import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
 import API from "../../utils/API";
 
-const appointments = () => {
-  API.getActivities().then((res) => {
-    res.data.map((activity) => {
-      return {
-        title: activity.title,
-        cost: activity.cost,
-        startDate: activity.startDate,
-        endDate: activity.endDate,
-        location: activity.location,
-        notes: activity.notes,
-        id: activity._id,
-      };
-    });
-  });
-};
+import appointments from "./appointments";
+
+// const appointments = () => {
+//   API.getActivities().then((res) => {
+//     res.data.map((activity) => {
+//       return {
+//         title: activity.title,
+//         cost: activity.cost,
+//         startDate: activity.startDate,
+//         endDate: activity.endDate,
+//         location: activity.location,
+//         notes: activity.notes,
+//         id: activity._id,
+//       };
+//     });
+//   });
+// };
 
 const containerStyles = (theme) => ({
   container: {
@@ -342,7 +344,7 @@ class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: appointments(),
+      data: appointments,
       currentDate: new Date(),
       confirmationVisible: false,
       editingFormVisible: false,
