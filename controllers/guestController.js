@@ -60,65 +60,66 @@ module.exports = {
 
   //  Room query controller ====================================================================
   roomsByGuests: function (req, res) {
-    db.Guest.aggregate()
+    //NEWER
+    db.Room.aggregate()
       .lookup({
         from: "reservations",
-        localField: "reservation",
-        foreignField: "_id",
+        localField: "_id",
+        foreignField: "room",
         as: "reservations",
       })
       .lookup({
-        from: "rooms",
-        localField: "reservations.room",
-        foreignField: "_id",
-        as: "Room",
+        from: "guests",
+        localField: "reservations._id",
+        foreignField: "reservation",
+        as: "Guests",
       })
       .group({
-        _id: { $first: "$Room" },
+        _id: "$$ROOT",
+
         guests: {
-          $push: {
-            $mergeObjects: [
-              {
-                name: { $concat: ["$firstName", " ", "$lastName"] },
-                checkIn: { $first: "$reservations.checkIn" },
-                checkOut: { $first: "$reservations.checkOut" },
+          $mergeObjects: {
+            further: {
+              $map: {
+                input: { $zip: { inputs: ["$Guests", "$reservations"] } },
+                as: "guest",
+                in: {
+                  $mergeObjects: [
+                    { $arrayElemAt: ["$$guest", 1] },
+                    { $arrayElemAt: ["$$guest", 0] },
+                  ],
+                },
               },
-            ],
+            },
           },
         },
       })
-      .project({ room: "$_id", guests: "$guests" })
+      .project({
+        _id: "$_id._id",
+        name: "$_id.name",
+        number: "$_id.number",
+        rate: "$_id.rate",
+        capacity: "$_id.capacity",
+        guests: {
+          $map: {
+            input: "$guests.further",
+            as: "guest",
+            in: {
+              $mergeObjects: [
+                { firstName: "$$guest.firstName" },
+                { lastName: "$$guest.lastName" },
+                { checkIn: "$$guest.checkIn" },
+                { checkOut: "$$guest.checkOut" },
+              ],
+            },
+          },
+        },
+      })
       .then((data) => {
         console.log(data);
         res.json(data);
-      });
-
-    // .group({
-    //   _id: "$reservation",
-    //   count: { $sum: 1 },
-    //   name: { $first: "$firstName" },
-    // })
-    // .project({
-    //   _id: "$_id",
-    //   reservation: "$_id",
-    //   name: "$name",
-    // })
-    // .then((data) => {
-    //   db.Reservation.populate(data, {
-    //     path: "reservation",
-
-    //     populate: { path: "room" },
-    //   }).then((reserves) => {
-    //     console.log(reserves);
-    //     // reserves
-    //     //   .aggregate()
-    //     //   .group({ _id: "$reservation.room", guests: { $push: "$name" } })
-    //     //   .then((grouped) => console.log(grouped));
-    //   });
-    //   //console.log(data);
-    //   res.json(data);
-    // })
-    // .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   },
 
   // Item Controller ==============================================================
