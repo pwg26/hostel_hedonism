@@ -75,7 +75,21 @@ import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
 import API from "../../utils/API";
 
-import { appointments } from "./appointments.js";
+const appointments = () => {
+  API.getActivities().then((res) => {
+    res.data.map((activity) => {
+      return {
+        title: activity.title,
+        cost: activity.cost,
+        startDate: activity.startDate,
+        endDate: activity.endDate,
+        location: activity.location,
+        notes: activity.notes,
+        id: activity._id,
+      };
+    });
+  });
+};
 
 const containerStyles = (theme) => ({
   container: {
@@ -249,6 +263,11 @@ class AppointmentFormContainerBasic extends React.PureComponent {
               <Create className={classes.icon} color="action" />
               <TextField {...textEditorProps("title")} />
             </div>
+            {/* added cost */}
+            <div className={classes.wrapper}>
+              <Create className={classes.icon} color="action" />
+              <TextField type="number" {...textEditorProps("cost")} />
+            </div>
             <div className={classes.wrapper}>
               <CalendarToday className={classes.icon} color="action" />
               <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -317,13 +336,13 @@ const styles = (theme) => ({
     right: theme.spacing(1) * 4,
   },
 });
-
+// ================================================================================= Calendar
 /* eslint-disable-next-line react/no-multi-comp */
 class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: appointments,
+      data: appointments(),
       currentDate: new Date(),
       confirmationVisible: false,
       editingFormVisible: false,
@@ -438,10 +457,12 @@ class Demo extends React.PureComponent {
         data = [...data, { id: startingAddedId, ...added }];
         API.saveActivity({
           title: added.title,
+          cost: added.cost,
           startDate: added.startDate,
           endDate: added.endDate,
           location: added.location,
           notes: added.notes,
+          id: added._id,
         });
       }
       if (changed) {
