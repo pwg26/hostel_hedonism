@@ -35,6 +35,7 @@ export default function Store() {
               description: item.description,
               cost: item.cost,
               quantity: item.quantity,
+              id: item._id,
             };
           })
         );

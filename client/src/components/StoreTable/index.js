@@ -102,6 +102,7 @@ export default function Roomtable(props) {
                         description: row.description,
                         cost: row.cost,
                         quantity: row.quantity,
+                        id: id,
                       })
                     }
                     role="checkbox"
