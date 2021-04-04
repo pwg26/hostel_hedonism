@@ -73,6 +73,7 @@ import Notes from "@material-ui/icons/Notes";
 import Close from "@material-ui/icons/Close";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
+import Heading from "../ Heading";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
@@ -512,9 +513,22 @@ class Demo extends React.PureComponent {
       endDayHour,
     } = this.state;
     const { classes } = this.props;
+    let end = new Date(currentDate);
+    end.setDate(end.getDate() + 7);
 
     return (
       <Paper>
+        <Heading
+          heading={`${currentDate.toLocaleDateString(undefined, {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })} - ${end.toLocaleDateString(undefined, {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}`}
+        />
         <Scheduler data={data} height={660}>
           <ViewState currentDate={currentDate} />
           <EditingState
