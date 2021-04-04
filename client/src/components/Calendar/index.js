@@ -329,7 +329,7 @@ class Demo extends React.PureComponent {
       previousAppointment: undefined,
       addedAppointment: {},
       startDayHour: 9,
-      endDayHour: 19,
+      endDayHour: 16,
       isNewAppointment: false,
     };
 
