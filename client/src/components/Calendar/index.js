@@ -391,24 +391,6 @@ class Demo extends React.PureComponent {
       isNewAppointment: false,
     };
 
-    this.componentDidMount = () => {
-      API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
-        });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
-      });
-    };
-
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility = this.toggleEditingFormVisibility.bind(
