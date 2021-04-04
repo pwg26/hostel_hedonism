@@ -11,6 +11,7 @@ import API from "../utils/API";
 
 function Guests() {
   const [guests, setGuests] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("");
   const [selected, setSelected] = useState({});
@@ -63,6 +64,41 @@ function Guests() {
             };
           })
         );
+        setFiltered(
+          res.data.map((guest) => {
+            const dayIn = new Date(guest.reservation.checkIn);
+            const dayOut = new Date(guest.reservation.checkOut);
+            const duration = Math.floor((dayOut - dayIn) / 8.64e7);
+            //console.log(duration);
+            const activities = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            const rent = duration * guest.reservation.room.rate;
+
+            // const Cart= guest.shoppingCart.reduce(
+            //   (sum, curr) => sum + curr.cost,
+            //   0
+            // );
+            //console.log(guest.reservation.room, guest.reservation.room.rate);
+            return {
+              firstName: guest.firstName,
+              lastName: guest.lastName,
+              id: guest._id,
+              country: guest.country,
+              dateIn: dayIn.toDateString(),
+              dateOut: dayOut.toDateString(),
+              duration: duration,
+              paid: guest.paid ? "Yes" : "No",
+              checkedIn: guest.checkedIn ? "Yes" : "No",
+              activities: activities,
+              rent: rent,
+              tab: `$ ${activities + rent}`,
+              room: guest.reservation.room.name,
+              roomId: guest.reservation.room._id,
+            };
+          })
+        );
       });
     };
     loadGuests();
@@ -72,8 +108,8 @@ function Guests() {
     <>
       {" "}
       <Heading heading="Guest Manager" />
-      <GuestTable rows={guests} open={handleOpen} />
-      <GuestButtons open={handleOpen} />
+      <GuestTable rows={filtered} open={handleOpen} />
+      <GuestButtons filter={setFiltered} open={handleOpen} guests={guests} />
       <GuestModal
         open={open}
         type={type}
