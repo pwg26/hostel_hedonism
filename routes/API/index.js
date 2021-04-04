@@ -28,6 +28,12 @@ router
   .post(guestController.createItem);
 router.route("/store/:id").delete(guestController.deleteItem);
 
+// activity API Routes=================================
+router
+  .route("/activity")
+  .get(guestController.findActivities)
+  .post(guestController.createActivity);
+
 router.route("/login").post(guestController.login);
 
 module.exports = router;

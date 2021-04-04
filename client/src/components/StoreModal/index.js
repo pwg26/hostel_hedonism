@@ -57,6 +57,13 @@ export default function ItemModal(props) {
     cost: "",
     quantity: "",
   });
+
+  const [markers, setMarkers] = useState({
+    name: false,
+    description: false,
+    cost: false,
+    quantity: false,
+  });
   // const [guests, setGuests] = useState([]);
   // const [guest, setGuest] = useState("");
 
@@ -89,15 +96,32 @@ export default function ItemModal(props) {
   }
 
   function submitForm() {
-    props.type === "Add"
-      ? API.saveItem({
-          item: formObject,
-        }).then(() => props.close())
-      : API.updateItem({
-          id: props.selected.id,
-          item: formObject,
-        }).then(() => props.close());
-    clearForm();
+    let newMarks = {};
+    newMarks.name = formObject.name === "" ? true : false;
+
+    newMarks.description = formObject.description === "" ? true : false;
+    newMarks.cost = formObject.cost === "" ? true : false;
+    newMarks.quantity = formObject.quantity === "" ? true : false;
+    setMarkers({ ...markers, ...newMarks });
+    console.log(markers, formObject);
+    if (
+      newMarks.name ||
+      newMarks.description ||
+      newMarks.cost ||
+      newMarks.quantity
+    ) {
+      console.log("Missing a field");
+    } else {
+      props.type === "Add"
+        ? API.saveItem({
+            item: formObject,
+          }).then(() => props.close())
+        : API.updateItem({
+            id: props.selected.id,
+            item: formObject,
+          }).then(() => props.close());
+      clearForm();
+    }
   }
 
   useEffect(() => {
@@ -112,7 +136,7 @@ export default function ItemModal(props) {
       });
       // setGuest(props.selected.guesyId);
     }
-  });
+  }, [props.type, props.selected]);
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -135,36 +159,47 @@ export default function ItemModal(props) {
           label="Name"
           name="name"
           value={formObject.name}
+          helperText={markers.name ? "Required" : " "}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.name}
         />
         <TextField
           id="outlined-desctiption"
           label="Description"
           name="description"
+          helperText={markers.description ? "Required" : " "}
           value={formObject.description}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.description}
         />
         <TextField
           id="outlined-cost"
+          type="number"
           label="Cost"
+          helperText={markers.cost ? "Required" : " "}
           name="cost"
           value={formObject.cost}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.cost}
         />
         <TextField
           id="outlined-quantity"
+          type="number"
           label="Quantity"
+          helperText={markers.quantity ? "Required" : " "}
+          type="number"
           name="quantity"
           value={formObject.quantity}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
+          error={markers.quantity}
         />
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select

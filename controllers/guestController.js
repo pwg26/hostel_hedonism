@@ -137,6 +137,7 @@ module.exports = {
   },
 
   updateItem: function (req, res) {
+    console.log("UPDATE");
     console.log(req.body);
     db.Store.findOneAndUpdate(
       { _id: req.body.id },
@@ -158,7 +159,7 @@ module.exports = {
   createRooms: function (req, res) {
     console.log("ADD");
     console.log(req.body);
-    //create reservation with sent dates and room id
+    //create room with sent dates and room id
     db.Room.create({
       ...req.body.room,
     }).then((room) => res.json(room));
@@ -176,5 +177,17 @@ module.exports = {
     db.Room.findOneAndRemove({
       _id: mongoose.Types.ObjectId(req.params.id),
     }).then((result) => res.json(req.params.id));
+  },
+  // activities========================================================
+  findActivities: function (req, res) {
+    db.Activity.find({}).then((data) => res.json(data));
+  },
+  createActivity: function (req, res) {
+    console.log("CREATE act");
+    console.log(req.body);
+    //create activity with sent dates and room id
+    db.Activity.create({
+      ...req.body.activity,
+    }).then((activity) => res.json(activity));
   },
 };
