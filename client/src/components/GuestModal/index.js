@@ -136,8 +136,9 @@ export default function GuestModal(props) {
 
   useEffect(() => {
     const loadRooms = () => {
-      API.getRooms().then((res) => {
-        console.log(res);
+      API.getRoomInfo().then((res) => {
+        console.log("Joined");
+        console.log(res.data);
         setRooms(
           res.data.map((room) => {
             //console.log(room);
@@ -175,6 +176,18 @@ export default function GuestModal(props) {
     API.deleteGuest(props.selected.id);
     clearForm();
     props.close();
+  }
+
+  function dateChangerIn(checkin) {
+    console.log(checkin);
+    let filter = rooms.map((room) =>
+      room.guests.filter((guest) => {
+        console.log(guest);
+        return guest.checkOut > checkin && guest.checkIn < checkin;
+      })
+    );
+    console.log(filter);
+    handleCheckinChange(checkin);
   }
 
   const firstBody = (
@@ -250,11 +263,7 @@ export default function GuestModal(props) {
         </Select>
       </FormControl>
       <MuiPickersUtilsProvider utils={LuxonUtils}>
-        <DatePicker
-          disablePast
-          value={checkInDate}
-          onChange={handleCheckinChange}
-        />
+        <DatePicker disablePast value={checkInDate} onChange={dateChangerIn} />
         <DatePicker
           minDate={checkOutDate}
           value={checkOutDate}
