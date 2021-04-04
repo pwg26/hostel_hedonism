@@ -2,23 +2,27 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const activitySchema = new Schema({
-  name: {
+  title: {
     type: String,
-    required: true,
-  },
-  date: {
-    type: Date,
     required: true,
   },
   cost: {
     type: Number,
+    required: false,
+  },
+  startDate: {
+    type: Date,
     required: true,
   },
-  duration: {
-    type: Number,
+  endDate: {
+    type: Date,
     required: true,
   },
-  description: {
+  location: {
+    type: String,
+    required: true,
+  },
+  notes: {
     type: String,
     required: true,
   },

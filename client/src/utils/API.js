@@ -10,18 +10,24 @@ export default {
   updateGuest: function (guestData) {
     return axios.put("/api/guests", guestData);
   },
-
   deleteGuest: function (id) {
     return axios.delete("/api/guests/" + id);
   },
   saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
   },
+  updateRoom: function (roomData) {
+    console.log(roomData);
+    return axios.put("/api/rooms", roomData);
+  },
   deleteRoom: function (id) {
     return axios.delete("/api/rooms/" + id);
   },
   getRooms: function () {
     return axios.get("/api/rooms");
+  },
+  getRoomInfo: function () {
+    return axios.get("/api/rooms/guests");
   },
   login: function (creds) {
     return axios.post("/api/login", creds);
@@ -30,6 +36,21 @@ export default {
     return axios.get("/api/store");
   },
   saveItem: function (itemData) {
+    console.log("CREATE ITEM", itemData);
     return axios.post("/api/store", itemData);
+  },
+  updateItem: function (itemData) {
+    console.log(itemData);
+    return axios.put("/api/store", itemData);
+  },
+  deleteItem: function (id) {
+    return axios.delete("/api/store/" + id);
+  },
+  getActivities: function () {
+    return axios.get("/api/activity");
+  },
+  saveActivity: function (actData) {
+    console.log("CREATE ACT", actData);
+    return axios.post("/api/activity", actData);
   },
 };

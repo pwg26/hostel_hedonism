@@ -47,22 +47,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RoomModal(props) {
+export default function ItemModal(props) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [formObject, setFormObject] = useState({
-    number: "",
     name: "",
-    rate: "",
-    capacity: "",
+    description: "",
+    cost: "",
+    quantity: "",
   });
 
   const [markers, setMarkers] = useState({
-    number: false,
     name: false,
-    rate: false,
-    capacity: false,
+    description: false,
+    cost: false,
+    quantity: false,
   });
   // const [guests, setGuests] = useState([]);
   // const [guest, setGuest] = useState("");
@@ -88,38 +88,37 @@ export default function RoomModal(props) {
   // }, []);
   function clearForm() {
     setFormObject({
-      number: "",
       name: "",
-      rate: "",
-      capacity: "",
+      description: "",
+      cost: "",
+      quantity: "",
     });
   }
 
   function submitForm() {
     let newMarks = {};
-    newMarks.number = formObject.number === "" ? true : false;
-
     newMarks.name = formObject.name === "" ? true : false;
-    newMarks.rate = formObject.rate === "" ? true : false;
-    newMarks.capacity = formObject.capacity === "" ? true : false;
+
+    newMarks.description = formObject.description === "" ? true : false;
+    newMarks.cost = formObject.cost === "" ? true : false;
+    newMarks.quantity = formObject.quantity === "" ? true : false;
     setMarkers({ ...markers, ...newMarks });
     console.log(markers, formObject);
     if (
-      newMarks.number ||
       newMarks.name ||
-      newMarks.rate ||
-      newMarks.capacity
+      newMarks.description ||
+      newMarks.cost ||
+      newMarks.quantity
     ) {
       console.log("Missing a field");
     } else {
-      console.log("TYPE:", props.type);
       props.type === "Add"
-        ? API.saveRoom({
-            room: formObject,
+        ? API.saveItem({
+            item: formObject,
           }).then(() => props.close())
-        : API.updateRoom({
+        : API.updateItem({
             id: props.selected.id,
-            room: formObject,
+            item: formObject,
           }).then(() => props.close());
       clearForm();
     }
@@ -130,10 +129,10 @@ export default function RoomModal(props) {
       console.log("UPDATE");
       console.log(props.selected);
       setFormObject({
-        number: props.selected.number,
         name: props.selected.name,
-        rate: props.selected.rate,
-        capacity: props.selected.capacity,
+        description: props.selected.description,
+        cost: props.selected.cost,
+        quantity: props.selected.quantity,
       });
       // setGuest(props.selected.guesyId);
     }
@@ -144,8 +143,8 @@ export default function RoomModal(props) {
     setFormObject({ ...formObject, [name]: value });
   }
 
-  function deleteRoom() {
-    API.deleteRoom(props.selected.id);
+  function deleteItem() {
+    API.deleteItem(props.selected.id);
     clearForm();
     props.close();
   }
@@ -153,51 +152,54 @@ export default function RoomModal(props) {
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">{props.type}</h2>
-      <h2 id="simple-modal-title">Enter Room information</h2>
+      <h2 id="simple-modal-title">Enter Item information</h2>
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="outlined-number"
-          autoComplete="off"
-          label="Number"
-          name="number"
-          helperText={markers.number ? "Required" : " "}
-          value={formObject.number}
-          variant="outlined"
-          onChange={handleInputChange}
-          error={markers.number}
-        />
         <TextField
           id="outlined-name"
           label="Name"
           name="name"
-          helperText={markers.name ? "Required" : " "}
           value={formObject.name}
+          helperText={markers.name ? "Required" : " "}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
           error={markers.name}
         />
         <TextField
-          id="outlined-rate"
-          label="rate"
-          name="rate"
-          helperText={markers.rate ? "Required" : " "}
-          value={formObject.rate}
+          id="outlined-desctiption"
+          label="Description"
+          name="description"
+          helperText={markers.description ? "Required" : " "}
+          value={formObject.description}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
-          error={markers.rate}
+          error={markers.description}
         />
         <TextField
-          id="outlined-capacity"
-          label="capacity"
-          name="capacity"
-          helperText={markers.name ? "capacity" : " "}
-          value={formObject.capacity}
+          id="outlined-cost"
+          type="number"
+          label="Cost"
+          helperText={markers.cost ? "Required" : " "}
+          name="cost"
+          value={formObject.cost}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
-          error={markers.capacity}
+          error={markers.cost}
+        />
+        <TextField
+          id="outlined-quantity"
+          type="number"
+          label="Quantity"
+          helperText={markers.quantity ? "Required" : " "}
+          type="number"
+          name="quantity"
+          value={formObject.quantity}
+          autoComplete="off"
+          variant="outlined"
+          onChange={handleInputChange}
+          error={markers.quantity}
         />
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
@@ -210,7 +212,7 @@ export default function RoomModal(props) {
           {guests.map((guest) => {
             return (
               <MenuItem key={guest._id} value={guest._id}>
-                {guest._id}
+                {guest._id}å
               </MenuItem>
             );
           })}
@@ -218,7 +220,7 @@ export default function RoomModal(props) {
       </form>
       <Button onClick={submitForm}>Submit</Button>
       {props.type === "Update" ? (
-        <Button onClick={deleteRoom}>Delete Room</Button>
+        <Button onClick={deleteItem}>Delete Item</Button>
       ) : (
         <></>
       )}

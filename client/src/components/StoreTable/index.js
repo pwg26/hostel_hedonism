@@ -1,74 +1,137 @@
 import React from "react";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+const columns = [
+  {
+    id: "name",
+    label: "Name",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
   },
-  body: {
-    fontSize: 14,
+  {
+    id: "description",
+    label: "Description",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
   },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
+  {
+    id: "cost",
+    label: "Cost",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
   },
-}))(TableRow);
-
-// function createData(name, description, price, quantity) {
-//   return { name, description, price, quantity };
-// }
-
-// const rows = [createData("oogga booga", "Coors Light", "$12.99", "55")];
+  {
+    id: "quantity",
+    label: "Quantity",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+];
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
+  root: {
+    width: "100%",
+  },
+  container: {
+    maxHeight: 440,
   },
 });
 
-export default function StoreTable(props) {
+export default function Roomtable(props) {
   const classes = useStyles();
-  // const handleChangeRowsPerPage = (event) => {
-  //   setRowsPerPage(+event.target.value);
-  //   setPage(0);
-  // };
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  console.log(props.rows);
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell> Name </StyledTableCell>
-            <StyledTableCell align="right">Description</StyledTableCell>
-            <StyledTableCell align="right">Cost&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">Quantity&nbsp;</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.description}</StyledTableCell>
-              <StyledTableCell align="right">{row.cost}</StyledTableCell>
-              <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper className={classes.root}>
+      <TableContainer className={classes.container}>
+        <Table stickyHeader aria-label="item table">
+          <TableHead>
+            <TableRow style={{ color: "black" }}>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{
+                    minWidth: column.minWidth,
+                    background: "black",
+                    color: "white",
+                  }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {props.rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, i) => {
+                let id = row.id;
+
+                row.id = i + 1;
+                return (
+                  <TableRow
+                    hover
+                    onClick={() =>
+                      props.open("Update", {
+                        name: row.name,
+                        description: row.description,
+                        cost: row.cost,
+                        quantity: row.quantity,
+                        id: id,
+                      })
+                    }
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.id}
+                  >
+                    {columns.map((column) => {
+                      const value = row[column.id];
+                      return (
+                        <TableCell key={column.id} align={column.align}>
+                          {value}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={props.rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 }

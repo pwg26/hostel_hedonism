@@ -36,12 +36,6 @@ db.Room.create(testRoom).then(({ _id }) => {
       { reservation: _id },
       { new: true }
     ).then((res) => console.log("Reservation\n", res));
-
-    db.Room.findOneAndUpdate(
-      { _id: testReservation.room },
-      { $inc: { occupants: 1 } },
-      { new: true }
-    ).then((res) => console.log("Room\n", res));
   });
 });
 
