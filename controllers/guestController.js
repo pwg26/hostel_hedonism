@@ -16,6 +16,7 @@ module.exports = {
     db.Guest.find({})
       .populate({ path: "reservation", populate: { path: "room" } })
       .populate("activities")
+      .populate("purchases")
       .then((guests) => {
         res.json(guests);
       });
