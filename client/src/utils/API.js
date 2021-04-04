@@ -40,9 +40,14 @@ export default {
     return axios.post("/api/store", itemData);
   },
   updateItem: function (itemData) {
+    console.log(itemData);
     return axios.put("/api/store", itemData);
   },
   deleteItem: function (id) {
     return axios.delete("/api/store/" + id);
+  },
+  saveActivity: function (actData) {
+    console.log("CREATE ACT", actData);
+    return axios.post("/api/activity", actData);
   },
 };

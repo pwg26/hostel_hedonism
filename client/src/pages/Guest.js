@@ -39,6 +39,11 @@ function Guests() {
               0
             );
             const rent = duration * guest.reservation.room.rate;
+
+            // const Cart= guest.shoppingCart.reduce(
+            //   (sum, curr) => sum + curr.cost,
+            //   0
+            // );
             //console.log(guest.reservation.room, guest.reservation.room.rate);
             return {
               firstName: guest.firstName,
