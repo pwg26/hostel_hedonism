@@ -53,4 +53,12 @@ export default {
     console.log("CREATE ACT", actData);
     return axios.post("/api/activity", actData);
   },
+  updateActivity: function (actData) {
+    console.log("update ACT", actData);
+    return axios.put("/api/activity", actData);
+  },
+  deleteActivity: function (id) {
+    console.log(id);
+    return axios.delete("/api/activity/" + id);
+  },
 };

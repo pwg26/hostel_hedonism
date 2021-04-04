@@ -32,8 +32,9 @@ router.route("/store/:id").delete(guestController.deleteItem);
 router
   .route("/activity")
   .get(guestController.findActivities)
-  .post(guestController.createActivity);
-
+  .post(guestController.createActivity)
+  .put(guestController.updateActivity);
+router.route("/activity/:id").delete(guestController.deleteActivity);
 router.route("/login").post(guestController.login);
 
 module.exports = router;

@@ -351,9 +351,11 @@ const Content = withStyles(containerStyles, { name: "Content" })(
         {...restProps}
         appointmentData={appointmentData}
       >
-        <p>{JSON.stringify(appointmentData)}</p>
-        {/* <p>Children: {children}</p> */}
-        <p>{JSON.stringify(restProps)}</p>
+        {appointmentData.guests.map((guest) => {
+          return (
+            <p key={guest._id}>{`${guest.firstName} ${guest.lastName}`}</p>
+          );
+        })}
       </AppointmentTooltip.Content>
     );
   }
@@ -413,7 +415,7 @@ class Demo extends React.PureComponent {
       this
     );
 
-    this.componentDidMount = () => {
+    this.loadData = () => {
       API.getActivities().then((res) => {
         API.getGuests().then((guests) => {
           console.log(guests.data);
@@ -454,6 +456,10 @@ class Demo extends React.PureComponent {
           this.setState({ ...this.state, data: data });
         });
       });
+    };
+
+    this.componentDidMount = () => {
+      this.loadData();
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -532,47 +538,45 @@ class Demo extends React.PureComponent {
   }
 
   commitDeletedAppointment() {
-    this.setState((state) => {
-      const { data, deletedAppointmentId } = state;
-      const nextData = data.filter(
-        (appointment) => appointment.id !== deletedAppointmentId
-      );
+    const { data, deletedAppointmentId } = this.state;
+    console.log("Confirmed", deletedAppointmentId);
 
-      return { data: nextData, deletedAppointmentId: null };
+    API.deleteActivity(deletedAppointmentId).then(() => {
+      this.setState({ ...this.state, deletedAppointmentId: null });
+      this.loadData();
     });
+
     this.toggleConfirmationVisible();
   }
 
   commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
-      if (added) {
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-        API.saveActivity({
-          title: added.title,
-          cost: added.cost,
-          startDate: added.startDate,
-          endDate: added.endDate,
-          location: added.location,
-          notes: added.notes,
-          id: added._id,
-        });
-      }
-      if (changed) {
-        data = data.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
-        );
-      }
-      if (deleted !== undefined) {
-        this.setDeletedAppointmentId(deleted);
-        this.toggleConfirmationVisible();
-      }
-      return { data, addedAppointment: {} };
-    });
+    if (added) {
+      //data = [...data, { id: startingAddedId, ...added }];
+      console.log(added);
+      API.saveActivity({
+        title: added.title,
+        cost: added.cost,
+        startDate: added.startDate,
+        endDate: added.endDate,
+        location: added.location,
+        notes: added.notes,
+      }).then(() => {
+        this.setState({ ...this.state, addedAppointment: {} });
+        this.loadData();
+      });
+    }
+    if (changed) {
+      console.log("id:", changed[0], Object.keys(changed)[0]);
+      API.updateActivity(changed[Object.keys(changed)[0]]).then(() =>
+        this.loadData()
+      );
+    }
+
+    if (deleted !== undefined) {
+      this.setDeletedAppointmentId(deleted);
+      console.log(deleted);
+      this.toggleConfirmationVisible();
+    }
   }
 
   render() {

@@ -191,4 +191,25 @@ module.exports = {
       ...req.body,
     }).then((added) => res.json(added));
   },
+
+  updateActivity: function (req, res) {
+    console.log(req.body);
+    db.Activity.findOneAndUpdate(
+      { _id: req.body.id },
+      {
+        title: req.body.title,
+        cost: req.body.cost,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        location: req.body.location,
+        notes: req.body.notes,
+      }
+    ).then((data) => res.json(data));
+  },
+  deleteActivity: function (req, res) {
+    console.log(req.params.id);
+    db.Activity.findOneAndRemove({
+      _id: mongoose.Types.ObjectId(req.params.id),
+    }).then((result) => res.json(req.params.id));
+  },
 };
