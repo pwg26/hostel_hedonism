@@ -63,7 +63,49 @@ module.exports = {
     console.log(req.params.id);
     console.log(req.body.item);
     console.log(req.body.type);
-    res.json(200);
+    if (req.body.type === "Store") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $push: { purchases: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else if (req.body.type === "Activity") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $push: { activities: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else if (req.body.type === "RemoveA") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $pull: { activities: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else if (req.body.type === "RemoveS") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $pull: { purchases: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else {
+      res.json(404);
+    }
   },
 
   //  Room query controller ====================================================================
@@ -166,8 +208,8 @@ module.exports = {
         {
           $pull: { purchases: removed },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
       });
       res.json(req.params.id);
     });
@@ -242,8 +284,8 @@ module.exports = {
         {
           $pull: { activities: removed },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
       });
       res.json(req.params.id);
     });
