@@ -63,7 +63,28 @@ module.exports = {
     console.log(req.params.id);
     console.log(req.body.item);
     console.log(req.body.type);
-    res.json(200);
+    if (req.body.type === "Store") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $push: { purchases: req.body.item },
+        }
+      ).then((res) => {
+        console.log(res);
+      });
+    }
+    if (req.body.type === "Activity") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $push: { activities: req.body.item },
+        }
+      ).then((res) => {
+        console.log(res);
+      });
+    } else {
+      res.json(404);
+    }
   },
 
   //  Room query controller ====================================================================
