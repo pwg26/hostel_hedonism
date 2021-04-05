@@ -88,6 +88,14 @@ export default function Storeable(props) {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell
+                style={{
+                  background: "black",
+                  color: "white",
+                }}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,16 +107,16 @@ export default function Storeable(props) {
                 row.id = i + 1;
                 return (
                   <TableRow
-                    hover
-                    onClick={() =>
-                      props.open("Update", {
-                        name: row.name,
-                        description: row.description,
-                        cost: row.cost,
-                        stock: row.stock,
-                        id: id,
-                      })
-                    }
+                    // hover
+                    // onClick={() =>
+                    //   props.open("Update", {
+                    //     name: row.name,
+                    //     description: row.description,
+                    //     cost: row.cost,
+                    //     stock: row.stock,
+                    //     id: id,
+                    //   })
+                    // }
                     role="checkbox"
                     tabIndex={-1}
                     key={row.id}
@@ -122,29 +130,26 @@ export default function Storeable(props) {
                       );
                     })}
                     <TableCell>
-                      {/* <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => {
-                          setOpen(!open);
-                          console.log(open);
-                        }}
+                      <IconButton
+                        onClick={() =>
+                          props.open("Buy", {
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
+                            id: id,
+                          })
+                        }
                       >
-                        {open ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                      </IconButton> */}
+                        <AddBoxIcon />
+                      </IconButton>
                       <IconButton
                         onClick={() =>
                           props.open("Update", {
-                            firstName: row.firstName,
-                            lastName: row.lastName,
-                            country: row.country,
-                            roomId: row.roomId,
-                            dateIn: row.dateIn,
-                            dateOut: row.dateOut,
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
                             id: id,
                           })
                         }
