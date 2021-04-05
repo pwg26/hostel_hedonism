@@ -69,8 +69,9 @@ module.exports = {
         {
           $push: { purchases: req.body.item },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
       });
     }
     if (req.body.type === "Activity") {
@@ -79,8 +80,9 @@ module.exports = {
         {
           $push: { activities: req.body.item },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
       });
     } else {
       res.json(404);
@@ -187,8 +189,8 @@ module.exports = {
         {
           $pull: { purchases: removed },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
       });
       res.json(req.params.id);
     });
@@ -263,8 +265,8 @@ module.exports = {
         {
           $pull: { activities: removed },
         }
-      ).then((res) => {
-        console.log(res);
+      ).then((data) => {
+        console.log(data);
       });
       res.json(req.params.id);
     });
