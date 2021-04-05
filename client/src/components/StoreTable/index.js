@@ -9,6 +9,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 
 const columns = [
   {
@@ -50,7 +52,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Roomtable(props) {
+export default function Storeable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -97,7 +99,7 @@ export default function Roomtable(props) {
                   <TableRow
                     hover
                     onClick={() =>
-                      props.open("Update", {
+                      props.open("Buy", {
                         name: row.name,
                         description: row.description,
                         cost: row.cost,
@@ -117,6 +119,23 @@ export default function Roomtable(props) {
                         </TableCell>
                       );
                     })}
+                    <Button
+                      variant="contained"
+                      color="default"
+                      className={classes.button}
+                      startIcon={<AddBoxIcon />}
+                      onClick={() =>
+                        props.open("Buy", {
+                          name: row.name,
+                          description: row.description,
+                          cost: row.cost,
+                          quantity: row.quantity,
+                          id: id,
+                        })
+                      }
+                    >
+                      Purchase Item
+                    </Button>
                   </TableRow>
                 );
               })}

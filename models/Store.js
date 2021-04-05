@@ -14,7 +14,7 @@ const storeSchema = new Schema({
     type: Number,
     required: true,
   },
-  quantity: {
+  stock: {
     type: Number,
     required: true,
   },
