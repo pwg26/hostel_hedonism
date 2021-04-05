@@ -165,6 +165,7 @@ export default function RoomModal(props) {
           variant="outlined"
           onChange={handleInputChange}
           error={markers.number}
+          type="number"
         />
         <TextField
           id="outlined-name"
@@ -187,6 +188,7 @@ export default function RoomModal(props) {
           variant="outlined"
           onChange={handleInputChange}
           error={markers.rate}
+          type="number"
         />
         <TextField
           id="outlined-capacity"
@@ -198,6 +200,7 @@ export default function RoomModal(props) {
           variant="outlined"
           onChange={handleInputChange}
           error={markers.capacity}
+          type="number"
         />
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
