@@ -73,12 +73,31 @@ module.exports = {
         console.log(data);
         res.json(data);
       });
-    }
-    if (req.body.type === "Activity") {
+    } else if (req.body.type === "Activity") {
       db.Guest.updateMany(
         { _id: req.params.id },
         {
           $push: { activities: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else if (req.body.type === "RemoveA") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $pull: { activities: req.body.item },
+        }
+      ).then((data) => {
+        console.log(data);
+        res.json(data);
+      });
+    } else if (req.body.type === "RemoveS") {
+      db.Guest.updateMany(
+        { _id: req.params.id },
+        {
+          $pull: { purchases: req.body.item },
         }
       ).then((data) => {
         console.log(data);
