@@ -136,6 +136,14 @@ export default function GuestTable(props) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => {
                 let id = row.id;
+                console.log(`${row.firstName} ${row.lastName}`);
+                console.log(`${row.room}: ${row.rent}`);
+                row.activities.forEach((activity) =>
+                  console.log(`${activity.title}: ${activity.cost}`)
+                );
+                row.purchases.forEach((purchase) =>
+                  console.log(`${purchase.name}: ${purchase.cost}`)
+                );
 
                 row.id = i + 1;
                 return (

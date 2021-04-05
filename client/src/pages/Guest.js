@@ -35,16 +35,16 @@ function Guests() {
             const dayOut = new Date(guest.reservation.checkOut);
             const duration = Math.floor((dayOut - dayIn) / 8.64e7);
             //console.log(duration);
-            const activities = guest.activities.reduce(
+            const costA = guest.activities.reduce(
               (sum, curr) => sum + curr.cost,
               0
             );
             const rent = duration * guest.reservation.room.rate;
 
-            // const Cart= guest.shoppingCart.reduce(
-            //   (sum, curr) => sum + curr.cost,
-            //   0
-            // );
+            const costS = guest.purchases.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
             //console.log(guest.reservation.room, guest.reservation.room.rate);
             return {
               firstName: guest.firstName,
@@ -56,9 +56,10 @@ function Guests() {
               duration: duration,
               paid: guest.paid ? "Yes" : "No",
               checkedIn: guest.checkedIn ? "Yes" : "No",
-              activities: activities,
+              activities: guest.activities,
+              purchases: guest.purchases,
               rent: rent,
-              tab: `$ ${activities + rent}`,
+              tab: `$ ${costA + rent + costS}`,
               room: guest.reservation.room.name,
               roomId: guest.reservation.room._id,
             };
@@ -70,11 +71,11 @@ function Guests() {
             const dayOut = new Date(guest.reservation.checkOut);
             const duration = Math.floor((dayOut - dayIn) / 8.64e7);
             //console.log(duration);
-            const activities = guest.activities.reduce(
+            const costA = guest.activities.reduce(
               (sum, curr) => sum + curr.cost,
               0
             );
-            const purchases = guest.purchases.reduce(
+            const costS = guest.purchases.reduce(
               (sum, curr) => sum + curr.cost,
               0
             );
@@ -95,9 +96,10 @@ function Guests() {
               duration: duration,
               paid: guest.paid ? "Yes" : "No",
               checkedIn: guest.checkedIn ? "Yes" : "No",
-              activities: activities,
+              activities: guest.activities,
+              purchases: guest.purchases,
               rent: rent,
-              tab: `$ ${activities + rent}`,
+              tab: `$ ${costA + rent + costS}`,
               room: guest.reservation.room.name,
               roomId: guest.reservation.room._id,
             };

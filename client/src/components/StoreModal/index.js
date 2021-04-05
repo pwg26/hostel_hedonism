@@ -70,6 +70,7 @@ export default function ItemModal(props) {
   const [guest, setGuest] = useState("");
 
   const handleChange = (event) => {
+    console.log(event.target.value);
     setGuest(event.target.value);
   };
 
@@ -119,7 +120,7 @@ export default function ItemModal(props) {
     newMarks.cost = formObject.cost === "" ? true : false;
     newMarks.stock = formObject.stock === "" ? true : false;
     setMarkers({ ...markers, ...newMarks });
-    console.log(markers, formObject);
+    console.log(markers, formObject, guest, props);
     if (
       newMarks.name ||
       newMarks.description ||
@@ -138,11 +139,13 @@ export default function ItemModal(props) {
           item: formObject,
         }).then(() => props.close());
       } else if (props.type === "Buy") {
-        API.addToGuest({
-          id: props.selected.id,
-          item: formObject,
-          type: "Store Purchase",
-        }).then(() => props.close());
+        let num = Number.parseInt(formObject.quantity);
+        console.log(num);
+        for (let i = 0; i < num; i++) {
+          API.addToGuest(guest, props.selected.id, "Store").then(() =>
+            props.close()
+          );
+        }
       }
       clearForm();
     }
@@ -303,7 +306,7 @@ export default function ItemModal(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {first ? firstBody : secondBody}
+        {props.type === "Add" ? firstBody : secondBody}
       </Modal>
     </div>
   );
