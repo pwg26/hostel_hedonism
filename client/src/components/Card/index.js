@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+
+import CardActionArea from "@material-ui/core/CardActionArea";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Buttons from "../CardButtons";
@@ -46,28 +48,28 @@ export default function RoomCard(props) {
         cardComp.id = i + 1;
 
         return (
-          <>
-            <Card
-              key={cardComp.id}
-              onClick={() =>
-                props.open("Update", {
-                  name: cardComp.name,
-                  number: cardComp.number,
-                  rate: cardComp.rate,
-                  capacity: cardComp.capacity,
-                  id: id,
-                })
-              }
-              style={{
-                width: "300px",
-                display: "inline-block",
-                paddingLeft: "30px",
-                backgroundColor: "#FF80AB",
-                border: "7px solid",
-              }}
-              className={classes.root}
-              variant="outlined"
-            >
+          <Card
+            key={cardComp.id}
+            onClick={() =>
+              props.open("Update", {
+                name: cardComp.name,
+                number: cardComp.number,
+                rate: cardComp.rate,
+                capacity: cardComp.capacity,
+                id: id,
+              })
+            }
+            style={{
+              width: "200px",
+              display: "inline-block",
+              margin: "30px",
+              backgroundColor: "#FF80AB",
+              border: "7px solid",
+            }}
+            className={classes.root}
+            variant="outlined"
+          >
+            <CardActionArea>
               <CardContent>
                 <Typography
                   className={classes.title}
@@ -137,12 +139,8 @@ export default function RoomCard(props) {
                 <br />
               </Typography> */}
               </CardContent>
-
-              <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          </>
+            </CardActionArea>
+          </Card>
         );
       })}
     </>

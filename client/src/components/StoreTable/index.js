@@ -9,6 +9,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
 
 const columns = [
   {
@@ -33,8 +37,8 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "quantity",
-    label: "Quantity",
+    id: "stock",
+    label: "Stock",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
@@ -50,7 +54,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Roomtable(props) {
+export default function Storeable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -84,6 +88,14 @@ export default function Roomtable(props) {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell
+                style={{
+                  background: "black",
+                  color: "white",
+                }}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,16 +107,16 @@ export default function Roomtable(props) {
                 row.id = i + 1;
                 return (
                   <TableRow
-                    hover
-                    onClick={() =>
-                      props.open("Update", {
-                        name: row.name,
-                        description: row.description,
-                        cost: row.cost,
-                        quantity: row.quantity,
-                        id: id,
-                      })
-                    }
+                    // hover
+                    // onClick={() =>
+                    //   props.open("Update", {
+                    //     name: row.name,
+                    //     description: row.description,
+                    //     cost: row.cost,
+                    //     stock: row.stock,
+                    //     id: id,
+                    //   })
+                    // }
                     role="checkbox"
                     tabIndex={-1}
                     key={row.id}
@@ -117,6 +129,34 @@ export default function Roomtable(props) {
                         </TableCell>
                       );
                     })}
+                    <TableCell>
+                      <IconButton
+                        onClick={() =>
+                          props.open("Buy", {
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
+                            id: id,
+                          })
+                        }
+                      >
+                        <AddBoxIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          props.open("Update", {
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
+                            id: id,
+                          })
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}

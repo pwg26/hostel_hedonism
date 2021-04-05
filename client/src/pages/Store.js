@@ -30,11 +30,12 @@ export default function Store() {
         console.log(res);
         setItems(
           res.data.map((item) => {
+            console.log(item);
             return {
               name: item.name,
               description: item.description,
               cost: item.cost,
-              quantity: item.quantity,
+              stock: item.stock,
               id: item._id,
             };
           })

@@ -57,6 +57,8 @@ export default function RoomModal(props) {
     rate: "",
     capacity: "",
   });
+  const [rooms, setRooms] = useState([]);
+  const [status, setStatus] = useState(true);
 
   const [markers, setMarkers] = useState({
     number: false,
@@ -136,6 +138,16 @@ export default function RoomModal(props) {
         capacity: props.selected.capacity,
       });
       // setGuest(props.selected.guesyId);
+      API.getRoomInfo().then((res) => {
+        setRooms(res.data.map((room) => room));
+        let room = res.data.filter(({ _id }) => _id === props.selected.id)[0];
+        console.log("DEL:", room);
+        setStatus(room.guests.length !== 0);
+
+        console.log(status);
+      });
+    } else {
+      clearForm();
     }
   }, [props.type, props.selected]);
 
@@ -145,9 +157,15 @@ export default function RoomModal(props) {
   }
 
   function deleteRoom() {
-    API.deleteRoom(props.selected.id);
-    clearForm();
-    props.close();
+    let room = rooms.filter(({ _id }) => _id === props.selected.id)[0];
+    console.log("DEL:", room);
+    if (room.guests.length === 0) {
+      API.deleteRoom(props.selected.id);
+      clearForm();
+      props.close();
+    } else {
+      console.log("Can't delete occupied rooms");
+    }
   }
 
   const firstBody = (
@@ -160,11 +178,13 @@ export default function RoomModal(props) {
           autoComplete="off"
           label="Number"
           name="number"
+          type="number"
           helperText={markers.number ? "Required" : " "}
           value={formObject.number}
           variant="outlined"
           onChange={handleInputChange}
           error={markers.number}
+          type="number"
         />
         <TextField
           id="outlined-name"
@@ -181,23 +201,27 @@ export default function RoomModal(props) {
           id="outlined-rate"
           label="rate"
           name="rate"
+          type="number"
           helperText={markers.rate ? "Required" : " "}
           value={formObject.rate}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
           error={markers.rate}
+          type="number"
         />
         <TextField
           id="outlined-capacity"
           label="capacity"
           name="capacity"
+          type="number"
           helperText={markers.name ? "capacity" : " "}
           value={formObject.capacity}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
           error={markers.capacity}
+          type="number"
         />
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
@@ -218,7 +242,9 @@ export default function RoomModal(props) {
       </form>
       <Button onClick={submitForm}>Submit</Button>
       {props.type === "Update" ? (
-        <Button onClick={deleteRoom}>Delete Room</Button>
+        <Button onClick={deleteRoom} disabled={status}>
+          Delete Room
+        </Button>
       ) : (
         <></>
       )}

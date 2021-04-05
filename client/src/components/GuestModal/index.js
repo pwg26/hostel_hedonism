@@ -310,6 +310,13 @@ export default function GuestModal(props) {
           value={checkInDate}
           onChange={(day) => dateChanger(day, checkOutDate, "in")}
         />
+        {/* <DatePicker
+          minDate={limit}
+          value={checkOutDate}
+          onChange={(day) => dateChanger(checkInDate, day, "out")}
+        /> */}
+      </MuiPickersUtilsProvider>
+      <MuiPickersUtilsProvider utils={LuxonUtils}>
         <DatePicker
           minDate={limit}
           value={checkOutDate}
