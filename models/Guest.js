@@ -48,6 +48,18 @@ const guestSchema = new Schema({
   ],
 });
 
+const guest = {
+  role: 'id',
+  firstName: 'Kristen',
+  lastName: 'Campbell',
+  country: 'US',
+  checkedIn: 'April 5, 2021',
+  paid: 'YES',
+  reservation: 'YES',
+  activities: 'NA',
+  purchases: 'NA',
+};
+
 const Guest = mongoose.model("Guest", guestSchema);
 
 module.exports = Guest;

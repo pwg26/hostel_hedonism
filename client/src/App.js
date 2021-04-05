@@ -31,7 +31,7 @@ function App() {
             <Guests />
           </PrivateRoute>
           <PrivateRoute exact path="/rooms">
-            <Rooms style={{ background: "#F3F7F0" }} />
+            <Rooms />
           </PrivateRoute>
           <PrivateRoute exact path="/store">
             <Store />
