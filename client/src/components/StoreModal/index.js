@@ -51,10 +51,12 @@ export default function ItemModal(props) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
+  const [first, setFirst] = useState(true);
   const [formObject, setFormObject] = useState({
     name: "",
     description: "",
     cost: "",
+    stock: "",
     quantity: "",
   });
 
@@ -62,35 +64,49 @@ export default function ItemModal(props) {
     name: false,
     description: false,
     cost: false,
-    quantity: false,
+    stock: false,
   });
-  // const [guests, setGuests] = useState([]);
-  // const [guest, setGuest] = useState("");
+  const [guests, setGuests] = useState([]);
+  const [guest, setGuest] = useState("");
 
-  // const handleChange = (event) => {
-  //   setRoom(event.target.value);
-  // };
+  const handleChange = (event) => {
+    setGuest(event.target.value);
+  };
+
+  useEffect(() => {
+    const loadGuests = () => {
+      API.getGuests().then((res) => {
+        console.log(res);
+        setGuests(
+          res.data.map((guest) => {
+            //console.log(room);
+            //room.test = "blank";
+            return guest;
+          })
+        );
+      });
+    };
+    loadGuests();
+  }, []);
 
   // useEffect(() => {
-  //   const loadGuests = () => {
-  //     API.getGuests().then((res) => {
-  //       console.log(res);
-  //       setGuests(
-  //         res.data.map((guest) => {
-  //           //console.log(room);
-  //           //room.test = "blank";
-  //           return guest;
-  //         })
-  //       );
-  //     });
-  //   };
-  //   loadGuests();
-  // }, []);
+  //   if (props.type === "Buy") {
+  //     console.log("BUY");
+  //   setFormObject({
+  //     guest: props.selected.guest,
+  //     quantity: props.selected.quantity,
+  //   });
+  //   setGuest(props.selected.guestId);
+
+  //   // setGuest(props.selected.guesyId);
+  // }, [props.type, props.selected]});
+
   function clearForm() {
     setFormObject({
       name: "",
       description: "",
       cost: "",
+      stock: "",
       quantity: "",
     });
   }
@@ -101,25 +117,33 @@ export default function ItemModal(props) {
 
     newMarks.description = formObject.description === "" ? true : false;
     newMarks.cost = formObject.cost === "" ? true : false;
-    newMarks.quantity = formObject.quantity === "" ? true : false;
+    newMarks.stock = formObject.stock === "" ? true : false;
     setMarkers({ ...markers, ...newMarks });
     console.log(markers, formObject);
     if (
       newMarks.name ||
       newMarks.description ||
       newMarks.cost ||
-      newMarks.quantity
+      newMarks.stock
     ) {
       console.log("Missing a field");
     } else {
-      props.type === "Add"
-        ? API.saveItem({
-            item: formObject,
-          }).then(() => props.close())
-        : API.updateItem({
-            id: props.selected.id,
-            item: formObject,
-          }).then(() => props.close());
+      if (props.type === "Add") {
+        API.saveItem({
+          item: formObject,
+        }).then(() => props.close());
+      } else if (props.type === "Update") {
+        API.updateItem({
+          id: props.selected.id,
+          item: formObject,
+        }).then(() => props.close());
+      } else if (props.type === "Buy") {
+        API.addToGuest({
+          id: props.selected.id,
+          item: formObject,
+          type: "Store Purchase",
+        }).then(() => props.close());
+      }
       clearForm();
     }
   }
@@ -132,9 +156,17 @@ export default function ItemModal(props) {
         name: props.selected.name,
         description: props.selected.description,
         cost: props.selected.cost,
-        quantity: props.selected.quantity,
+        stock: props.selected.stock,
       });
       // setGuest(props.selected.guesyId);
+    }
+    if (props.type === "Buy") {
+      console.log("BUY");
+      setFormObject({
+        guest: props.selected.guest,
+        quantity: props.selected.quantity,
+      });
+      setGuest(props.selected.guestId);
     }
   }, [props.type, props.selected]);
 
@@ -189,17 +221,17 @@ export default function ItemModal(props) {
           error={markers.cost}
         />
         <TextField
-          id="outlined-quantity"
+          id="outlined-stock"
           type="number"
-          label="Quantity"
-          helperText={markers.quantity ? "Required" : " "}
+          label="stock"
+          helperText={markers.stock ? "Required" : " "}
           type="number"
-          name="quantity"
-          value={formObject.quantity}
+          name="stock"
+          value={formObject.stock}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
-          error={markers.quantity}
+          error={markers.stock}
         />
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
@@ -226,6 +258,43 @@ export default function ItemModal(props) {
       )}
     </div>
   );
+
+  const secondBody = (
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title">Purchase Item</h2>
+      <form className={classes.root} noValidate autoComplete="off">
+        <InputLabel id="guest-select-outlined-label">Purchaser</InputLabel>
+        <Select
+          labelId="guest-select-outlined-label"
+          id="guest-select-outlined"
+          value={guest}
+          onChange={handleChange}
+          label="Purchaser"
+        >
+          {guests.map((guest) => {
+            return (
+              <MenuItem key={guest._id} value={guest._id}>
+                {guest.lastName}
+              </MenuItem>
+            );
+          })}
+        </Select>
+        <TextField
+          id="outlined-quantity"
+          autoComplete="off"
+          label="Quantity"
+          name="quantity"
+          type="number"
+          helperText={markers.quantity ? "Required" : " "}
+          value={formObject.quantity}
+          variant="outlined"
+          onChange={handleInputChange}
+          error={markers.quantity}
+        />
+      </form>
+      <Button onClick={submitForm}>Submit</Button>
+    </div>
+  );
   return (
     <div>
       <Modal
@@ -234,7 +303,7 @@ export default function ItemModal(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {firstBody}
+        {first ? firstBody : secondBody}
       </Modal>
     </div>
   );
