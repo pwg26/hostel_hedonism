@@ -74,6 +74,11 @@ import Notes from "@material-ui/icons/Notes";
 import Close from "@material-ui/icons/Close";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import Heading from "../ Heading";
 import API from "../../utils/API";
 
@@ -313,49 +318,28 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 }
 
-const Header = withStyles(containerStyles, { name: "Header" })(
-  ({ children, appointmentData, classes, ...restProps }) => (
-    <AppointmentTooltip.Header
-      {...restProps}
-      className={classes.header}
-      appointmentData={appointmentData}
-    >
-      <IconButton
-        /* eslint-disable-next-line no-alert */
-        onClick={() => API.addToGuest(appointmentData.id, "Hike", "Test")}
-        className={classes.commandButton}
-      >
-        <AssignmentIcon />
-      </IconButton>
-    </AppointmentTooltip.Header>
-  )
-);
-
 const CommandButton = withStyles(containerStyles, {
   name: "CommandButton",
-})(({ classes, ...restProps }) => (
-  <AppointmentTooltip.CommandButton
-    {...restProps}
-    className={classes.commandButton}
-  />
-));
+})(({ classes, ...restProps }) => {
+  return (
+    <AppointmentTooltip.CommandButton
+      {...restProps}
+      className={classes.commandButton}
+    />
+  );
+});
 
 const Content = withStyles(containerStyles, { name: "Content" })(
   ({ children, appointmentData, classes, ...restProps }) => {
-    console.log(children);
-    console.log(appointmentData);
-    console.log(classes);
-    console.log(restProps);
     return (
       <AppointmentTooltip.Content
         {...restProps}
         appointmentData={appointmentData}
       >
-        {appointmentData.guests.map((guest) => {
-          return (
-            <p key={guest._id}>{`${guest.firstName} ${guest.lastName}`}</p>
-          );
-        })}
+        <CheckboxesGroup
+          classes={classes}
+          {...appointmentData}
+        ></CheckboxesGroup>
       </AppointmentTooltip.Content>
     );
   }
@@ -372,6 +356,72 @@ const styles = (theme) => ({
     right: theme.spacing(1) * 4,
   },
 });
+
+function CheckboxesGroup({ classes, guests, id }) {
+  //const classes = useStyles();
+
+  const init = {};
+  const names = {};
+
+  guests.forEach((guest) => {
+    let status = guest.activities.filter(({ _id }) => _id === id).length !== 0;
+
+    init[guest._id] = status;
+    names[guest._id] = `${guest.firstName} ${guest.lastName}`;
+  });
+
+  const [state, setState] = React.useState(init);
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const handleSubmit = () => {
+    let assigned = Object.entries(state)
+      .filter((id) => {
+        return id[1] !== init[id[0]];
+      })
+      .map((id) => {
+        return { id: id[0], state: id[1] };
+      });
+    console.log(assigned);
+    assigned.forEach((guest) =>
+      API.addToGuest(guest.id, id, guest.state ? "Activity" : "RemoveA")
+    );
+  };
+
+  return (
+    <div className={classes.root}>
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Assign guests to this activity</FormLabel>
+        <FormGroup>
+          {Object.entries(state).map((guest) => {
+            return (
+              <FormControlLabel
+                key={guest[0]}
+                control={
+                  <Checkbox
+                    checked={guest[1]}
+                    onChange={handleChange}
+                    name={guest[0]}
+                  />
+                }
+                label={names[guest[0]]}
+              />
+            );
+          })}
+        </FormGroup>
+        <IconButton
+          /* eslint-disable-next-line no-alert */
+          onClick={handleSubmit}
+          className={classes.commandButton}
+        >
+          <AssignmentIcon />
+        </IconButton>
+      </FormControl>
+    </div>
+  );
+}
 // ================================================================================= Calendar
 /* eslint-disable-next-line react/no-multi-comp */
 class Demo extends React.PureComponent {
@@ -400,21 +450,8 @@ class Demo extends React.PureComponent {
     this.loadData = () => {
       API.getActivities().then((res) => {
         API.getGuests().then((guests) => {
-          console.log(guests.data);
           let data = res.data.map((activity) => {
             let filteredGuests = guests.data.filter((guest) => {
-              console.log(
-                new Date(guest.reservation.checkIn) <
-                  new Date(activity.startDate) &&
-                  new Date(guest.reservation.checkOut) >
-                    new Date(activity.endDate)
-              );
-              console.log(
-                new Date(guest.reservation.checkIn),
-                new Date(activity.startDate),
-                new Date(guest.reservation.checkOut),
-                new Date(activity.endDate)
-              );
               return (
                 new Date(guest.reservation.checkIn) <
                   new Date(activity.startDate) &&
@@ -521,7 +558,7 @@ class Demo extends React.PureComponent {
 
   commitDeletedAppointment() {
     const { data, deletedAppointmentId } = this.state;
-    console.log("Confirmed", deletedAppointmentId);
+    //console.log("Confirmed", deletedAppointmentId);
 
     API.deleteActivity(deletedAppointmentId).then(() => {
       this.setState({ ...this.state, deletedAppointmentId: null });
@@ -534,7 +571,7 @@ class Demo extends React.PureComponent {
   commitChanges({ added, changed, deleted }) {
     if (added) {
       //data = [...data, { id: startingAddedId, ...added }];
-      console.log(added);
+      //console.log(added);
       API.saveActivity({
         title: added.title,
         cost: added.cost,
@@ -548,7 +585,7 @@ class Demo extends React.PureComponent {
       });
     }
     if (changed) {
-      console.log("id:", changed[0], Object.keys(changed)[0]);
+      //console.log("id:", changed[0], Object.keys(changed)[0]);
       API.updateActivity(changed[Object.keys(changed)[0]]).then(() =>
         this.loadData()
       );
@@ -556,7 +593,7 @@ class Demo extends React.PureComponent {
 
     if (deleted !== undefined) {
       this.setDeletedAppointmentId(deleted);
-      console.log(deleted);
+      //console.log(deleted);
       this.toggleConfirmationVisible();
     }
   }
@@ -573,6 +610,7 @@ class Demo extends React.PureComponent {
     const { classes } = this.props;
     let end = new Date(currentDate);
     end.setDate(end.getDate() + 7);
+    console.log("DATA::", data);
 
     return (
       <Paper>
@@ -600,9 +638,13 @@ class Demo extends React.PureComponent {
           <EditRecurrenceMenu />
           <Appointments />
           <AppointmentTooltip
-            headerComponent={Header}
             commandButtonComponent={CommandButton}
             contentComponent={Content}
+            onVisibilityChange={(visible) => {
+              if (!visible) {
+                this.loadData();
+              }
+            }}
             showOpenButton
             showCloseButton
             showDeleteButton
