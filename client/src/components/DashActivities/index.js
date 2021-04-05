@@ -27,7 +27,9 @@ export default function DashAct(props) {
 
       {props.acts.map((activity) => {
         console.log(new Date(activity.startDate).getDate());
-        let start = new Date(activity.startDate).getDate();
+        let start = `${new Date(activity.startDate).getHours()}:${new Date(
+          activity.endDate
+        ).getHours()}`;
 
         return (
           <ListItem button>
