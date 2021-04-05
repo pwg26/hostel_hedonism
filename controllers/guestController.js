@@ -59,6 +59,13 @@ module.exports = {
     );
   },
 
+  addToGuest: function (req, res) {
+    console.log(req.params.id);
+    console.log(req.body.item);
+    console.log(req.body.type);
+    res.json(200);
+  },
+
   //  Room query controller ====================================================================
   roomsByGuests: function (req, res) {
     //NEWER
@@ -149,7 +156,21 @@ module.exports = {
     console.log(req.params.id);
     db.Store.findOneAndRemove({
       _id: mongoose.Types.ObjectId(req.params.id),
-    }).then((result) => res.json(req.params.id));
+    }).then((result) => {
+      console.log("DONE");
+      console.log(result);
+      let removed = result._id;
+      console.log(removed);
+      db.Guest.updateMany(
+        {},
+        {
+          $pull: { purchases: removed },
+        }
+      ).then((res) => {
+        console.log(res);
+      });
+      res.json(req.params.id);
+    });
   },
 
   // Room ========================================================================
@@ -210,6 +231,21 @@ module.exports = {
     console.log(req.params.id);
     db.Activity.findOneAndRemove({
       _id: mongoose.Types.ObjectId(req.params.id),
-    }).then((result) => res.json(req.params.id));
+      //Pases removed object to .then
+    }).then((result) => {
+      console.log("DONE");
+      console.log(result);
+      let removed = result._id;
+      console.log(removed);
+      db.Guest.updateMany(
+        {},
+        {
+          $pull: { activities: removed },
+        }
+      ).then((res) => {
+        console.log(res);
+      });
+      res.json(req.params.id);
+    });
   },
 };

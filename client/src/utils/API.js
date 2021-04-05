@@ -13,6 +13,9 @@ export default {
   deleteGuest: function (id) {
     return axios.delete("/api/guests/" + id);
   },
+  addToGuest: function (id, item, type) {
+    return axios.put("/api/guests/" + id, { item: item, type: type });
+  },
   saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
   },
