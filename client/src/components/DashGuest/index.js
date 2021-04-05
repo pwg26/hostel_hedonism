@@ -1,6 +1,8 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,21 +26,31 @@ export default function DashAct(props) {
       <h1>Guests checking in today</h1>
 
       {props.guests
-        .filter((dateIn) => new Date(dateIn).getDate() == new Date().getDate())
-        .map((guests) => {
-          console.log(guests);
-          return <li>{guests.firstName}</li>;
+        .filter(
+          (guests) => new Date(guests.dateIn).getDate() == new Date().getDate()
+        )
+        .map((gueststoday) => {
+          const fullName = `${gueststoday.firstName} ${gueststoday.lastName}`;
+          return (
+            <ListItem button>
+              <ListItemText primary={fullName} />
+            </ListItem>
+          );
         })}
 
       <h1>Guests checking out today</h1>
 
       {props.guests
         .filter(
-          (dateOut) => new Date(dateOut).getDate() === new Date().getDate()
+          (guests) => new Date(guests.dateOut).getDate() == new Date().getDate()
         )
-        .map((guests) => {
-          console.log(guests);
-          return <li>{guests.firstName}</li>;
+        .map((gueststoday) => {
+          const fullName = `${gueststoday.firstName} ${gueststoday.lastName}`;
+          return (
+            <ListItem button>
+              <ListItemText primary={fullName} />
+            </ListItem>
+          );
         })}
     </div>
   );
