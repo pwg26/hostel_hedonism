@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
 
 const columns = [
   {
@@ -35,8 +37,8 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "quantity",
-    label: "Quantity",
+    id: "stock",
+    label: "Stock",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
@@ -99,7 +101,7 @@ export default function Storeable(props) {
                   <TableRow
                     hover
                     onClick={() =>
-                      props.open("Buy", {
+                      props.open("Update", {
                         name: row.name,
                         description: row.description,
                         cost: row.cost,
@@ -119,23 +121,37 @@ export default function Storeable(props) {
                         </TableCell>
                       );
                     })}
-                    <Button
-                      variant="contained"
-                      color="default"
-                      className={classes.button}
-                      startIcon={<AddBoxIcon />}
-                      onClick={() =>
-                        props.open("Buy", {
-                          name: row.name,
-                          description: row.description,
-                          cost: row.cost,
-                          stock: row.stock,
-                          id: id,
-                        })
-                      }
-                    >
-                      Purchase Item
-                    </Button>
+                    <TableCell>
+                      {/* <IconButton
+                        aria-label="expand row"
+                        size="small"
+                        onClick={() => {
+                          setOpen(!open);
+                          console.log(open);
+                        }}
+                      >
+                        {open ? (
+                          <KeyboardArrowUpIcon />
+                        ) : (
+                          <KeyboardArrowDownIcon />
+                        )}
+                      </IconButton> */}
+                      <IconButton
+                        onClick={() =>
+                          props.open("Update", {
+                            firstName: row.firstName,
+                            lastName: row.lastName,
+                            country: row.country,
+                            roomId: row.roomId,
+                            dateIn: row.dateIn,
+                            dateOut: row.dateOut,
+                            id: id,
+                          })
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}
