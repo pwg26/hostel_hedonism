@@ -34,7 +34,7 @@ const room = [
   {
     number: 4,
     name: "Suite",
-    rate: 100,
+    rate: 150,
     capacity: 4,
     occupants: 4,
   },
