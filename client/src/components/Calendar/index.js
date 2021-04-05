@@ -69,10 +69,17 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import LocationOn from "@material-ui/icons/LocationOn";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import Notes from "@material-ui/icons/Notes";
 import Close from "@material-ui/icons/Close";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Heading from "../ Heading";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
@@ -322,6 +329,33 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 }
 
+const CommandButton = withStyles(containerStyles, {
+  name: "CommandButton",
+})(({ classes, ...restProps }) => {
+  return (
+    <AppointmentTooltip.CommandButton
+      {...restProps}
+      className={classes.commandButton}
+    />
+  );
+});
+
+const Content = withStyles(containerStyles, { name: "Content" })(
+  ({ children, appointmentData, classes, ...restProps }) => {
+    return (
+      <AppointmentTooltip.Content
+        {...restProps}
+        appointmentData={appointmentData}
+      >
+        <CheckboxesGroup
+          classes={classes}
+          {...appointmentData}
+        ></CheckboxesGroup>
+      </AppointmentTooltip.Content>
+    );
+  }
+);
+
 const AppointmentFormContainer = withStyles(containerStyles, {
   name: "AppointmentFormContainer",
 })(AppointmentFormContainerBasic);
@@ -333,6 +367,72 @@ const styles = (theme) => ({
     right: theme.spacing(1) * 4,
   },
 });
+
+function CheckboxesGroup({ classes, guests, id }) {
+  //const classes = useStyles();
+
+  const init = {};
+  const names = {};
+
+  guests.forEach((guest) => {
+    let status = guest.activities.filter(({ _id }) => _id === id).length !== 0;
+
+    init[guest._id] = status;
+    names[guest._id] = `${guest.firstName} ${guest.lastName}`;
+  });
+
+  const [state, setState] = React.useState(init);
+
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const handleSubmit = () => {
+    let assigned = Object.entries(state)
+      .filter((id) => {
+        return id[1] !== init[id[0]];
+      })
+      .map((id) => {
+        return { id: id[0], state: id[1] };
+      });
+    console.log(assigned);
+    assigned.forEach((guest) =>
+      API.addToGuest(guest.id, id, guest.state ? "Activity" : "RemoveA")
+    );
+  };
+
+  return (
+    <div className={classes.root}>
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">Assign guests to this activity</FormLabel>
+        <FormGroup>
+          {Object.entries(state).map((guest) => {
+            return (
+              <FormControlLabel
+                key={guest[0]}
+                control={
+                  <Checkbox
+                    checked={guest[1]}
+                    onChange={handleChange}
+                    name={guest[0]}
+                  />
+                }
+                label={names[guest[0]]}
+              />
+            );
+          })}
+        </FormGroup>
+        <IconButton
+          /* eslint-disable-next-line no-alert */
+          onClick={handleSubmit}
+          className={classes.commandButton}
+        >
+          <AssignmentIcon />
+        </IconButton>
+      </FormControl>
+    </div>
+  );
+}
 // ================================================================================= Calendar
 /* eslint-disable-next-line react/no-multi-comp */
 class Demo extends React.PureComponent {
@@ -352,46 +452,44 @@ class Demo extends React.PureComponent {
       isNewAppointment: false,
     };
 
-    this.componentDidMount = () => {
-      API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
-        });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
-      });
-    };
-
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility = this.toggleEditingFormVisibility.bind(
       this
     );
 
-    this.componentDidMount = () => {
+    this.loadData = () => {
       API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
+        API.getGuests().then((guests) => {
+          let data = res.data.map((activity) => {
+            let filteredGuests = guests.data.filter((guest) => {
+              return (
+                new Date(guest.reservation.checkIn) <
+                  new Date(activity.startDate) &&
+                new Date(guest.reservation.checkOut) >
+                  new Date(activity.endDate)
+              );
+            });
+            console.log(filteredGuests);
+            return {
+              title: activity.title,
+              cost: activity.cost,
+              startDate: activity.startDate,
+              endDate: activity.endDate,
+              location: activity.location,
+              notes: activity.notes,
+              id: activity._id,
+              guests: filteredGuests,
+            };
+          });
+          console.log(data);
+          this.setState({ ...this.state, data: data });
         });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
       });
+    };
+
+    this.componentDidMount = () => {
+      this.loadData();
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -470,47 +568,45 @@ class Demo extends React.PureComponent {
   }
 
   commitDeletedAppointment() {
-    this.setState((state) => {
-      const { data, deletedAppointmentId } = state;
-      const nextData = data.filter(
-        (appointment) => appointment.id !== deletedAppointmentId
-      );
+    const { data, deletedAppointmentId } = this.state;
+    //console.log("Confirmed", deletedAppointmentId);
 
-      return { data: nextData, deletedAppointmentId: null };
+    API.deleteActivity(deletedAppointmentId).then(() => {
+      this.setState({ ...this.state, deletedAppointmentId: null });
+      this.loadData();
     });
+
     this.toggleConfirmationVisible();
   }
 
   commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
-      if (added) {
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-        API.saveActivity({
-          title: added.title,
-          cost: added.cost,
-          startDate: added.startDate,
-          endDate: added.endDate,
-          location: added.location,
-          notes: added.notes,
-          id: added._id,
-        });
-      }
-      if (changed) {
-        data = data.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
-        );
-      }
-      if (deleted !== undefined) {
-        this.setDeletedAppointmentId(deleted);
-        this.toggleConfirmationVisible();
-      }
-      return { data, addedAppointment: {} };
-    });
+    if (added) {
+      //data = [...data, { id: startingAddedId, ...added }];
+      //console.log(added);
+      API.saveActivity({
+        title: added.title,
+        cost: added.cost,
+        startDate: added.startDate,
+        endDate: added.endDate,
+        location: added.location,
+        notes: added.notes,
+      }).then(() => {
+        this.setState({ ...this.state, addedAppointment: {} });
+        this.loadData();
+      });
+    }
+    if (changed) {
+      //console.log("id:", changed[0], Object.keys(changed)[0]);
+      API.updateActivity(changed[Object.keys(changed)[0]]).then(() =>
+        this.loadData()
+      );
+    }
+
+    if (deleted !== undefined) {
+      this.setDeletedAppointmentId(deleted);
+      //console.log(deleted);
+      this.toggleConfirmationVisible();
+    }
   }
 
   render() {
@@ -523,11 +619,15 @@ class Demo extends React.PureComponent {
       endDayHour,
     } = this.state;
     const { classes } = this.props;
+    let end = new Date(currentDate);
+    end.setDate(end.getDate() + 7);
+    console.log("DATA::", data);
 
     return (
       <Paper>
+       
         <Scheduler data={data} height={660}>
-          <DateNavigator />
+          
           
           <ViewState currentDate={currentDate} />
           <EditingState
@@ -540,7 +640,18 @@ class Demo extends React.PureComponent {
           <AllDayPanel />
           <EditRecurrenceMenu />
           <Appointments />
-          <AppointmentTooltip showOpenButton showCloseButton showDeleteButton />
+          <AppointmentTooltip
+            commandButtonComponent={CommandButton}
+            contentComponent={Content}
+            onVisibilityChange={(visible) => {
+              if (!visible) {
+                this.loadData();
+              }
+            }}
+            showOpenButton
+            showCloseButton
+            showDeleteButton
+          />
           <Toolbar />
           <DateNavigator />
           <ViewSwitcher />
