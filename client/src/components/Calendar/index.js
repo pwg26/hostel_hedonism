@@ -76,6 +76,8 @@ import Create from "@material-ui/icons/Create";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
+import { DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+
 
 const containerStyles = (theme) => ({
   container: {
@@ -232,13 +234,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     return (
+      
+      
+    <div>
+      
+      
       <AppointmentForm.Overlay
         visible={visible}
         target={target}
         fullSize
         onHide={onHide}
       >
+        
         <div>
+       
           <div className={classes.header}>
             <IconButton className={classes.closeButton} onClick={cancelChanges}>
               <Close color="action" />
@@ -307,6 +316,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           </div>
         </div>
       </AppointmentForm.Overlay>
+      </div>
+      
     );
   }
 }
@@ -516,6 +527,8 @@ class Demo extends React.PureComponent {
     return (
       <Paper>
         <Scheduler data={data} height={660}>
+          <DateNavigator />
+          
           <ViewState currentDate={currentDate} />
           <EditingState
             onCommitChanges={this.commitChanges}
@@ -529,6 +542,7 @@ class Demo extends React.PureComponent {
           <Appointments />
           <AppointmentTooltip showOpenButton showCloseButton showDeleteButton />
           <Toolbar />
+          <DateNavigator />
           <ViewSwitcher />
           <AppointmentForm
             overlayComponent={this.appointmentForm}
