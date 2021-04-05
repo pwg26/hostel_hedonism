@@ -318,33 +318,9 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 }
 
-const Header = withStyles(containerStyles, { name: "Header" })(
-  ({ children, appointmentData, classes, ...restProps }) => (
-    <AppointmentTooltip.Header
-      {...restProps}
-      className={classes.header}
-      appointmentData={appointmentData}
-    >
-      <IconButton
-        /* eslint-disable-next-line no-alert */
-        onClick={() => {
-          API.addToGuest(appointmentData.id, "Hike", "Test").then((res) =>
-            console.log(res)
-          );
-        }}
-        className={classes.commandButton}
-      >
-        <AssignmentIcon />
-      </IconButton>
-    </AppointmentTooltip.Header>
-  )
-);
-
 const CommandButton = withStyles(containerStyles, {
   name: "CommandButton",
 })(({ classes, ...restProps }) => {
-  console.log("Button");
-  console.log(restProps);
   return (
     <AppointmentTooltip.CommandButton
       {...restProps}
@@ -355,10 +331,6 @@ const CommandButton = withStyles(containerStyles, {
 
 const Content = withStyles(containerStyles, { name: "Content" })(
   ({ children, appointmentData, classes, ...restProps }) => {
-    console.log(children);
-    console.log(appointmentData);
-    console.log(classes);
-    console.log(restProps);
     return (
       <AppointmentTooltip.Content
         {...restProps}
@@ -388,15 +360,12 @@ const styles = (theme) => ({
 function CheckboxesGroup({ classes, guests, id }) {
   //const classes = useStyles();
 
-  console.log(classes, guests, id);
-
   const init = {};
   const names = {};
 
   guests.forEach((guest) => {
-    console.log("GUEST:", guest);
     let status = guest.activities.filter(({ _id }) => _id === id).length !== 0;
-    console.log(guest._id, status);
+
     init[guest._id] = status;
     names[guest._id] = `${guest.firstName} ${guest.lastName}`;
   });
@@ -406,11 +375,6 @@ function CheckboxesGroup({ classes, guests, id }) {
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-
-  console.log("STATE:", state);
-  console.log(Object.entries(state));
-  //const { gilad, jason, antoine } = state;
-  //const error = [gilad, jason, antoine].filter((v) => v).length !== 2;
 
   const handleSubmit = () => {
     let assigned = Object.entries(state)
@@ -486,21 +450,8 @@ class Demo extends React.PureComponent {
     this.loadData = () => {
       API.getActivities().then((res) => {
         API.getGuests().then((guests) => {
-          console.log(guests.data);
           let data = res.data.map((activity) => {
             let filteredGuests = guests.data.filter((guest) => {
-              console.log(
-                new Date(guest.reservation.checkIn) <
-                  new Date(activity.startDate) &&
-                  new Date(guest.reservation.checkOut) >
-                    new Date(activity.endDate)
-              );
-              console.log(
-                new Date(guest.reservation.checkIn),
-                new Date(activity.startDate),
-                new Date(guest.reservation.checkOut),
-                new Date(activity.endDate)
-              );
               return (
                 new Date(guest.reservation.checkIn) <
                   new Date(activity.startDate) &&
@@ -607,7 +558,7 @@ class Demo extends React.PureComponent {
 
   commitDeletedAppointment() {
     const { data, deletedAppointmentId } = this.state;
-    console.log("Confirmed", deletedAppointmentId);
+    //console.log("Confirmed", deletedAppointmentId);
 
     API.deleteActivity(deletedAppointmentId).then(() => {
       this.setState({ ...this.state, deletedAppointmentId: null });
@@ -620,7 +571,7 @@ class Demo extends React.PureComponent {
   commitChanges({ added, changed, deleted }) {
     if (added) {
       //data = [...data, { id: startingAddedId, ...added }];
-      console.log(added);
+      //console.log(added);
       API.saveActivity({
         title: added.title,
         cost: added.cost,
@@ -634,7 +585,7 @@ class Demo extends React.PureComponent {
       });
     }
     if (changed) {
-      console.log("id:", changed[0], Object.keys(changed)[0]);
+      //console.log("id:", changed[0], Object.keys(changed)[0]);
       API.updateActivity(changed[Object.keys(changed)[0]]).then(() =>
         this.loadData()
       );
@@ -642,7 +593,7 @@ class Demo extends React.PureComponent {
 
     if (deleted !== undefined) {
       this.setDeletedAppointmentId(deleted);
-      console.log(deleted);
+      //console.log(deleted);
       this.toggleConfirmationVisible();
     }
   }
@@ -687,9 +638,13 @@ class Demo extends React.PureComponent {
           <EditRecurrenceMenu />
           <Appointments />
           <AppointmentTooltip
-            headerComponent={Header}
             commandButtonComponent={CommandButton}
             contentComponent={Content}
+            onVisibilityChange={(visible) => {
+              if (!visible) {
+                this.loadData();
+              }
+            }}
             showOpenButton
             showCloseButton
             showDeleteButton
