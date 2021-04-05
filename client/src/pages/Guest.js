@@ -39,6 +39,10 @@ function Guests() {
               (sum, curr) => sum + curr.cost,
               0
             );
+            const purchases = guest.purchases.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
             const rent = duration * guest.reservation.room.rate;
 
             // const Cart= guest.shoppingCart.reduce(
@@ -57,8 +61,9 @@ function Guests() {
               paid: guest.paid ? "Yes" : "No",
               checkedIn: guest.checkedIn ? "Yes" : "No",
               activities: activities,
+              purchases: purchases,
               rent: rent,
-              tab: `$ ${activities + rent}`,
+              tab: `$ ${activities + rent + purchases}`,
               room: guest.reservation.room.name,
               roomId: guest.reservation.room._id,
             };
