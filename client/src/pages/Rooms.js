@@ -13,6 +13,7 @@ import Capacity from "../components/Capacity";
 import RoomModal from "../components/RoomModal";
 import Heading from "../components/ Heading";
 
+
 const useStyles = makeStyles((theme) => ({
   background: {
     color: "pink",
