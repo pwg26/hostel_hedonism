@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+
+import CardActionArea from "@material-ui/core/CardActionArea";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Buttons from "../CardButtons";
@@ -58,40 +60,41 @@ export default function RoomCard(props) {
               })
             }
             style={{
-              width: "300px",
+              width: "200px",
               display: "inline-block",
-              paddingLeft: "30px",
+              margin: "30px",
               backgroundColor: "#FF80AB",
               border: "7px solid",
             }}
             className={classes.root}
             variant="outlined"
           >
-            <CardContent>
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                Room:
-                {cardComp.name}
-              </Typography>
-              <Typography variant="h5" component="h2">
-                Room #: {cardComp.number}
-              </Typography>
-              <Typography
-                className={classes.pos}
-                color="textSecondary"
-              ></Typography>
-              <Typography variant="body2" component="p">
-                Rate: {cardComp.rate}
-                <br />
-              </Typography>
-              <Typography variant="body2" component="p">
-                Room Capacity: {cardComp.capacity}
-                <br />
-              </Typography>
-              {/* <Typography variant="body2" component="p">
+            <CardActionArea>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Room:
+                  {cardComp.name}
+                </Typography>
+                <Typography variant="h5" component="h2">
+                  Room #: {cardComp.number}
+                </Typography>
+                <Typography
+                  className={classes.pos}
+                  color="textSecondary"
+                ></Typography>
+                <Typography variant="body2" component="p">
+                  Rate: {cardComp.rate}
+                  <br />
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Room Capacity: {cardComp.capacity}
+                  <br />
+                </Typography>
+                {/* <Typography variant="body2" component="p">
 
       {props.rooms.map((cardComp) => (
         <>
@@ -135,11 +138,8 @@ export default function RoomCard(props) {
                 <ul>{numberList(cardComp.guests)}</ul>
                 <br />
               </Typography> */}
-            </CardContent>
-
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
+              </CardContent>
+            </CardActionArea>
           </Card>
         );
       })}

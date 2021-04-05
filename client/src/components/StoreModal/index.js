@@ -303,7 +303,7 @@ export default function ItemModal(props) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        {first ? firstBody : secondBody}
+        {props.type === "Add" ? firstBody : secondBody}
       </Modal>
     </div>
   );
