@@ -625,6 +625,7 @@ class Demo extends React.PureComponent {
 
     return (
       <Paper>
+<<<<<<< HEAD
         <Heading
           heading={`${currentDate.toLocaleDateString(undefined, {
             month: "long",
@@ -636,8 +637,11 @@ class Demo extends React.PureComponent {
             year: "numeric",
           })}`}
         />
+=======
+       
+>>>>>>> calendar
         <Scheduler data={data} height={660}>
-          <DateNavigator />
+          
           
           <ViewState currentDate={currentDate} />
           <EditingState
