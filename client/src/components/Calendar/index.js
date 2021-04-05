@@ -69,10 +69,12 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import TextField from "@material-ui/core/TextField";
 import LocationOn from "@material-ui/icons/LocationOn";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 import Notes from "@material-ui/icons/Notes";
 import Close from "@material-ui/icons/Close";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import Create from "@material-ui/icons/Create";
+import Heading from "../ Heading";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
@@ -311,6 +313,54 @@ class AppointmentFormContainerBasic extends React.PureComponent {
   }
 }
 
+const Header = withStyles(containerStyles, { name: "Header" })(
+  ({ children, appointmentData, classes, ...restProps }) => (
+    <AppointmentTooltip.Header
+      {...restProps}
+      className={classes.header}
+      appointmentData={appointmentData}
+    >
+      <IconButton
+        /* eslint-disable-next-line no-alert */
+        onClick={() => API.addToGuest(appointmentData.id, "Hike", "Activity")}
+        className={classes.commandButton}
+      >
+        <AssignmentIcon />
+      </IconButton>
+    </AppointmentTooltip.Header>
+  )
+);
+
+const CommandButton = withStyles(containerStyles, {
+  name: "CommandButton",
+})(({ classes, ...restProps }) => (
+  <AppointmentTooltip.CommandButton
+    {...restProps}
+    className={classes.commandButton}
+  />
+));
+
+const Content = withStyles(containerStyles, { name: "Content" })(
+  ({ children, appointmentData, classes, ...restProps }) => {
+    console.log(children);
+    console.log(appointmentData);
+    console.log(classes);
+    console.log(restProps);
+    return (
+      <AppointmentTooltip.Content
+        {...restProps}
+        appointmentData={appointmentData}
+      >
+        {appointmentData.guests.map((guest) => {
+          return (
+            <p key={guest._id}>{`${guest.firstName} ${guest.lastName}`}</p>
+          );
+        })}
+      </AppointmentTooltip.Content>
+    );
+  }
+);
+
 const AppointmentFormContainer = withStyles(containerStyles, {
   name: "AppointmentFormContainer",
 })(AppointmentFormContainerBasic);
@@ -341,46 +391,57 @@ class Demo extends React.PureComponent {
       isNewAppointment: false,
     };
 
-    this.componentDidMount = () => {
-      API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
-        });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
-      });
-    };
-
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
     this.toggleEditingFormVisibility = this.toggleEditingFormVisibility.bind(
       this
     );
 
-    this.componentDidMount = () => {
+    this.loadData = () => {
       API.getActivities().then((res) => {
-        let data = res.data.map((activity) => {
-          return {
-            title: activity.title,
-            cost: activity.cost,
-            startDate: activity.startDate,
-            endDate: activity.endDate,
-            location: activity.location,
-            notes: activity.notes,
-            id: activity._id,
-          };
+        API.getGuests().then((guests) => {
+          console.log(guests.data);
+          let data = res.data.map((activity) => {
+            let filteredGuests = guests.data.filter((guest) => {
+              console.log(
+                new Date(guest.reservation.checkIn) <
+                  new Date(activity.startDate) &&
+                  new Date(guest.reservation.checkOut) >
+                    new Date(activity.endDate)
+              );
+              console.log(
+                new Date(guest.reservation.checkIn),
+                new Date(activity.startDate),
+                new Date(guest.reservation.checkOut),
+                new Date(activity.endDate)
+              );
+              return (
+                new Date(guest.reservation.checkIn) <
+                  new Date(activity.startDate) &&
+                new Date(guest.reservation.checkOut) >
+                  new Date(activity.endDate)
+              );
+            });
+            console.log(filteredGuests);
+            return {
+              title: activity.title,
+              cost: activity.cost,
+              startDate: activity.startDate,
+              endDate: activity.endDate,
+              location: activity.location,
+              notes: activity.notes,
+              id: activity._id,
+              guests: filteredGuests,
+            };
+          });
+          console.log(data);
+          this.setState({ ...this.state, data: data });
         });
-        console.log(data);
-        this.setState({ ...this.state, data: data });
       });
+    };
+
+    this.componentDidMount = () => {
+      this.loadData();
     };
 
     this.commitChanges = this.commitChanges.bind(this);
@@ -459,47 +520,45 @@ class Demo extends React.PureComponent {
   }
 
   commitDeletedAppointment() {
-    this.setState((state) => {
-      const { data, deletedAppointmentId } = state;
-      const nextData = data.filter(
-        (appointment) => appointment.id !== deletedAppointmentId
-      );
+    const { data, deletedAppointmentId } = this.state;
+    console.log("Confirmed", deletedAppointmentId);
 
-      return { data: nextData, deletedAppointmentId: null };
+    API.deleteActivity(deletedAppointmentId).then(() => {
+      this.setState({ ...this.state, deletedAppointmentId: null });
+      this.loadData();
     });
+
     this.toggleConfirmationVisible();
   }
 
   commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
-      if (added) {
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-        API.saveActivity({
-          title: added.title,
-          cost: added.cost,
-          startDate: added.startDate,
-          endDate: added.endDate,
-          location: added.location,
-          notes: added.notes,
-          id: added._id,
-        });
-      }
-      if (changed) {
-        data = data.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
-        );
-      }
-      if (deleted !== undefined) {
-        this.setDeletedAppointmentId(deleted);
-        this.toggleConfirmationVisible();
-      }
-      return { data, addedAppointment: {} };
-    });
+    if (added) {
+      //data = [...data, { id: startingAddedId, ...added }];
+      console.log(added);
+      API.saveActivity({
+        title: added.title,
+        cost: added.cost,
+        startDate: added.startDate,
+        endDate: added.endDate,
+        location: added.location,
+        notes: added.notes,
+      }).then(() => {
+        this.setState({ ...this.state, addedAppointment: {} });
+        this.loadData();
+      });
+    }
+    if (changed) {
+      console.log("id:", changed[0], Object.keys(changed)[0]);
+      API.updateActivity(changed[Object.keys(changed)[0]]).then(() =>
+        this.loadData()
+      );
+    }
+
+    if (deleted !== undefined) {
+      this.setDeletedAppointmentId(deleted);
+      console.log(deleted);
+      this.toggleConfirmationVisible();
+    }
   }
 
   render() {
@@ -512,9 +571,22 @@ class Demo extends React.PureComponent {
       endDayHour,
     } = this.state;
     const { classes } = this.props;
+    let end = new Date(currentDate);
+    end.setDate(end.getDate() + 7);
 
     return (
       <Paper>
+        <Heading
+          heading={`${currentDate.toLocaleDateString(undefined, {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })} - ${end.toLocaleDateString(undefined, {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}`}
+        />
         <Scheduler data={data} height={660}>
           <ViewState currentDate={currentDate} />
           <EditingState
@@ -527,7 +599,14 @@ class Demo extends React.PureComponent {
           <AllDayPanel />
           <EditRecurrenceMenu />
           <Appointments />
-          <AppointmentTooltip showOpenButton showCloseButton showDeleteButton />
+          <AppointmentTooltip
+            headerComponent={Header}
+            commandButtonComponent={CommandButton}
+            contentComponent={Content}
+            showOpenButton
+            showCloseButton
+            showDeleteButton
+          />
           <Toolbar />
           <ViewSwitcher />
           <AppointmentForm
