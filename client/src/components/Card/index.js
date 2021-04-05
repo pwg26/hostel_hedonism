@@ -46,53 +46,52 @@ export default function RoomCard(props) {
         cardComp.id = i + 1;
 
         return (
-          <>
-            <Card
-              key={cardComp.id}
-              onClick={() =>
-                props.open("Update", {
-                  name: cardComp.name,
-                  number: cardComp.number,
-                  rate: cardComp.rate,
-                  capacity: cardComp.capacity,
-                  id: id,
-                })
-              }
-              style={{
-                width: "300px",
-                display: "inline-block",
-                paddingLeft: "30px",
-                backgroundColor: "#FF80AB",
-                border: "7px solid",
-              }}
-              className={classes.root}
-              variant="outlined"
-            >
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Room:
-                  {cardComp.name}
-                </Typography>
-                <Typography variant="h5" component="h2">
-                  Room #: {cardComp.number}
-                </Typography>
-                <Typography
-                  className={classes.pos}
-                  color="textSecondary"
-                ></Typography>
-                <Typography variant="body2" component="p">
-                  Rate: {cardComp.rate}
-                  <br />
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Room Capacity: {cardComp.capacity}
-                  <br />
-                </Typography>
-                {/* <Typography variant="body2" component="p">
+          <Card
+            key={cardComp.id}
+            onClick={() =>
+              props.open("Update", {
+                name: cardComp.name,
+                number: cardComp.number,
+                rate: cardComp.rate,
+                capacity: cardComp.capacity,
+                id: id,
+              })
+            }
+            style={{
+              width: "300px",
+              display: "inline-block",
+              paddingLeft: "30px",
+              backgroundColor: "#FF80AB",
+              border: "7px solid",
+            }}
+            className={classes.root}
+            variant="outlined"
+          >
+            <CardContent>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                Room:
+                {cardComp.name}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                Room #: {cardComp.number}
+              </Typography>
+              <Typography
+                className={classes.pos}
+                color="textSecondary"
+              ></Typography>
+              <Typography variant="body2" component="p">
+                Rate: {cardComp.rate}
+                <br />
+              </Typography>
+              <Typography variant="body2" component="p">
+                Room Capacity: {cardComp.capacity}
+                <br />
+              </Typography>
+              {/* <Typography variant="body2" component="p">
 
       {props.rooms.map((cardComp) => (
         <>
@@ -136,13 +135,12 @@ export default function RoomCard(props) {
                 <ul>{numberList(cardComp.guests)}</ul>
                 <br />
               </Typography> */}
-              </CardContent>
+            </CardContent>
 
-              <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions>
-            </Card>
-          </>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
         );
       })}
     </>
