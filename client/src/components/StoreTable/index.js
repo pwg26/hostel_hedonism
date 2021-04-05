@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
 import AddBoxIcon from "@material-ui/icons/AddBox";
+import EditIcon from "@material-ui/icons/Edit";
+import IconButton from "@material-ui/core/IconButton";
 
 const columns = [
   {
@@ -35,8 +37,8 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "quantity",
-    label: "Quantity",
+    id: "stock",
+    label: "Stock",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
@@ -86,6 +88,14 @@ export default function Storeable(props) {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell
+                style={{
+                  background: "black",
+                  color: "white",
+                }}
+              >
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,16 +107,16 @@ export default function Storeable(props) {
                 row.id = i + 1;
                 return (
                   <TableRow
-                    hover
-                    onClick={() =>
-                      props.open("Buy", {
-                        name: row.name,
-                        description: row.description,
-                        cost: row.cost,
-                        stock: row.stock,
-                        id: id,
-                      })
-                    }
+                    // hover
+                    // onClick={() =>
+                    //   props.open("Update", {
+                    //     name: row.name,
+                    //     description: row.description,
+                    //     cost: row.cost,
+                    //     stock: row.stock,
+                    //     id: id,
+                    //   })
+                    // }
                     role="checkbox"
                     tabIndex={-1}
                     key={row.id}
@@ -119,23 +129,34 @@ export default function Storeable(props) {
                         </TableCell>
                       );
                     })}
-                    <Button
-                      variant="contained"
-                      color="default"
-                      className={classes.button}
-                      startIcon={<AddBoxIcon />}
-                      onClick={() =>
-                        props.open("Buy", {
-                          name: row.name,
-                          description: row.description,
-                          cost: row.cost,
-                          stock: row.stock,
-                          id: id,
-                        })
-                      }
-                    >
-                      Purchase Item
-                    </Button>
+                    <TableCell>
+                      <IconButton
+                        onClick={() =>
+                          props.open("Buy", {
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
+                            id: id,
+                          })
+                        }
+                      >
+                        <AddBoxIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() =>
+                          props.open("Update", {
+                            name: row.name,
+                            description: row.description,
+                            cost: row.cost,
+                            stock: row.stock,
+                            id: id,
+                          })
+                        }
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}
