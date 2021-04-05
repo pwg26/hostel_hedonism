@@ -1,4 +1,6 @@
 import React from "react";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -24,12 +26,17 @@ export default function DashAct(props) {
       <h1>Activities For Today</h1>
 
       {props.acts.map((activity) => {
-        console.log(new Date(activity.startDate).getDate());
+        let start = `${new Date(activity.startDate).getHours()}:${new Date(
+          activity.startDate
+        ).getMinutes()} - ${new Date(activity.endDate).getHours()}:${new Date(
+          activity.endDate
+        ).getMinutes()}`;
 
         return (
-          <li>
-            {activity.title}: {activity.location}
-          </li>
+          <ListItem button>
+            <ListItemText primary={activity.title} />
+            <ListItemText primary={start} />
+          </ListItem>
         );
       })}
     </div>

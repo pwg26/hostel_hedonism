@@ -160,6 +160,7 @@ export default function RoomModal(props) {
           autoComplete="off"
           label="Number"
           name="number"
+          type="number"
           helperText={markers.number ? "Required" : " "}
           value={formObject.number}
           variant="outlined"
@@ -181,6 +182,7 @@ export default function RoomModal(props) {
           id="outlined-rate"
           label="rate"
           name="rate"
+          type="number"
           helperText={markers.rate ? "Required" : " "}
           value={formObject.rate}
           autoComplete="off"
@@ -192,6 +194,7 @@ export default function RoomModal(props) {
           id="outlined-capacity"
           label="capacity"
           name="capacity"
+          type="number"
           helperText={markers.name ? "capacity" : " "}
           value={formObject.capacity}
           autoComplete="off"
