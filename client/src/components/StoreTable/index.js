@@ -103,7 +103,7 @@ export default function Storeable(props) {
                         name: row.name,
                         description: row.description,
                         cost: row.cost,
-                        quantity: row.quantity,
+                        stock: row.stock,
                         id: id,
                       })
                     }
@@ -129,7 +129,7 @@ export default function Storeable(props) {
                           name: row.name,
                           description: row.description,
                           cost: row.cost,
-                          quantity: row.quantity,
+                          stock: row.stock,
                           id: id,
                         })
                       }
