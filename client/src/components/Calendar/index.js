@@ -625,21 +625,7 @@ class Demo extends React.PureComponent {
 
     return (
       <Paper>
-<<<<<<< HEAD
-        <Heading
-          heading={`${currentDate.toLocaleDateString(undefined, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })} - ${end.toLocaleDateString(undefined, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}`}
-        />
-=======
-       
->>>>>>> calendar
+
         <Scheduler data={data} height={660}>
           
           
