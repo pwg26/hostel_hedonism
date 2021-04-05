@@ -47,22 +47,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RoomModal(props) {
+export default function PurchaseModal(props) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [formObject, setFormObject] = useState({
-    number: "",
-    name: "",
-    rate: "",
-    capacity: "",
+    purchaser: "",
+    quantity: "",
   });
 
   const [markers, setMarkers] = useState({
-    number: false,
-    name: false,
-    rate: false,
-    capacity: false,
+    purchaser: false,
+    quantity: false,
   });
   // const [guests, setGuests] = useState([]);
   // const [guest, setGuest] = useState("");
@@ -88,28 +84,19 @@ export default function RoomModal(props) {
   // }, []);
   function clearForm() {
     setFormObject({
-      number: "",
-      name: "",
-      rate: "",
-      capacity: "",
+      purchaser: "",
+      quantity: "",
     });
   }
 
   function submitForm() {
     let newMarks = {};
-    newMarks.number = formObject.number === "" ? true : false;
+    newMarks.purchaser = formObject.purchaser === "" ? true : false;
+    newMarks.purchaser = formObject.quantity === "" ? true : false;
 
-    newMarks.name = formObject.name === "" ? true : false;
-    newMarks.rate = formObject.rate === "" ? true : false;
-    newMarks.capacity = formObject.capacity === "" ? true : false;
     setMarkers({ ...markers, ...newMarks });
     console.log(markers, formObject);
-    if (
-      newMarks.number ||
-      newMarks.name ||
-      newMarks.rate ||
-      newMarks.capacity
-    ) {
+    if (newMarks.purchaser || newMarks.quantity) {
       console.log("Missing a field");
     } else {
       console.log("TYPE:", props.type);
@@ -152,8 +139,7 @@ export default function RoomModal(props) {
 
   const firstBody = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">{props.type}</h2>
-      <h2 id="simple-modal-title">Enter Room information</h2>
+      <h2 id="simple-modal-title">Purchase Item</h2>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="outlined-number"
@@ -167,38 +153,18 @@ export default function RoomModal(props) {
           error={markers.number}
         />
         <TextField
-          id="outlined-name"
-          label="Name"
-          name="name"
-          helperText={markers.name ? "Required" : " "}
-          value={formObject.name}
+          id="outlined-quantity"
+          label="Quantity"
+          name="quantity"
+          type="number"
+          helperText={markers.quantity ? "Required" : " "}
+          value={formObject.quantity}
           autoComplete="off"
           variant="outlined"
           onChange={handleInputChange}
-          error={markers.name}
+          error={markers.quantity}
         />
-        <TextField
-          id="outlined-rate"
-          label="rate"
-          name="rate"
-          helperText={markers.rate ? "Required" : " "}
-          value={formObject.rate}
-          autoComplete="off"
-          variant="outlined"
-          onChange={handleInputChange}
-          error={markers.rate}
-        />
-        <TextField
-          id="outlined-capacity"
-          label="capacity"
-          name="capacity"
-          helperText={markers.name ? "capacity" : " "}
-          value={formObject.capacity}
-          autoComplete="off"
-          variant="outlined"
-          onChange={handleInputChange}
-          error={markers.capacity}
-        />
+
         {/* <InputLabel id="guest-select-outlined-label">Pick Guest</InputLabel>
         <Select
           labelId="guest-select-outlined-label"
@@ -217,11 +183,6 @@ export default function RoomModal(props) {
         </Select> */}
       </form>
       <Button onClick={submitForm}>Submit</Button>
-      {props.type === "Update" ? (
-        <Button onClick={deleteRoom}>Delete Room</Button>
-      ) : (
-        <></>
-      )}
     </div>
   );
   return (

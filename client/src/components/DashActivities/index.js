@@ -5,7 +5,7 @@ import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: "absolute",
+    position: "static",
     width: 400,
     height: 400,
     backgroundColor: theme.palette.background.paper,
@@ -24,7 +24,8 @@ export default function DashAct(props) {
       <h1>Activities For Today</h1>
 
       {props.acts.map((activity) => {
-        console.log(activity);
+        console.log(new Date(activity.startDate).getDate());
+
         return (
           <li>
             {activity.title}: {activity.location}

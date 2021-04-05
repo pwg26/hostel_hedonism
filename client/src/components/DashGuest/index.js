@@ -5,7 +5,7 @@ import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: "absolute",
+    position: "static",
     width: 400,
     height: 400,
     backgroundColor: theme.palette.background.paper,
@@ -23,27 +23,23 @@ export default function DashAct(props) {
     <div className={classes.paper}>
       <h1>Guests checking in today</h1>
 
-      {props.guests.filter((dateIn) => dateIn.getDate() == (new Date().getDate())).map((dateIn)
+      {props.guests
+        .filter((dateIn) => new Date(dateIn).getDate() == new Date().getDate())
+        .map((guests) => {
+          console.log(guests);
+          return <li>{guests.firstName}</li>;
+        })}
 
-      => {
-        console.log(dateIn);
-        return (
-          <li>
-            {guests.firstName}
-          </li>
-        );
-      })}
+      <h1>Guests checking out today</h1>
 
-      <h1>Guests checking out Today</h1>
-
-      {props.acts.map((activity) => {
-        console.log(activity);
-        return (
-          <li>
-            {activity.title}: {activity.location}
-          </li>
-        );
-      })}
+      {props.guests
+        .filter(
+          (dateOut) => new Date(dateOut).getDate() === new Date().getDate()
+        )
+        .map((guests) => {
+          console.log(guests);
+          return <li>{guests.firstName}</li>;
+        })}
     </div>
   );
 }

@@ -9,12 +9,12 @@ import API from "../utils/API";
 
 export default function Dash() {
   const [activities, setActivities] = useState([]);
+  const [filtered, setFiltered] = useState([]);
   const [guests, setGuests] = useState([]);
 
   useEffect(() => {
     const loadActivities = () => {
       API.getActivities().then((res) => {
-        console.log(res);
         setActivities(
           res.data
             .map((activity) => {
@@ -29,7 +29,9 @@ export default function Dash() {
               };
             })
             .filter(
-              (act) => act.startDate <= Date.now() && Date.now() <= act.endDate
+              (act) =>
+                new Date(act.startDate).getDate() <= new Date().getDate() &&
+                new Date(act.startDate).getDate() >= new Date().getDate()
             )
         );
       });
