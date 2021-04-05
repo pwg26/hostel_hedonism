@@ -8,7 +8,10 @@ router
   .get(guestController.findGuests)
   .put(guestController.updateGuest)
   .post(guestController.createGuest);
-router.route("/guests/:id").delete(guestController.deleteGuest);
+router
+  .route("/guests/:id")
+  .delete(guestController.deleteGuest)
+  .put(guestController.addToGuest);
 
 // Rooms API routes================================
 router
@@ -32,8 +35,9 @@ router.route("/store/:id").delete(guestController.deleteItem);
 router
   .route("/activity")
   .get(guestController.findActivities)
-  .post(guestController.createActivity);
-
+  .post(guestController.createActivity)
+  .put(guestController.updateActivity);
+router.route("/activity/:id").delete(guestController.deleteActivity);
 router.route("/login").post(guestController.login);
 
 module.exports = router;

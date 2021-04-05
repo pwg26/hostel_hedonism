@@ -34,7 +34,7 @@ export default function Store() {
               name: item.name,
               description: item.description,
               cost: item.cost,
-              quantity: item.quantity,
+              stock: item.stock,
               id: item._id,
             };
           })

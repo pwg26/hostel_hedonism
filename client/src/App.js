@@ -8,7 +8,7 @@ import Rooms from "./pages/Rooms";
 import { PrivateRoute, ProvideAuth, useAuth } from "./utils/Auth";
 import Login from "./pages/Login";
 // import Store from "./pages/Store";
-import Activity from "./pages/Activity"
+import Activity from "./pages/Activity";
 
 import Store from "./pages/Store";
 
@@ -20,16 +20,18 @@ function App() {
           <Navbar auth={useAuth} />
 
           {/* <Wrapper> */}
-          {/* <Route exact path="/" pages={DashBoard} />
-          <Route exact path="/dashboard" pages={DashBoard} /> */}
+
           <PrivateRoute exact path="/">
-            <Guests />
+            <DashBoard />
+          </PrivateRoute>
+          <PrivateRoute exact path="/dashboard">
+            <DashBoard />
           </PrivateRoute>
           <PrivateRoute exact path="/guests">
             <Guests />
           </PrivateRoute>
           <PrivateRoute exact path="/rooms">
-            <Rooms style= {{background: '#F3F7F0' }} />
+            <Rooms style={{ background: "#F3F7F0" }} />
           </PrivateRoute>
           <PrivateRoute exact path="/store">
             <Store />

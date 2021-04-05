@@ -39,6 +39,10 @@ function Guests() {
               (sum, curr) => sum + curr.cost,
               0
             );
+            const purchases = guest.purchases.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
             const rent = duration * guest.reservation.room.rate;
 
             // const Cart= guest.shoppingCart.reduce(
@@ -71,6 +75,10 @@ function Guests() {
             const duration = Math.floor((dayOut - dayIn) / 8.64e7);
             //console.log(duration);
             const activities = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            const purchases = guest.purchases.reduce(
               (sum, curr) => sum + curr.cost,
               0
             );

@@ -625,7 +625,7 @@ class Demo extends React.PureComponent {
 
     return (
       <Paper>
-       
+
         <Scheduler data={data} height={660}>
           
           
