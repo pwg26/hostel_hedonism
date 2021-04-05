@@ -83,6 +83,8 @@ import Heading from "../ Heading";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
+import { DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+
 
 const containerStyles = (theme) => ({
   container: {
@@ -239,13 +241,20 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
 
     return (
+      
+      
+    <div>
+      
+      
       <AppointmentForm.Overlay
         visible={visible}
         target={target}
         fullSize
         onHide={onHide}
       >
+        
         <div>
+       
           <div className={classes.header}>
             <IconButton className={classes.closeButton} onClick={cancelChanges}>
               <Close color="action" />
@@ -314,6 +323,8 @@ class AppointmentFormContainerBasic extends React.PureComponent {
           </div>
         </div>
       </AppointmentForm.Overlay>
+      </div>
+      
     );
   }
 }
@@ -437,7 +448,7 @@ class Demo extends React.PureComponent {
       previousAppointment: undefined,
       addedAppointment: {},
       startDayHour: 9,
-      endDayHour: 19,
+      endDayHour: 16,
       isNewAppointment: false,
     };
 
@@ -614,18 +625,10 @@ class Demo extends React.PureComponent {
 
     return (
       <Paper>
-        <Heading
-          heading={`${currentDate.toLocaleDateString(undefined, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })} - ${end.toLocaleDateString(undefined, {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}`}
-        />
+
         <Scheduler data={data} height={660}>
+          
+          
           <ViewState currentDate={currentDate} />
           <EditingState
             onCommitChanges={this.commitChanges}
@@ -650,6 +653,7 @@ class Demo extends React.PureComponent {
             showDeleteButton
           />
           <Toolbar />
+          <DateNavigator />
           <ViewSwitcher />
           <AppointmentForm
             overlayComponent={this.appointmentForm}
