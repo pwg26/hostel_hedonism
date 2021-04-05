@@ -322,7 +322,7 @@ const Header = withStyles(containerStyles, { name: "Header" })(
     >
       <IconButton
         /* eslint-disable-next-line no-alert */
-        onClick={() => API.addToGuest(appointmentData.id, "Hike", "Activity")}
+        onClick={() => API.addToGuest(appointmentData.id, "Hike", "Test")}
         className={classes.commandButton}
       >
         <AssignmentIcon />
