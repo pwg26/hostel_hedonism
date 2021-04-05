@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Guest = require("./Guest");
 
 const activitySchema = new Schema({
   title: {
