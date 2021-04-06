@@ -13,7 +13,6 @@ import Capacity from "../components/Capacity";
 import RoomModal from "../components/RoomModal";
 import Heading from "../components/ Heading";
 
-
 const useStyles = makeStyles((theme) => ({
   background: {
     color: "pink",
@@ -24,6 +23,7 @@ export default function Rooms() {
   const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [open, setOpen] = useState(false);
+  const [guests, setGuests] = useState([]);
   const [type, setType] = useState("");
   const [selected, setSelected] = useState({});
   const handleOpen = (type, selected = {}) => {
@@ -58,14 +58,62 @@ export default function Rooms() {
     loadRooms();
   }, [open]);
 
+  useEffect(() => {
+    const loadGuests = () => {
+      API.getGuests().then((res) => {
+        console.log(res);
+        setGuests(
+          res.data.map((guest) => {
+            const dayIn = new Date(guest.reservation.checkIn);
+            const dayOut = new Date(guest.reservation.checkOut);
+            const duration = Math.floor((dayOut - dayIn) / 8.64e7);
+            //console.log(duration);
+            const costA = guest.activities.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+
+            const rent = duration * guest.reservation.room.rate;
+
+            const costS = guest.purchases.reduce(
+              (sum, curr) => sum + curr.cost,
+              0
+            );
+            //console.log(guest.reservation.room, guest.reservation.room.rate);
+            return {
+              firstName: guest.firstName,
+              lastName: guest.lastName,
+              id: guest._id,
+              country: guest.country,
+              dateIn: dayIn.toDateString(),
+              dateOut: dayOut.toDateString(),
+              duration: duration,
+              paid: guest.paid ? "Yes" : "No",
+              checkedIn: guest.checkedIn ? "Yes" : "No",
+              activities: guest.activities,
+              purchases: guest.purchases,
+              rent: rent,
+              tab: `$ ${costA + rent + costS}`,
+              costA: costA,
+              costS: costS,
+              room: guest.reservation.room.name,
+              roomId: guest.reservation.room._id,
+            };
+          })
+        );
+      });
+    };
+    loadGuests();
+  }, []);
+
   const addRoomRecord = (newRoom) => setRooms([...rooms, newRoom]);
 
   return (
     <>
       <Heading heading="Rooms" />
 
-      <Capacity />
-      <RoomCard rooms={rooms} open={handleOpen} />
+      <Capacity rooms={rooms} guests={guests} />
+      <RoomCard rooms={rooms} guests={guests} open={handleOpen} />
       <Buttons open={handleOpen} />
       <RoomModal
         open={open}

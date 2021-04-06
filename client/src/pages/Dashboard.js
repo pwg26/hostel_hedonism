@@ -42,8 +42,8 @@ class TestChart extends React.PureComponent {
         }}
       >
         <Chart data={data}>
-          <PieSeries valueField="val" argumentField="type" innerRadius={0.6} />
-          <Title text="Total incom Breakdown" />
+          <PieSeries valueField="val" argumentField="type" innerRadius={0.6} />\
+          <Title text="Total income Breakdown" />
           <Animation />
           <Legend />
         </Chart>

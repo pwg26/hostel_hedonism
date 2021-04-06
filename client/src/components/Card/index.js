@@ -9,8 +9,6 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Buttons from "../CardButtons";
 
-
-
 const useStyles = makeStyles({
   root: {
     minWidth: 2,
@@ -51,7 +49,7 @@ export default function RoomCard(props) {
 
         return (
           <Card
-            id= "Cards"
+            id="Cards"
             key={cardComp.id}
             onClick={() =>
               props.open("Update", {
@@ -68,30 +66,26 @@ export default function RoomCard(props) {
               margin: "30px",
               backgroundColor: "#fffff",
               border: "7px solid",
-              boxShadow: '0 10px 20px',
+              boxShadow: "0 10px 20px",
             }}
             className={classes.root}
             variant="outlined"
           >
             <CardActionArea>
               <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  Room:
-                  {cardComp.name}
+                <Typography variant="body2" component="p">
+                  #:
+                  {cardComp.number}
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  Room #: {cardComp.number}
+                  Room: {cardComp.name}
                 </Typography>
                 <Typography
                   className={classes.pos}
                   color="textSecondary"
                 ></Typography>
                 <Typography variant="body2" component="p">
-                  Rate: {cardComp.rate}
+                  Rate:{cardComp.rate}
                   <br />
                 </Typography>
                 <Typography variant="body2" component="p">
