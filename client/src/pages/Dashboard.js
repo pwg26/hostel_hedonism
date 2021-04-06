@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Heading from "../components/ Heading";
 import MenuItem from "@material-ui/core/MenuItem";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 import DashAct from "../components/DashActivities";
 import DashGuest from "../components/DashGuest";
 
@@ -34,12 +41,12 @@ class TestChart extends React.PureComponent {
 
     return (
       <Paper
-        style={{
-          width: "50%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          float: "right",
-        }}
+      // style={{
+      //   width: "50%",
+      //   marginLeft: "auto",
+      //   marginRight: "auto",
+      //   float: "right",
+      // }}
       >
         <Chart data={data}>
           <PieSeries valueField="val" argumentField="type" innerRadius={0.6} />
@@ -50,6 +57,43 @@ class TestChart extends React.PureComponent {
       </Paper>
     );
   }
+}
+
+function Ledger(props) {
+  let tot = props.data.reduce((prev, curr) => (prev += curr.val), 0);
+  return (
+    <Box margin={1}>
+      <Typography variant="h6" gutterBottom component="div">
+        Ledger
+      </Typography>
+      <Table size="small" aria-label="expenses">
+        <TableHead>
+          <TableRow>
+            <TableCell>Type</TableCell>
+            <TableCell align="right">Amount</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {props.data.map((entry, i) => (
+            <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {entry.type}
+              </TableCell>
+              <TableCell align="right">${entry.val}</TableCell>
+            </TableRow>
+          ))}
+
+          <TableRow>
+            <TableCell component="th" scope="row">
+              Total
+            </TableCell>
+
+            <TableCell align="right">${tot}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Box>
+  );
 }
 
 export default function Dash() {
@@ -148,7 +192,18 @@ export default function Dash() {
   return (
     <>
       <Heading heading="Dashboard" />
-      <TestChart guests={chartData} />
+      <Box
+        style={{
+          width: "50%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          float: "right",
+        }}
+      >
+        <TestChart guests={chartData} />
+        <Ledger data={chartData} />
+      </Box>
+
       <DashAct acts={activities} />
       <DashGuest guests={guests} />
     </>

@@ -80,6 +80,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { positions } from "@material-ui/system";
 import Heading from "../ Heading";
 import API from "../../utils/API";
 
@@ -778,6 +779,7 @@ class Demo extends React.PureComponent {
         <Fab
           color="secondary"
           className={classes.addButton}
+          //zIndex="tooltip"
           onClick={() => {
             this.setState({ editingFormVisible: true });
             this.onEditingAppointmentChange(undefined);
