@@ -66,8 +66,9 @@ export default function RoomCard(props) {
               width: "200px",
               display: "inline-block",
               margin: "30px",
-              backgroundColor: "#FF80AB",
+              backgroundColor: "#fffff",
               border: "7px solid",
+              boxShadow: '0 10px 20px',
             }}
             className={classes.root}
             variant="outlined"
