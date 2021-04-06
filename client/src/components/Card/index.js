@@ -138,8 +138,8 @@ export default function RoomCard(props) {
               </CardContent>
             </CardActionArea>
           </Card>
-        );
+        )
       })}
     </>
-  );
+  )
 }
