@@ -74,8 +74,7 @@ export default function RoomCard(props) {
             <CardActionArea>
               <CardContent>
                 <Typography variant="body2" component="p">
-                  #:
-                  {cardComp.number}
+                  #: {cardComp.number}
                 </Typography>
                 <Typography variant="h5" component="h2">
                   Room: {cardComp.name}

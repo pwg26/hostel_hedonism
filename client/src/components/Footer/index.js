@@ -16,7 +16,7 @@ var style = {
 const Footer = () => {
   return (
     <div>
-      <div style={style}>Created by Dante, Kristen, and Pierce</div>
+      <div style={style}>Created by Dante, Kristen, Charles and Pierce</div>
     </div>
   );
 };
