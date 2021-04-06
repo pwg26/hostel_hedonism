@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: "static",
     width: 265,
-    height: 350,
+    height: 300,
     backgroundColor: theme.palette.background.paper,
     border: "5px solid #000",
     boxShadow: theme.shadows[5],
