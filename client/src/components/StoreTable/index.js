@@ -52,6 +52,9 @@ const useStyles = makeStyles({
   container: {
     maxHeight: 440,
   },
+  table: {
+    minWidth: 350,
+  }
 });
 
 export default function Storeable(props) {

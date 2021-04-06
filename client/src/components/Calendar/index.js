@@ -535,6 +535,9 @@ class Demo extends React.PureComponent {
       endDayHour: 16,
       isNewAppointment: false,
     };
+    this.currentDateChange = (currentDate) => {
+      this.setState({ currentDate });
+    };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
@@ -710,14 +713,17 @@ class Demo extends React.PureComponent {
     return (
       <Paper>
         <Scheduler data={data} height={660}>
-          <ViewState currentDate={currentDate} />
+          <ViewState
+            currentDate={currentDate}
+            onCurrentDateChange={this.currentDateChange}
+          />{" "}
           <EditingState
             onCommitChanges={this.commitChanges}
             onEditingAppointmentChange={this.onEditingAppointmentChange}
             onAddedAppointmentChange={this.onAddedAppointmentChange}
           />
-          <WeekView startDayHour={startDayHour} endDayHour={endDayHour} />
           <MonthView />
+          <WeekView startDayHour={startDayHour} endDayHour={endDayHour} />
           <AllDayPanel />
           <EditRecurrenceMenu />
           <Appointments />

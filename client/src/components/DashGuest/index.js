@@ -8,10 +8,10 @@ import Modal from "@material-ui/core/Modal";
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "static",
-    width: 400,
-    height: 400,
+    width: 265,
+    height: 350,
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    border: "5px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -23,7 +23,7 @@ export default function DashAct(props) {
 
   return (
     <div className={classes.paper}>
-      <h1>Guests checking in today</h1>
+      <h1 style= {{fontSize: '20px'}} >Guests checking in today</h1>
 
       {props.guests
         .filter(
@@ -38,7 +38,7 @@ export default function DashAct(props) {
           );
         })}
 
-      <h1>Guests checking out today</h1>
+      <h1 style= {{fontSize: '20px'}} >Guests checking out today</h1>
 
       {props.guests
         .filter(
