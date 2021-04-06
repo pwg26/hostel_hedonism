@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.js";
 
+
 const footerStyle = {
   color: "black",
   fontSize: "20px",
