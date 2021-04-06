@@ -57,6 +57,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
+import LuxonUtils from "@date-io/luxon";
 import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -83,8 +84,9 @@ import Heading from "../ Heading";
 import API from "../../utils/API";
 
 import appointments from "./appointments";
-import { DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+import { DateNavigator } from "@devexpress/dx-react-scheduler-material-ui";
 
+const Moment = new MomentUtils();
 
 const containerStyles = (theme) => ({
   container: {
@@ -146,10 +148,12 @@ class AppointmentFormContainerBasic extends React.PureComponent {
     };
     this.getAppointmentChanges = () => {
       const { appointmentChanges } = this.state;
+
       return appointmentChanges;
     };
 
     this.changeAppointment = this.changeAppointment.bind(this);
+    this.changeAppointmentDT = this.changeAppointmentDT.bind(this);
     this.commitAppointment = this.commitAppointment.bind(this);
   }
 
@@ -158,6 +162,19 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       ...this.getAppointmentChanges(),
       [field]: changes,
     };
+
+    this.setState({
+      appointmentChanges: nextChanges,
+    });
+    console.log("State set");
+  }
+  changeAppointmentDT({ field, changes, other }) {
+    const nextChanges = {
+      ...this.getAppointmentChanges(),
+      [field]: changes,
+      [other.field]: other.changes,
+    };
+
     this.setState({
       appointmentChanges: nextChanges,
     });
@@ -215,18 +232,88 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       className: classes.textField,
     });
 
+    // function dateChanger(checkin, checkout, change) {
+    //   console.log(Luxon);
+    //   checkin = Luxon.date(checkin);
+    //   checkout = Luxon.date(checkout);
+    //   console.log(checkin, checkout);
+    //   console.log(checkin.day, checkout.day);
+    //   console.log(rooms);
+    //   if (checkin.day >= checkout.day && change === "in") {
+    //     console.log("Checkin");
+    //     checkout = Luxon.addDays(Luxon.date(checkin), 1);
+    //     console.log(checkout);
+    //     handleCheckoutChange(checkout);
+    //   }
+    //   if (checkin.day >= checkout.day && change === "out") {
+    //     console.log("Checkout");
+    //     checkin = Luxon.addDays(Luxon.date(checkout), -1);
+    //     handleCheckinChange(checkin);
+    //   }
+    //   let filter = rooms.filter((room) => {
+    //     let occupied = room.guests.filter((guest) => {
+    //       console.log(guest);
+    //       return (
+    //         (Luxon.date(guest.checkOut) > checkin &&
+    //           Luxon.date(guest.checkIn) < checkin) ||
+    //         (Luxon.date(guest.checkOut) > checkout &&
+    //           Luxon.date(guest.checkIn) < checkout)
+    //       );
+    //     });
+    //     console.log("occupants: " + occupied.length);
+    //     console.log("capacity: " + room.capacity);
+    //     console.log(occupied);
+    //     return room.capacity > occupied.length;
+    //   });
+    //   console.log(filter);
+    //   setAvailable(filter);
+    //   handleCheckinChange(checkin);
+    //   handleCheckoutChange(checkout);
+    // }
+
     const pickerEditorProps = (field) => ({
       className: classes.picker,
       // keyboard: true,
       ampm: false,
       value: displayAppointmentData[field],
-      onChange: (date) =>
-        this.changeAppointment({
+      onChange: (date) => {
+        let st = field === "startDate";
+
+        let other =
+          field === "startDate"
+            ? Moment.moment(displayAppointmentData["endDate"])
+            : Moment.moment(displayAppointmentData["startDate"]);
+
+        let curr = Moment.moment(date);
+
+        if (st) {
+          if (curr.isSameOrAfter(other)) {
+            other = {
+              field: ["endDate"],
+              changes: curr.add(1, "h").clone().toDate(),
+            };
+          } else {
+            other = { field: ["endDate"], changes: other.clone().toDate() };
+          }
+        } else {
+          if (curr.isSameOrBefore(other)) {
+            other = {
+              field: ["startDate"],
+              changes: curr.subtract(1, "h").clone().toDate(),
+            };
+          } else {
+            other = { field: ["startDate"], changes: other.clone().toDate() };
+          }
+        }
+
+        this.changeAppointmentDT({
           field: [field],
           changes: date
             ? date.toDate()
             : new Date(displayAppointmentData[field]),
-        }),
+          other: other,
+        });
+      },
       inputVariant: "outlined",
       format: "DD/MM/YYYY HH:mm",
       onError: () => null,
@@ -236,95 +323,92 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       this.setState({
         appointmentChanges: {},
       });
+      console.log("Cancel");
       visibleChange();
       cancelAppointment();
     };
 
     return (
-      
-      
-    <div>
-      
-      
-      <AppointmentForm.Overlay
-        visible={visible}
-        target={target}
-        fullSize
-        onHide={onHide}
-      >
-        
-        <div>
-       
-          <div className={classes.header}>
-            <IconButton className={classes.closeButton} onClick={cancelChanges}>
-              <Close color="action" />
-            </IconButton>
-          </div>
-          <div className={classes.content}>
-            <div className={classes.wrapper}>
-              <Create className={classes.icon} color="action" />
-              <TextField {...textEditorProps("title")} />
+      <div>
+        <AppointmentForm.Overlay
+          visible={visible}
+          target={target}
+          fullSize
+          onHide={onHide}
+        >
+          <div>
+            <div className={classes.header}>
+              <IconButton
+                className={classes.closeButton}
+                onClick={cancelChanges}
+              >
+                <Close color="action" />
+              </IconButton>
             </div>
-            {/* added cost */}
-            <div className={classes.wrapper}>
-              <Create className={classes.icon} color="action" />
-              <TextField type="number" {...textEditorProps("cost")} />
+            <div className={classes.content}>
+              <div className={classes.wrapper}>
+                <Create className={classes.icon} color="action" />
+                <TextField {...textEditorProps("title")} />
+              </div>
+              {/* added cost */}
+              <div className={classes.wrapper}>
+                <Create className={classes.icon} color="action" />
+                <TextField type="number" {...textEditorProps("cost")} />
+              </div>
+              <div className={classes.wrapper}>
+                <CalendarToday className={classes.icon} color="action" />
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <KeyboardDateTimePicker
+                    label="Start Date"
+                    {...pickerEditorProps("startDate")}
+                  />
+                  <KeyboardDateTimePicker
+                    label="End Date"
+                    {...pickerEditorProps("endDate")}
+                  />
+                </MuiPickersUtilsProvider>
+              </div>
+              <div className={classes.wrapper}>
+                <LocationOn className={classes.icon} color="action" />
+                <TextField {...textEditorProps("location")} />
+              </div>
+              <div className={classes.wrapper}>
+                <Notes className={classes.icon} color="action" />
+                <TextField {...textEditorProps("notes")} multiline rows="6" />
+              </div>
             </div>
-            <div className={classes.wrapper}>
-              <CalendarToday className={classes.icon} color="action" />
-              <MuiPickersUtilsProvider utils={MomentUtils}>
-                <KeyboardDateTimePicker
-                  label="Start Date"
-                  {...pickerEditorProps("startDate")}
-                />
-                <KeyboardDateTimePicker
-                  label="End Date"
-                  {...pickerEditorProps("endDate")}
-                />
-              </MuiPickersUtilsProvider>
-            </div>
-            <div className={classes.wrapper}>
-              <LocationOn className={classes.icon} color="action" />
-              <TextField {...textEditorProps("location")} />
-            </div>
-            <div className={classes.wrapper}>
-              <Notes className={classes.icon} color="action" />
-              <TextField {...textEditorProps("notes")} multiline rows="6" />
-            </div>
-          </div>
-          <div className={classes.buttonGroup}>
-            {!isNewAppointment && (
+            <div className={classes.buttonGroup}>
+              {!isNewAppointment && (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={() => {
+                    visibleChange();
+                    this.commitAppointment("deleted");
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
               <Button
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 className={classes.button}
                 onClick={() => {
                   visibleChange();
-                  this.commitAppointment("deleted");
+                  applyChanges();
+                  // API.createActivity({
+                  //   acvtivity: formObject,
+                  // })
                 }}
               >
-                Delete
+                {isNewAppointment ? "Create" : "Save"}
               </Button>
-            )}
-            <Button
-              variant="outlined"
-              color="primary"
-              className={classes.button}
-              onClick={() => {
-                visibleChange();
-                applyChanges();
-                // API.createActivity({
-                //   acvtivity: formObject,
-                // })
-              }}
-            >
-              {isNewAppointment ? "Create" : "Save"}
-            </Button>
+            </div>
           </div>
-        </div>
-      </AppointmentForm.Overlay>
+        </AppointmentForm.Overlay>
       </div>
-      
     );
   }
 }
@@ -451,8 +535,9 @@ class Demo extends React.PureComponent {
       endDayHour: 16,
       isNewAppointment: false,
     };
-    this.currentDateChange = (currentDate) => { this.setState({ currentDate }); };
-  
+    this.currentDateChange = (currentDate) => {
+      this.setState({ currentDate });
+    };
 
     this.toggleConfirmationVisible = this.toggleConfirmationVisible.bind(this);
     this.commitDeletedAppointment = this.commitDeletedAppointment.bind(this);
@@ -627,21 +712,18 @@ class Demo extends React.PureComponent {
 
     return (
       <Paper>
-
         <Scheduler data={data} height={660}>
-          
-          
-        <ViewState
+          <ViewState
             currentDate={currentDate}
             onCurrentDateChange={this.currentDateChange}
-          />          <EditingState
+          />{" "}
+          <EditingState
             onCommitChanges={this.commitChanges}
             onEditingAppointmentChange={this.onEditingAppointmentChange}
             onAddedAppointmentChange={this.onAddedAppointmentChange}
           />
           <MonthView />
           <WeekView startDayHour={startDayHour} endDayHour={endDayHour} />
-          
           <AllDayPanel />
           <EditRecurrenceMenu />
           <Appointments />
@@ -658,8 +740,7 @@ class Demo extends React.PureComponent {
             showDeleteButton
           />
           <Toolbar />
-          <DateNavigator 
-          />
+          <DateNavigator />
           <ViewSwitcher />
           <AppointmentForm
             overlayComponent={this.appointmentForm}

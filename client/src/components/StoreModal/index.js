@@ -68,6 +68,7 @@ export default function ItemModal(props) {
   });
   const [guests, setGuests] = useState([]);
   const [guest, setGuest] = useState("");
+  const [over, setOver] = useState(false);
 
   const handleChange = (event) => {
     console.log(event.target.value);
@@ -120,6 +121,7 @@ export default function ItemModal(props) {
     newMarks.cost = formObject.cost === "" ? true : false;
     newMarks.stock = formObject.stock === "" ? true : false;
     setMarkers({ ...markers, ...newMarks });
+
     console.log(markers, formObject, guest, props);
     if (
       newMarks.name ||
@@ -140,6 +142,13 @@ export default function ItemModal(props) {
         }).then(() => props.close());
       } else if (props.type === "Buy") {
         let num = Number.parseInt(formObject.quantity);
+        const item = {
+          name: props.selected.name,
+          description: props.selected.description,
+          cost: props.selected.cost,
+          stock: props.selected.stock - num,
+        };
+        API.updateItem({ id: props.selected.id, item: item });
         console.log(num);
         for (let i = 0; i < num; i++) {
           API.addToGuest(guest, props.selected.id, "Store").then(() =>
@@ -176,6 +185,17 @@ export default function ItemModal(props) {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+  }
+  function handleQuantityChange(event) {
+    const { name, value } = event.target;
+    console.log(name, value);
+    if (value > props.selected.stock) {
+      setFormObject({ ...formObject, [name]: props.selected.stock });
+      setOver(true);
+    } else {
+      setFormObject({ ...formObject, [name]: value });
+      setOver(false);
+    }
   }
 
   function deleteItem() {
@@ -289,10 +309,11 @@ export default function ItemModal(props) {
           name="quantity"
           type="number"
           helperText={markers.quantity ? "Required" : " "}
+          helperText={over ? "Quantity cannot exceed stock" : " "}
           value={formObject.quantity}
           variant="outlined"
-          onChange={handleInputChange}
-          error={markers.quantity}
+          onChange={handleQuantityChange}
+          error={markers.quantity || over}
         />
       </form>
       <Button onClick={submitForm}>Submit</Button>
