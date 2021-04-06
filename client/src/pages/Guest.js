@@ -42,6 +42,9 @@ function Guests() {
 
             const rent = duration * guest.reservation.room.rate;
 
+            const isin = dayIn < new Date(Date.now());
+            const isout = dayOut < new Date(Date.now());
+
             const costS = guest.purchases.reduce(
               (sum, curr) => sum + curr.cost,
               0
@@ -55,8 +58,8 @@ function Guests() {
               dateIn: dayIn.toDateString(),
               dateOut: dayOut.toDateString(),
               duration: duration,
-              paid: guest.paid ? "Yes" : "No",
-              checkedIn: guest.checkedIn ? "Yes" : "No",
+              paid: isout ? "Yes" : "No",
+              checkedIn: isin ? "Yes" : "No",
               activities: guest.activities,
               purchases: guest.purchases,
               rent: rent,
@@ -82,6 +85,9 @@ function Guests() {
             );
             const rent = duration * guest.reservation.room.rate;
 
+            const isin = dayIn < new Date(Date.now());
+            const isout = dayOut < new Date(Date.now());
+
             // const Cart= guest.shoppingCart.reduce(
             //   (sum, curr) => sum + curr.cost,
             //   0
@@ -95,8 +101,8 @@ function Guests() {
               dateIn: dayIn.toDateString(),
               dateOut: dayOut.toDateString(),
               duration: duration,
-              paid: guest.paid ? "Yes" : "No",
-              checkedIn: guest.checkedIn ? "Yes" : "No",
+              paid: isout ? "Yes" : "No",
+              checkedIn: isin ? "Yes" : "No",
               activities: guest.activities,
               purchases: guest.purchases,
               rent: rent,
