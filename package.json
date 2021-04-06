@@ -4,6 +4,8 @@
   "private": true,
   "main": "server.js",
   "dependencies": {
+    "@devexpress/dx-react-chart": "^2.7.5",
+    "@devexpress/dx-react-chart-material-ui": "^2.7.5",
     "@devexpress/dx-react-core": "^2.7.5",
     "@devexpress/dx-react-scheduler": "^2.7.5",
     "@devexpress/dx-react-scheduler-material-ui": "^2.7.5",
