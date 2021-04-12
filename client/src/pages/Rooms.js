@@ -40,9 +40,10 @@ export default function Rooms() {
   useEffect(() => {
     const loadRooms = () => {
       API.getRooms().then((res) => {
-        console.log(res);
+        console.log("Room Api", res);
         setRooms(
           res.data.map((room) => {
+            console.log("Room: ", room);
             return {
               number: room.number,
               name: room.name,
@@ -64,6 +65,7 @@ export default function Rooms() {
         console.log(res);
         setGuests(
           res.data.map((guest) => {
+            
             const dayIn = new Date(guest.reservation.checkIn);
             const dayOut = new Date(guest.reservation.checkOut);
             const duration = Math.floor((dayOut - dayIn) / 8.64e7);
