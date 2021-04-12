@@ -43,7 +43,7 @@ export default function RoomCard(props) {
       {/* <Buttons/> */}
 
       {props.rooms.map((cardComp, i) => {
-        let id = cardComp._id;
+        let id = cardComp.id;
         console.log("Room Card",cardComp, id);
         cardComp.id = i + 1;
 
