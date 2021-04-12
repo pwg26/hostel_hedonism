@@ -1,69 +1,50 @@
 # Hospitality Herald
 
+## Contents  
 
-## Available Scripts
+[Description](#Description) 
+ 
+[Development](#Development) 
 
-In the project directory, you can run:
+[Instillation](#Instillation)
 
-### `npm start`
+[Usage](#Usage)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+[Contributors](#Contributors)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+[License](#License)
 
-### `npm test`
+[Contact](#Contact)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Description
+This repository contains a hospitality management system application created with react and augmented with mongodb. Its primary functions include management of guest reservations, managing rooms for guest stay, an activity schedular and a store for guest purchases. The application also features authentication for user login as well as a running tab for each guest that tracks financial transactions.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Development
+To begin, wireframes were created to map the user experience and convey aesthetics, mongodb documents, and backend functions. Next the mongodb schemas, components, dependencies, and overall React MVC design was created. Overall styling of pages and components was done utilizing Material UI. For the financial chart and activity scheduler, modified source code was used from devextreme reactive. Routing and API calls were built out and modified accordingly satisfied user requests of data creation/manipulation of database documents. Lastly deployment was achieved through heroku and the database was moved to the cloud using mongodb Atlas.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Instillation
+No installation required for this application. Simply click the heroku link below to begin.
+https://hostelhedonism.herokuapp.com/
 
-### `npm run eject`
+## Usage
+After navigating to the webpage, the user will be prompted to sign it (default username: , password: ). From here a dashboard page will display convenient information extrapolated from, guests, rooms, and the store. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+To manage guests, the user clicks the reservation tab on the navbar. Once on the  page, the user will have the power to add guests and search for guests- from buttons beneath the table, and modify guests by clicking on the pencil icon on each guest row. Both adding a guest and modifying guests will prompt the user with a series of modal forms to input guest information. A ledger for a give guests tab can be displayed by clicking on the other row icon.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To manage rooms, after clicking the room tab on the nav bar. Rooms are added similar to guests and can be modified on clicking each room card.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+To manage activities, after clicking the room tab on the nav bar, the user will click the plus button and fill out the forms thus creating the activities. To modify the activity which includes adding/removing guests simply click the activity from the calendar.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To manage the store, an item can be created clicking the add button. Modifications to items can be made from the pencil icon, and purchases can be made from clicking the other icon.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
