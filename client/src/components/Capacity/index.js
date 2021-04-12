@@ -25,7 +25,6 @@ export default function Capacity(props) {
           </Typography>
         </CardContent>
       </Card>
-      ;
     </>
   );
 }
