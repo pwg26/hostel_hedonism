@@ -27,7 +27,7 @@ export default function Rooms() {
   const [type, setType] = useState("");
   const [selected, setSelected] = useState({});
   const handleOpen = (type, selected = {}) => {
-    //console.log(type, selected);
+    console.log("Room.js",type, selected);
     setType(type);
     setSelected(selected);
     setOpen(true);
