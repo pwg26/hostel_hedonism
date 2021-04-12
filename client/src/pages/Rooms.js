@@ -43,7 +43,7 @@ export default function Rooms() {
         console.log("Room Api", res);
         setRooms(
           res.data.map((room) => {
-            console.log("Room: ", room);
+            console.log("Room: ", room, room._id);
             return {
               number: room.number,
               name: room.name,
