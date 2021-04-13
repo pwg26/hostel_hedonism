@@ -45,20 +45,20 @@ export default function RoomCard(props) {
 
       {props.rooms.map((cardComp, i) => {
         let id = cardComp.id;
-        console.log(cardComp);
-        cardComp.id = i + 1;
+        console.log("Room Card",cardComp, id);
+        //cardComp.id = i + 1;
 
         return (
           <Card
             id="Cards"
-            key={cardComp.id}
+            key={i+1}
             onClick={() =>
               props.open("Update", {
                 name: cardComp.name,
                 number: cardComp.number,
                 rate: cardComp.rate,
                 capacity: cardComp.capacity,
-                id: id,
+                id: cardComp.id,
               })
             }
             style={{
