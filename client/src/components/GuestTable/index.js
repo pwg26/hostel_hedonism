@@ -19,7 +19,7 @@ import Box from "@material-ui/core/Box";
 const columns = [
   {
     id: "id",
-    label: "ID",
+    label: "View Tab / Modify Booking",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),

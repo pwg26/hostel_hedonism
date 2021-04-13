@@ -10,8 +10,11 @@
     "@devexpress/dx-react-scheduler": "^2.7.5",
     "@devexpress/dx-react-scheduler-material-ui": "^2.7.5",
     "@material-ui/icons": "^4.11.2",
+    "@nivo/core": "^0.67.0",
+    "@nivo/pie": "^0.67.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.0",
     "express": "^4.16.3",
     "express-session": "^1.17.1",
     "fullcalendar": "^5.6.0",
@@ -20,8 +23,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react-calendar": "^3.3.1",
-    "scheduler": "^0.20.2",
-    "concurrently": "^4.1.0"
+    "react-vis": "^1.11.7",
+    "scheduler": "^0.20.2"
   },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
