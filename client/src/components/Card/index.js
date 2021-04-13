@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 export default function RoomCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const occupants = props.guests;
 
   return (
     <>
@@ -77,7 +78,7 @@ export default function RoomCard(props) {
                   #: {cardComp.number}
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  Room: {cardComp.name}
+                  {cardComp.name}
                 </Typography>
                 <Typography
                   className={classes.pos}
@@ -88,7 +89,12 @@ export default function RoomCard(props) {
                   <br />
                 </Typography>
                 <Typography variant="body2" component="p">
-                  Room Capacity: {cardComp.capacity}
+                  Room Capacity:{" "}
+                  {
+                    occupants.filter((guest) => guest.room == cardComp.name)
+                      .length
+                  }
+                  /{cardComp.capacity}
                   <br />
                 </Typography>
                 {/* <Typography variant="body2" component="p">
@@ -138,8 +144,8 @@ export default function RoomCard(props) {
               </CardContent>
             </CardActionArea>
           </Card>
-        )
+        );
       })}
     </>
-  )
+  );
 }
