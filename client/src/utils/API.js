@@ -16,6 +16,9 @@ export default {
   addToGuest: function (id, item, type) {
     return axios.put("/api/guests/" + id, { item: item, type: type });
   },
+  removePurchase: function (id, item, type) {
+    return axios.put("/api/guests/" + id, { item: item, type: type });
+  },
   saveRoom: function (roomData) {
     return axios.post("/api/rooms", roomData);
   },

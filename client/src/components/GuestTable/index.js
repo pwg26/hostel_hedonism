@@ -13,8 +13,10 @@ import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import API from "../../utils/API";
 
 const columns = [
   {
@@ -169,6 +171,7 @@ function GuestRow(props) {
                     <TableCell>Type</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell align="right">Amount</TableCell>
+                    <TableCell align="right">Delete?</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -188,6 +191,7 @@ function GuestRow(props) {
                       <TableCell align="right">$ {activity.cost}</TableCell>
                     </TableRow>
                   ))}
+                  {/* ================================================================================== */}
                   {row.purchases.map((purchase, k) => (
                     <TableRow key={purchase._id + k}>
                       <TableCell component="th" scope="row">
@@ -195,6 +199,16 @@ function GuestRow(props) {
                       </TableCell>
                       <TableCell>{purchase.name}</TableCell>
                       <TableCell align="right">$ {purchase.cost}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          align="right"
+                          onClick={() =>
+                            API.removePurchase(row._id, k, "RemoveS")
+                          }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   ))}
                   <TableRow key={id + 1}>
