@@ -6,7 +6,7 @@ var style = {
   borderTop: "1px solid #E7E7E7",
   textAlign: "center",
   padding: "15px",
-  position: "fixed",
+  position: "sticky",
   left: "0",
   bottom: "0",
   height: "10px",

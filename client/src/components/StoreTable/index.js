@@ -31,7 +31,7 @@ const columns = [
   },
   {
     id: "cost",
-    label: "Cost",
+    label: "Cost ($)",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
@@ -54,7 +54,7 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 350,
-  }
+  },
 });
 
 export default function Storeable(props) {
@@ -97,7 +97,7 @@ export default function Storeable(props) {
                   color: "white",
                 }}
               >
-                Actions
+                Purchase | Modify
               </TableCell>
             </TableRow>
           </TableHead>

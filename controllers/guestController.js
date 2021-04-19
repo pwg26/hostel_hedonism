@@ -84,15 +84,22 @@ module.exports = {
         res.json(data);
       });
     } else if (req.body.type === "RemoveA") {
-      db.Guest.updateMany(
+      var arrIndex = `activities.${req.body.item}`;
+
+      db.Guest.findOneAndUpdate(
         { _id: req.params.id },
-        {
-          $pull: { activities: req.body.item },
-        }
-      ).then((data) => {
-        console.log(data);
-        res.json(data);
-      });
+        { $unset: { [arrIndex]: 1 } }
+      )
+        .then((data) =>
+          db.Guest.findOneAndUpdate(
+            { _id: data.id },
+            { $pull: { activities: null } }
+          )
+        )
+        .then((data) => {
+          console.log(data);
+          res.json(data);
+        });
     } else if (req.body.type === "RemoveS") {
       var arrIndex = `purchases.${req.body.item}`;
 

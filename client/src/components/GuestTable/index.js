@@ -21,7 +21,7 @@ import API from "../../utils/API";
 const columns = [
   {
     id: "id",
-    label: "View Tab / Modify Booking",
+    label: "View Tab | Modify Booking",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
@@ -163,7 +163,7 @@ function GuestRow(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">
-                Ledger
+                Tab
               </Typography>
               <Table size="small" aria-label="expenses">
                 <TableHead>
@@ -189,9 +189,17 @@ function GuestRow(props) {
                       </TableCell>
                       <TableCell>{activity.title}</TableCell>
                       <TableCell align="right">$ {activity.cost}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          align="right"
+                          onClick={() => API.addToGuest(row._id, j, "RemoveA")}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   ))}
-                  {/* ================================================================================== */}
+
                   {row.purchases.map((purchase, k) => (
                     <TableRow key={purchase._id + k}>
                       <TableCell component="th" scope="row">
@@ -202,9 +210,7 @@ function GuestRow(props) {
                       <TableCell align="right">
                         <IconButton
                           align="right"
-                          onClick={() =>
-                            API.removePurchase(row._id, k, "RemoveS")
-                          }
+                          onClick={() => API.addToGuest(row._id, k, "RemoveS")}
                         >
                           <DeleteIcon />
                         </IconButton>

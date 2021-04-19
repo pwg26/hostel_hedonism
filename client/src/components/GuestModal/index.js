@@ -294,6 +294,7 @@ export default function GuestModal(props) {
           value={room}
           onChange={handleChange}
           label="Room"
+          error={markers.room}
         >
           {available.map((room) => {
             return (
